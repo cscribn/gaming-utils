@@ -1,1 +1,4 @@
+*.md5
 .DS_Store
+_cfg-lib.sh
+run.sh
