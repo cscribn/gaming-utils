@@ -2,3 +2,4 @@
 .DS_Store
 _cfg-lib.sh
 run.sh
+run-reset.sh
