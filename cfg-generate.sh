@@ -166,6 +166,7 @@ main() {
 
 	check_new
 
+	local system_underscores
 	for system_underscores in "${systems_underscores[@]}"; do
 		system="$system_underscores"
 		init
