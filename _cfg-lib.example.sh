@@ -15,7 +15,7 @@ readonly bartop_amstradcpc_input_player1_turbo_btn="x"
 readonly retroflag_atari5200_input_turbo_default_button="a"
 readonly retroflag_gx4000_input_player1_turbo_btn="x"
 
-# systmes that will have input_player1_turbo_btn and input_player2_turbo_btn both set to y
+# systems that will have input_player1_turbo_btn and input_player2_turbo_btn both set to y
 readonly -a y_turbo_systems=(
 	"amiga"
 	"coleco"
