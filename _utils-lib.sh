@@ -3,6 +3,64 @@
 # variables
 readonly temp_dir="/c/Windows/Temp"
 
+readonly -A system_dbs=(
+	["3do"]="The 3DO Company - 3DO"
+    ["amiga"]="Commodore - Amiga"
+    ["amstradcpc"]="Amstrad - CPC"
+    ["atari2600"]="Atari - 2600"
+    ["atari5200"]="Atari - 5200"
+	["atari7800"]="Atari - 7800"
+	["atarilynx"]="Atari - Lynx"
+	["atarist"]="Atari - ST"
+	["c64"]="Commodore - 64"
+	["coleco"]="Coleco - ColecoVision"
+	["daphne"]="Daphne"
+	["dkong"]="Donkey Kong"
+	["doom"]="DOOM"
+	["dreamcast"]="Sega - Dreamcast"
+	["fba"]="FBNeo - Arcade Games"
+	["fds"]="Nintendo - Family Computer Disk System"
+	["gamegear"]="Sega - Game Gear"
+	["gb"]="Nintendo - Game Boy"
+	["gba"]="Nintendo - Game Boy Advance"
+	["gbc"]="Nintendo - Game Boy Color"
+	["gx4000"]="Amstrad - GX4000"
+	["intellivision"]="Mattel - Intellivision"
+	["jaguar"]="Atari - Jaguar"
+	["mame2003-plus"]="MAME 2003-Plus"
+	["mame2010"]="MAME 2010"
+	["mastersystem"]="Sega - Master System - Mark III"
+	["megadrive"]="Sega - Mega Drive - Genesis"
+	["msx"]="Microsoft - MSX"
+	["n64"]="Nintendo - Nintendo 64"
+	["nds"]="Nintendo - Nintendo DS"
+	["neogeo"]="SNK - Neo Geo"
+	["nes"]="Nintendo - Nintendo Entertainment System"
+	["ngpc"]="SNK - Neo Geo Pocket Color"
+	["openbor"]="OpenBOR"
+	["pc"]="DOS"
+	["pc88"]="NEC - PC-88"
+	["pc98"]="NEC - PC-98"
+	["pce-cd"]="NEC - PC Engine CD - TurboGrafx-CD"
+	["pcengine"]="NEC - PC Engine - TurboGrafx 16"
+	["pcfx"]="NEC - PC-FX"
+	["psp"]="Sony - PlayStation Portable"
+	["psx"]="Sony - PlayStation"
+	["saturn"]="Sega - Saturn"
+	["sega32x"]="Sega - 32X"
+	["segacd"]="Sega - Mega-CD - Sega CD"
+	["sg-1000"]="Sega - SG-1000"
+	["shmups"]="Shoot 'Em Up"
+	["snes"]="Nintendo - Super Nintendo Entertainment System"
+	["supergrafx"]="NEC - PC Engine SuperGrafx"
+	["vic20"]="Commodore - VIC-20"
+	["videopac"]="Magnavox - Odyssey2"
+	["wonderswan"]="Bandai - WonderSwan"
+	["wonderswancolor"]="Bandai - WonderSwan Color"
+	["x68000"]="Sharp - X68000"
+	["zxspectrum"]="Sinclair - ZX Spectrum"
+)
+
 readonly -A system_retro_corenames=(
 	["amiga"]="PUAE"
     ["amstradcpc"]="cap32"
@@ -161,4 +219,16 @@ md5sum_gen() {
 
 	mkdir -p "${temp_dir}${target_dir}"
 	echo "${md5[0]}"  > "${temp_dir}${target_dir}/${md5name}".md5
+}
+
+ra_escape() {
+    echo "$1" | tr '&*/:\`<>?\\|' '_'
+}
+
+sed_escape_keyword() {
+	printf '%s\n' "$1" | sed -e 's/[]\/$*.^[]/\\&/g'
+}
+
+sed_escape_replace() {
+	printf '%s\n' "$1" | sed -e 's/[\/&]/\\&/g'
 }
