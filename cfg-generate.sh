@@ -8,6 +8,7 @@ set -o pipefail
 # variables
 declare script_name
 script_name=$(basename "${0}")
+declare script_real
 script_real=$(realpath "${0}")
 
 readonly -A input_turbo_default_values=(
