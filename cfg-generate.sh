@@ -5,11 +5,17 @@ set -o errexit
 set -o pipefail
 [[ "${TRACE-0}" == "1" ]] && set -o xtrace
 
+# include
+source ./_cfg-lib.sh > /dev/null 2>&1 || ( echo "Missing _cfg-lib.sh" && exit 1 )
+source ./_utils-lib.sh
+
 # variables
 declare script_name
 script_name=$(basename "${0}")
 declare script_real
 script_real=$(realpath "${0}")
+declare cfg_dir
+declare machine
 
 readonly -A input_turbo_default_values=(
 	["a"]="2"
@@ -28,10 +34,6 @@ if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
 	echo "./_cfg-lib.sh needs to be present (see ./_cfg-lib.example.sh)"
     exit
 fi
-
-# include
-source ./_cfg-lib.sh > /dev/null 2>&1 || ( echo "Missing _cfg-lib.sh" && exit 1 )
-source ./_utils-lib.sh
 
 # helper functions
 check_new() {
@@ -158,10 +160,11 @@ rom_cfg() {
 
 # main function
 main() {
-	local cfg_dir="$1"
+	# check inputs
+	cfg_dir="$1"
 	[[ "$cfg_dir" = "" ]] && echo "Missing cfg_dir" && exit 1
 
-	local machine="$2"
+	machine="$2"
 	[[ "$machine" = "" ]] && echo "Missing machine" && exit 1
 
 	check_new
@@ -178,6 +181,8 @@ main() {
 
 	rom_cfg_y_turbo
 	rom_cfg
+
+	# create new md5sum
 	md5sum_check "$script_real" "$machine"
 }
 
