@@ -31,7 +31,7 @@ declare system_cfg
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
     echo "Usage: ${script_name} cfg_dir machine"
-	echo "./_cfg-lib.sh needs to be present (see ./_cfg-lib.example.sh)"
+	echo "./bin/_cfg-lib.sh needs to be present (see ./_cfg-lib.example.sh)"
     exit
 fi
 

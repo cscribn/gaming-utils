@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# copy this file to ./bin/_cfg-lib.sh and make changes
+
 # types of cfgs you wish to generate
 # used along with system_cfgs below
 readonly -a cfg_types=(
