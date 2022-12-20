@@ -14,13 +14,13 @@ declare script_name
 script_name=$(basename "${0}")
 declare favorites_dir
 declare favorites_file
-declare gamelist_dir
+declare gamelists_dir
 declare gamelist_file
 declare thumbnails_dir
 
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
-    echo "Usage: ./${script_name} system gamelist_dir favorites_dir thumbnails_dir"
+    echo "Usage: ./${script_name} system gamelists_dir favorites_dir thumbnails_dir"
     exit
 fi
 
@@ -108,8 +108,8 @@ main() {
     system="$1"
     [[ "$system" = "" ]] && echo "Missing system" && exit 1
 
-    gamelist_dir="$2"
-    [[ "$gamelist_dir" = "" ]] && echo "Missing gamelist_dir" && exit 1
+    gamelists_dir="$2"
+    [[ "$gamelists_dir" = "" ]] && echo "Missing gamelists_dir" && exit 1
 
     favorites_dir="$3"
     [[ "$favorites_dir" = "" ]] && echo "Missing favorites_dir" && exit 1
@@ -124,7 +124,7 @@ main() {
         return 0
     fi
 
-    gamelist_file="${gamelist_dir}/${system}/gamelist.xml"
+    gamelist_file="${gamelists_dir}/${system}/gamelist.xml"
     check_new
     clear_existing_favorites
     set_favorites
