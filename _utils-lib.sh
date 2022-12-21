@@ -16,7 +16,6 @@ readonly -A system_dbs=(
 	["coleco"]="Coleco - ColecoVision"
 	["daphne"]="Daphne"
 	["dkong"]="Donkey Kong"
-	["doom"]="DOOM"
 	["dreamcast"]="Sega - Dreamcast"
 	["fba"]="FBNeo - Arcade Games"
 	["fds"]="Nintendo - Family Computer Disk System"
