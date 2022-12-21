@@ -16,32 +16,24 @@ declare favorites_dir
 declare favorites_file
 declare gamelists_dir
 declare gamelist_file
+declare system_db
 declare thumbnails_dir
 
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
     echo "Usage: ./${script_name} system gamelists_dir favorites_dir thumbnails_dir"
-    exit
+    exit 1
 fi
 
 # helper functions
 check_new() {
 	if md5sum_check "${favorites_file}" "" && md5sum_check "${gamelist_file}" ""; then
-		echo "${script_name}: ${system} nothing new" && exit 0
+		echo "${script_name}: ${system} nothing new" && exit 2
 	fi
 }
 
 clear_existing_favorites() {
     echo "${script_name}: ${system} clearing existing"
-    local system_db
-
-    if [ "$system" = "mame2003-plus" ]; then
-        system_db="MAME"
-    elif [[ "$system" = "mame"* ]]; then
-        return 0
-    else
-        system_db="${system_dbs[$system]}"
-    fi
 
     sed -i 's/name> /name>/g' "$gamelist_file"
     sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\//g" "$gamelist_file"
@@ -60,14 +52,6 @@ clear_existing_favorites() {
 
 set_favorites() {
     echo "${script_name}: ${system} setting favorites"
-
-    if [ "$system" = "mame2003-plus" ]; then
-        system_db="MAME"
-    elif [[ "$system" = "mame"* ]]; then
-        return 0
-    else
-        system_db="${system_dbs[$system]}"
-    fi
 
     local favorites
     readarray -t favorites < "$favorites_file"
@@ -121,7 +105,15 @@ main() {
 
     if [ ! -f "$favorites_file" ]; then
         echo "${script_name}: ${system} no favorites"
-        return 0
+        exit 2
+    fi
+
+    if [ "$system" = "mame2003-plus" ]; then
+        system_db="MAME"
+    elif [[ "$system" = "mame"* ]]; then
+        exit 2
+    else
+        system_db="${system_dbs[$system]}"
     fi
 
     gamelist_file="${gamelists_dir}/${system}/gamelist.xml"
@@ -131,6 +123,7 @@ main() {
 
     md5sum_check "${favorites_file}" ""
     md5sum_check "${gamelist_file}" ""
+    exit 0
 }
 
 main "${@}"
