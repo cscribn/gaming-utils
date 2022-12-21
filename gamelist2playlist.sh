@@ -36,18 +36,18 @@ path_gen() {
     # Strip off beginning ./
     local path_map
     mapfile -t path_map < <(echo "$line" | grep -Pio 'path>\.\/\K[^<]*')
-    local path="${path_map[0]}"
-    local json_path=${path//&amp;/&}
+    local rom="${path_map[0]}"
+    local json_rom=${rom//&amp;/&}
 
     {
         echo "    {"
-        echo "      \"path\": \"${rom_path}/${json_path}\","
+        echo "      \"path\": \"${rom_path}/${json_rom}\","
     } >> "$playlist"
 
-    if [ "$system_db" = "coleco" ]; then
+    if [ "$system_db" = "Coleco - ColecoVision" ]; then
         {
             echo "      \"subsystem_roms\": ["
-            echo "        \"${rom_path}/${system_db}/${json_path}\""
+            echo "        \"${rom_path}/${system_db}/${json_rom}\""
             echo "      ],"
             echo "      \"subsystem_ident\": \"cv\","
             echo "      \"subsystem_name\": \"ColecoVision\","
