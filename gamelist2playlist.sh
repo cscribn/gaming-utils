@@ -4,7 +4,7 @@
 set -o errexit
 set -o nounset
 set -o pipefail
-[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+[[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
 # include
 source ./_utils-lib.sh
@@ -28,7 +28,7 @@ intro_gen() {
         echo "{"
         echo "  \"version\": \"1.0\","
         echo "  \"items\": ["
-    }
+    } > "$playlist"
 }
 
 path_gen() {
@@ -42,7 +42,7 @@ path_gen() {
     {
         echo "    {"
         echo "      \"path\": \"${rom_path}/${json_path}\","
-    }
+    } >> "$playlist"
 
     if [ "$system_db" = "coleco" ]; then
         {
@@ -51,7 +51,7 @@ path_gen() {
             echo "      ],"
             echo "      \"subsystem_ident\": \"cv\","
             echo "      \"subsystem_name\": \"ColecoVision\","
-        }
+        } >> "$playlist"
     fi
 }
 
@@ -65,7 +65,7 @@ label_gen() {
 
     {
         echo "      \"label\": \"${json_name}\","
-    }
+    } >> "$playlist"
 }
 
 body_gen() {
@@ -77,7 +77,7 @@ body_gen() {
         echo "      \"crc32\": \"DETECT\","
         echo "      \"dbname\": \"${system_db}.lpl\""
         echo -n "    }"
-    }
+    } >> "$playlist"
 }
 
 outro_gen() {
@@ -85,7 +85,7 @@ outro_gen() {
         echo ""
         echo "  ]"
         echo "}"
-    }
+    } >> "$playlist"
 }
 
 # main function
@@ -93,6 +93,7 @@ main() {
     # check_inputs
     gamelist="$1"
     [[ "$gamelist" = "" ]] && echo "Missing gamelist" && exit 1
+    [[ ! -f "$gamelist" ]] && echo "${script_name}: ${system_db} skipping - gamelist missing" && exit 0
 
     system_db="$2"
     [[ "$system_db" = "" ]] && echo "Missing system_db" && exit 1
@@ -109,7 +110,9 @@ main() {
     core_name="$6"
     [[ "$core_name" = "" ]] && echo "Missing core_name" && exit 1
 
+    mkdir -p "$playlists_dir"
     playlist="${playlists_dir}/${system_db}.lpl"
+    echo "${script_name}: ${system_db} playlist - started"
     intro_gen
 
     local first_time="true"
@@ -119,7 +122,7 @@ main() {
             if [ "$first_time" = "false" ]; then
                 {
                     echo ","
-                }
+                } >> "$playlist"
             fi
 
             first_time="false"
@@ -131,6 +134,7 @@ main() {
     done
 
     outro_gen
+    echo "${script_name}: ${system_db} playlist - finished"
 }
 
 main "${@}"
