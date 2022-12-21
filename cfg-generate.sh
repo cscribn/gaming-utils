@@ -3,10 +3,10 @@
 # settings
 set -o errexit
 set -o pipefail
-[[ "${TRACE-0}" == "1" ]] && set -o xtrace
+[[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
 # include
-source ./_cfg-lib.sh > /dev/null 2>&1 || ( echo "Missing _cfg-lib.sh" && exit 1 )
+source ./bin/_cfg-lib.sh > /dev/null 2>&1 || ( echo "Missing _cfg-lib.sh" && exit 1 )
 source ./_utils-lib.sh
 
 # variables
@@ -107,8 +107,9 @@ system_cfg_footer() {
 }
 
 rom_cfg_y_turbo() {
-	for i in "${y_turbo_rom_cfgs[@]}"; do
-		IFS=';' read -ra y_turbo_rom_cfg <<< "$i"
+	local c
+	for c in "${y_turbo_rom_cfgs[@]}"; do
+		IFS=';' read -ra y_turbo_rom_cfg <<< "$c"
 		local system="${y_turbo_rom_cfg[0]}"
 		local rom="${y_turbo_rom_cfg[1]}"
 		local value="${input_btn_values[${machine};y]}"
