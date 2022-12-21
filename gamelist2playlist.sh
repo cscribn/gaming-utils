@@ -69,8 +69,6 @@ label_gen() {
 }
 
 body_gen() {
-    # todo add support for specific cores via array you pull in optionally from file
-
     {
         echo "      \"core_path\": \"${core_path}/${core_name}\","
         echo "      \"core_name\": \"${core_name}\","
