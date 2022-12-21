@@ -37,7 +37,6 @@ readonly -A system_dbs=(
 	["nes"]="Nintendo - Nintendo Entertainment System"
 	["ngpc"]="SNK - Neo Geo Pocket Color"
 	["openbor"]="OpenBOR"
-	["pc"]="DOS"
 	["pc88"]="NEC - PC-88"
 	["pc98"]="NEC - PC-98"
 	["pce-cd"]="NEC - PC Engine CD - TurboGrafx-CD"
