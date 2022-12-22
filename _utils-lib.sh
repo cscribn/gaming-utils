@@ -184,7 +184,7 @@ md5sum_check() {
 	fi
 
 	rm -rf "${temp_dir}${target_dir}/${md5name}".md5
-	return $result
+	echo "$result"
 }
 
 md5sum_gen() {

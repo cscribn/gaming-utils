@@ -37,7 +37,9 @@ fi
 
 # helper functions
 check_new() {
-	if md5sum_check "$script_real" "$machine"; then
+	local md5sum_check_echo=$(md5sum_check "$script_real" "$machine")
+
+	if [[ "$md5sum_check_echo" = "0" ]]; then
 		echo "${script_name}: ${machine} nothing new" && exit 0
 	else
 		echo "${script_name}: ${machine} - cleaning cfgs"
@@ -184,7 +186,7 @@ main() {
 	rom_cfg
 
 	# create new md5sum
-	md5sum_check "$script_real" "$machine"
+	local md5sum_check_echo=$(md5sum_check "$script_real" "$machine")
 }
 
 main "${@}"
