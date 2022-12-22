@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # variables
-readonly temp_dir="/c/Windows/Temp"
+readonly utils_temp_dir="/c/Windows/Temp"
 
 readonly -A system_dbs=(
 	["3do"]="The 3DO Company - 3DO"
@@ -175,15 +175,15 @@ md5sum_check() {
 	local result
 
 	if [ -f "${target_dir}/${md5name}".md5 ]; then
-		cmp -s "${target_dir}/${md5name}".md5 "${temp_dir}${target_dir}/${md5name}".md5
+		cmp -s "${target_dir}/${md5name}".md5 "${utils_temp_dir}${target_dir}/${md5name}".md5
 		result=$?
 	fi
 
-	if [ "$result" != 0 ] && [ -f "${temp_dir}${target_dir}/${md5name}".md5 ]; then
-		cp -p "${temp_dir}${target_dir}/${md5name}".md5 "${target_dir}/${md5name}".md5
+	if [ "$result" != 0 ] && [ -f "${utils_temp_dir}${target_dir}/${md5name}".md5 ]; then
+		cp -p "${utils_temp_dir}${target_dir}/${md5name}".md5 "${target_dir}/${md5name}".md5
 	fi
 
-	rm -rf "${temp_dir}${target_dir}/${md5name}".md5
+	rm -rf "${utils_temp_dir}${target_dir}/${md5name}".md5
 	echo "$result"
 }
 
@@ -215,8 +215,8 @@ md5sum_gen() {
 		md5name="${target_base}"
 	fi
 
-	mkdir -p "${temp_dir}${target_dir}"
-	echo "${md5[0]}"  > "${temp_dir}${target_dir}/${md5name}".md5
+	mkdir -p "${utils_temp_dir}${target_dir}"
+	echo "${md5[0]}"  > "${utils_temp_dir}${target_dir}/${md5name}".md5
 }
 
 ra_escape() {
