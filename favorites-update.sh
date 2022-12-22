@@ -27,14 +27,16 @@ fi
 
 # helper functions
 check_new() {
-	if md5sum_check "${favorites_file}" "" && md5sum_check "${gamelist_file}" ""; then
-		echo "${script_name}: ${system} nothing new" && exit 2
+	local md5sum_check_favorites_echo=$(md5sum_check "${favorites_file}" "")
+	local md5sum_check_gamelist_echo=$(md5sum_check "${gamelist_file}" "")
+
+	if [[ "$md5sum_check_favorites_echo" = "0" ]] && [[ "$md5sum_check_gamelist_echo" = "0" ]]; then
+        echo "${script_name}: ${system} no favorite changes"
+        exit 0
 	fi
 }
 
 clear_existing_favorites() {
-    echo "${script_name}: ${system} clearing existing"
-
     sed -i 's/name> /name>/g' "$gamelist_file"
     sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\//g" "$gamelist_file"
 
@@ -102,28 +104,37 @@ main() {
     [[ "$thumbnails_dir" = "" ]] && echo "Missing thumbnails_dir" && exit 1
 
     favorites_file="${favorites_dir}/favorites-${system}.txt"
+    gamelist_file="${gamelists_dir}/${system}/gamelist.xml"
+
+    if [ ! -f "$gamelist_file" ]; then
+        echo "${script_name}: ${system} no gamelist so no favorites"
+        exit 0
+    fi
+
+    local md5sum_check_echo
 
     if [ ! -f "$favorites_file" ]; then
         echo "${script_name}: ${system} no favorites"
-        exit 2
+        md5sum_check_echo=$(md5sum_check "${gamelist_file}" "")
+        exit 0
     fi
 
     if [ "$system" = "mame2003-plus" ]; then
         system_db="MAME"
     elif [[ "$system" = "mame"* ]]; then
-        exit 2
+        echo "${script_name}: ${system} no favorites (MAME)"
+        md5sum_check_echo=$("${gamelist_file}" "")
+        exit 0
     else
         system_db="${system_dbs[$system]}"
     fi
 
-    gamelist_file="${gamelists_dir}/${system}/gamelist.xml"
     check_new
     clear_existing_favorites
     set_favorites
 
-    md5sum_check "${favorites_file}" ""
-    md5sum_check "${gamelist_file}" ""
-    exit 0
+    md5sum_check_echo=$(md5sum_check "${favorites_file}" "")
+    md5sum_check_echo=$(md5sum_check "${gamelist_file}" "")
 }
 
 main "${@}"
