@@ -221,6 +221,11 @@ md5sum_gen() {
 	echo "${md5[0]}"  > "${utils_temp_dir}${target_dir}/${md5name}".md5
 }
 
+mkrm() {
+	mkdir -p "${1:?Missing directory}"
+	rm -rf "${1:?}"/*
+}
+
 ra_escape() {
     echo "$1" | tr '&*/:\`<>?\\|' '_'
 }
