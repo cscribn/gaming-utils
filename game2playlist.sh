@@ -6,7 +6,7 @@ set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
 # include
-source ./_utils-lib.sh
+source ./_lib-utils.sh
 
 # variables
 declare script_name

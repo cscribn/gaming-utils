@@ -10,7 +10,7 @@ Getting help
 
 ## cfg-specific-generate.sh
 
-Generate folder-, core-, or rom-specific retroarch configurations. Useful for turbo and other settings that tend to differ per machine. See _cfg-lib.example.sh for an example library file. This script is for advanced users.
+Generate folder-, core-, or rom-specific retroarch configurations. Useful for turbo and other settings that tend to differ per machine. See _lib-cfg.example.sh for an example library file. This script is for advanced users.
 
 ## cfg-replace.sh
 

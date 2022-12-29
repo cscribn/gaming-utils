@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# copy this file to ./bin/_cfg-lib.sh and make changes
+# copy this file to ./bin/_lib-cfg.sh and make changes
 
 # types of cfgs you wish to generate
 # used along with system_cfgs below
