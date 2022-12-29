@@ -156,7 +156,56 @@ readonly -a systems_underscores=(
 	"zxspectrum"
 )
 
-# methods
+# helper functions
+check_favorites() {
+	local favorites_dir="$1"
+	local system="$2"
+	local scrape_dir="$3"
+	local check_images="$4"
+	local result=0
+
+	favorites="${favorites_dir}/favorites-${system}.txt"
+
+    [[ ! -f "$favorites" ]] && return 0
+
+    echo "Check favorites - ${system}..."
+	local -a faves
+    readarray -t faves < "$favorites"
+
+	local fav
+    for fav in "${faves[@]}"; do
+		local fav_amped="${fav//amp;/}"
+		local fav_amped_sedkey
+		fav_amped_sedkey=$(sed_escape_keyword "$fav_amped")
+		local fav_amped_ra
+		fav_amped_ra=$(ra_escape "$fav_amped")
+		local fav_amped_ra_sedkey
+		fav_amped_ra_sedkey=$(sed_escape_keyword "$fav_amped_ra")
+		local check_dir
+		local fav_not_found
+
+		if [[ "$check_images" = 0 ]]; then
+			check_dir="${scrape_dir}/${system}/media/Named_Boxarts"
+			fav_not_found=1
+
+			compgen -G "${check_dir}/${fav_amped_sedkey}."* > /dev/null && fav_not_found=0
+
+			compgen -G "${check_dir}/${fav_amped_ra_sedkey}."* > /dev/null &&
+			fav_not_found=0
+		else
+			check_dir="${scrape_dir}/${system}"
+			fav_not_found=1
+
+			compgen -G "${check_dir}/${fav_amped_sedkey}."* > /dev/null &&
+			fav_not_found=0
+		fi
+
+		[[ "$fav_not_found" = 1 ]] && echo "${fav} not found"
+    done
+
+	return "$fav_not_found"
+}
+
 md5sum_check() {
 	local target="$1"
 	local machine="$2"
@@ -167,7 +216,7 @@ md5sum_check() {
 	target_base="$(basename "$target")"
 	local md5name
 
-	if [ -n "$machine" ]; then
+	if [[ -n "$machine" ]]; then
 		md5name="${target_base}-${machine}"
 	else
 		md5name="${target_base}"
@@ -176,12 +225,12 @@ md5sum_check() {
 	md5sum_gen "$1" "$2"
 	local result
 
-	if [ -f "${target_dir}/${md5name}".md5 ]; then
+	if [[ -f "${target_dir}/${md5name}".md5 ]]; then
 		cmp -s "${target_dir}/${md5name}".md5 "${utils_temp_dir}${target_dir}/${md5name}".md5
 		result=$?
 	fi
 
-	if [ "$result" != 0 ] && [ -f "${utils_temp_dir}${target_dir}/${md5name}".md5 ]; then
+	if [[ "$result" != 0 ]] && [[ -f "${utils_temp_dir}${target_dir}/${md5name}".md5 ]]; then
 		cp -p "${utils_temp_dir}${target_dir}/${md5name}".md5 "${target_dir}/${md5name}".md5
 	fi
 
@@ -202,7 +251,7 @@ md5sum_gen() {
 	cd "$target_dir" > /dev/null || exit 1
 	local md5
 
-	if [ -d "$target_base" ]; then
+	if [[ -d "$target_base" ]]; then
 		md5=($(tar c "$target_base" | md5sum))
 	else
 		md5=($(md5sum "$target_base"))
@@ -211,7 +260,7 @@ md5sum_gen() {
 	cd - > /dev/null || exit 1
 	local md5name
 
-	if [ -n "$machine" ]; then
+	if [[ -n "$machine" ]]; then
 		md5name="${target_base}-${machine}"
 	else
 		md5name="${target_base}"
