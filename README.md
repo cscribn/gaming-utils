@@ -8,6 +8,10 @@ Getting help
 <script_name> -h
 ```
 
+## 7z2zip.sh
+
+Convert 7-zip files to zip files.
+
 ## cfg-specific-generate.sh
 
 Generate folder-, core-, or rom-specific retroarch configurations. Useful for turbo and other settings that tend to differ per machine. See ./lib/cfg.example.sh for an example library file. This script is for advanced users.
