@@ -1,6 +1,6 @@
 # RetroPie-Utils
 
-Scripts beginning with "_" are sourced in other scripts.
+All scripts are tested using Git Bash on Windows.
 
 Getting help
 
@@ -10,7 +10,7 @@ Getting help
 
 ## cfg-specific-generate.sh
 
-Generate folder-, core-, or rom-specific retroarch configurations. Useful for turbo and other settings that tend to differ per machine. See _lib-cfg.example.sh for an example library file. This script is for advanced users.
+Generate folder-, core-, or rom-specific retroarch configurations. Useful for turbo and other settings that tend to differ per machine. See ./lib/cfg.example.sh for an example library file. This script is for advanced users.
 
 ## cfg-replace.sh
 

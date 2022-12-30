@@ -6,8 +6,8 @@ set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
 # include
-source ./bin/_lib-cfg.sh > /dev/null 2>&1 || ( echo "Missing _lib-cfg.sh" && exit 1 )
-source ./_lib-utils.sh
+source ./lib/cfg.sh > /dev/null 2>&1 || ( echo "Missing ./lib/cfg.sh" && exit 1 )
+source ./lib/utils.sh
 
 # variables
 declare script_name
@@ -31,7 +31,7 @@ declare system_cfg
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
     echo "Usage: ${script_name} cfg_dir machine"
-	echo "./bin/_lib-cfg.sh needs to be present (see ./_lib-cfg.example.sh)"
+	echo "./lib/cfg.sh needs to be present (see ./lib/cfg.example.sh)"
     exit
 fi
 
