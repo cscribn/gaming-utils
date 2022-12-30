@@ -3,6 +3,17 @@
 # variables
 readonly utils_temp_dir="/c/Windows/Temp"
 
+declare -A system_dats=(
+	["coleco"]="coleco"
+	["dkong"]="fba"
+	["fba"]="fba"
+	["mame2003-plus"]="mame2003-plus"
+	["mame2010"]="mame2010"
+	["neogeo"]="neogeo"
+	["shmups"]="fba"
+	["spectrum"]="spectrum"
+)
+
 readonly -A system_dbs=(
 	["3do"]="The 3DO Company - 3DO"
     ["amiga"]="Commodore - Amiga"
@@ -37,6 +48,7 @@ readonly -A system_dbs=(
 	["nes"]="Nintendo - Nintendo Entertainment System"
 	["ngpc"]="SNK - Neo Geo Pocket Color"
 	["openbor"]="OpenBOR"
+	["pc"]="DOS"
 	["pc88"]="NEC - PC-88"
 	["pc98"]="NEC - PC-98"
 	["pce-cd"]="NEC - PC Engine CD - TurboGrafx-CD"
@@ -160,7 +172,7 @@ readonly -a systems_underscores=(
 check_favorites() {
 	local favorites_dir="$1"
 	local system="$2"
-	local scrape_dir="$3"
+	local rom_scrape_dir="$3"
 	local check_images="$4"
 	local result=0
 
@@ -185,7 +197,7 @@ check_favorites() {
 		local fav_not_found
 
 		if [[ "$check_images" = 0 ]]; then
-			check_dir="${scrape_dir}/${system}/media/Named_Boxarts"
+			check_dir="${rom_scrape_dir}/${system}/media/Named_Boxarts"
 			fav_not_found=1
 
 			compgen -G "${check_dir}/${fav_amped_sedkey}."* > /dev/null && fav_not_found=0
@@ -193,7 +205,7 @@ check_favorites() {
 			compgen -G "${check_dir}/${fav_amped_ra_sedkey}."* > /dev/null &&
 			fav_not_found=0
 		else
-			check_dir="${scrape_dir}/${system}"
+			check_dir="${rom_scrape_dir}/${system}"
 			fav_not_found=1
 
 			compgen -G "${check_dir}/${fav_amped_sedkey}."* > /dev/null &&
