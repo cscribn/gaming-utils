@@ -11,6 +11,7 @@ source ./lib/utils.sh
 # variables
 declare script_name
 script_name=$(basename "${0}")
+declare gamelist
 declare playlist
 declare playlists_dir
 declare system_db
