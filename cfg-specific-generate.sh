@@ -45,7 +45,7 @@ check_new() {
 		echo "${script_name}: ${machine} nothing new" && exit 0
 	else
 		echo "${script_name}: ${machine} - cleaning cfgs"
-		rm -rf "${cfg_dir:?}/${machine}/opt/retropie/configs/"*
+		find "${cfg_dir:?}/${machine}/opt/retropie/configs/"* -maxdepth 1 -type d ! -name "daphne" -exec rm -rf {} +
 	fi
 }
 
