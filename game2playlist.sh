@@ -5,16 +5,19 @@ set -o errexit
 set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
-# include
-source ./lib/utils.sh
-
 # variables
 declare script_name
-script_name=$(basename "${0}")
+script_name="$(basename "${0}")"
+declare script_dir
+script_dir="$(dirname "$0")"
+
 declare gamelist
 declare playlist
 declare playlists_dir
 declare system_db
+
+# include
+source "${script_dir}/lib/utils.sh"
 
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then

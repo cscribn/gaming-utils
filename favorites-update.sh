@@ -6,18 +6,21 @@ set -o nounset
 set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
-# include
-source ./lib/utils.sh
-
 # variables
 declare script_name
-script_name=$(basename "${0}")
+script_name="$(basename "${0}")"
+declare script_dir
+script_dir="$(dirname "$0")"
+
 declare favorites_dir
 declare favorites_file
 declare gamelists_dir
 declare gamelist_file
 declare system_db
 declare thumbnails_dir
+
+# include
+source "${script_dir}/lib/utils.sh"
 
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
@@ -41,6 +44,7 @@ clear_existing_favorites() {
     sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\//g" "$gamelist_file"
 
     cd "$thumbnails_dir/${system_db}/Named_Boxarts" > /dev/null || exit 1
+
     shopt -s nullglob
 
     local thumbnail
@@ -49,6 +53,7 @@ clear_existing_favorites() {
     done
 
     shopt -u nullglob
+
     cd - > /dev/null || exit 1
 }
 
@@ -57,6 +62,7 @@ set_favorites() {
 
     local favorites
     readarray -t favorites < "$favorites_file"
+
     cd "$thumbnails_dir/${system_db}/Named_Boxarts" > /dev/null || exit 1
 
     local fav

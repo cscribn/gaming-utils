@@ -7,7 +7,9 @@ set -o pipefail
 
 # variables
 declare script_name
-script_name=$(basename "${0}")
+script_name="$(basename "${0}")"
+declare script_dir
+script_dir="$(dirname "$0")"
 declare rom_dir
 
 # usage

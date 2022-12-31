@@ -5,15 +5,12 @@ set -o errexit
 set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
-# include
-source ./lib/cfg.sh > /dev/null 2>&1 || ( echo "Missing ./lib/cfg.sh" && exit 1 )
-source ./lib/utils.sh
-
 # variables
 declare script_name
-script_name=$(basename "${0}")
-declare script_real
-script_real=$(realpath "${0}")
+script_name="$(basename "${0}")"
+declare script_dir
+script_dir="$(dirname "$0")"
+
 declare cfg_dir
 declare machine
 
@@ -28,6 +25,10 @@ readonly retroarch_cfg_dir="opt/retropie/configs/all/retroarch/config"
 declare -a rom_cfgs_done=()
 declare system_cfg
 
+# include
+source "${script_dir}/lib/cfg.sh" > /dev/null 2>&1 || ( echo "Missing ./lib/cfg.sh" && exit 1 )
+source "${script_dir}/lib/utils.sh"
+
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
     echo "Usage: ${script_name} cfg_dir machine"
@@ -37,7 +38,7 @@ fi
 
 # helper functions
 check_new() {
-	local md5sum_check_echo=$(md5sum_check "$script_real" "$machine")
+	local md5sum_check_echo=$(md5sum_check "${script_dir}/$$script_name}" "$machine")
 
 	if [[ "$md5sum_check_echo" = "0" ]]; then
 		echo "${script_name}: ${machine} nothing new" && exit 0
@@ -186,7 +187,7 @@ main() {
 	rom_cfg
 
 	# create new md5sum
-	local md5sum_check_echo=$(md5sum_check "$script_real" "$machine")
+	local md5sum_check_echo=$(md5sum_check "${script_dir}/${script_name}" "$machine")
 }
 
 main "${@}"

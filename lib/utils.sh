@@ -261,6 +261,7 @@ md5sum_gen() {
 	target_base="$(basename "$real_target")"
 
 	cd "$target_dir" > /dev/null || exit 1
+
 	local md5
 
 	if [[ -d "$target_base" ]]; then
@@ -270,6 +271,7 @@ md5sum_gen() {
 	fi
 
 	cd - > /dev/null || exit 1
+
 	local md5name
 
 	if [[ -n "$machine" ]]; then
