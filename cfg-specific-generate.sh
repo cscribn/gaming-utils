@@ -45,7 +45,9 @@ check_new() {
 		echo "${script_name}: ${machine} nothing new" && exit 0
 	else
 		echo "${script_name}: ${machine} - cleaning cfgs"
-		find "${cfg_dir:?}/${machine}/opt/retropie/configs/"* -maxdepth 1 -type d ! -name "daphne" -exec rm -rf {} +
+		local machine_cfg_dir="${cfg_dir}/${machine}/opt/retropie/configs"
+
+		find "${machine_cfg_dir:?}/"* -maxdepth 1 -type d ! -wholename "${machine_cfg_dir}/all/emulationstation" ! -wholename "${machine_cfg_dir}/all" ! -wholename "${machine_cfg_dir}/daphne" ! -wholename "${machine_cfg_dir}/ports/openbor" ! -name "${machine_cfg_dir}/ports" {} +
 	fi
 }
 
