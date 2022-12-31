@@ -35,3 +35,7 @@ Create favorites for each of your gamelists by inserting a space in front of rom
 ## game2playlist.sh
 
 Convert an EmulationStation gamelist to a Retroarch playlist.
+
+## miniclassics-cores-wget.sh
+
+Download the latest nightly psclassic and segamini cores from modmyclassiccloud. Assumes wget is installed and in your path.
