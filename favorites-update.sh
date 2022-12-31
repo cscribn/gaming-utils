@@ -30,8 +30,10 @@ fi
 
 # helper functions
 check_new() {
-	local md5sum_check_favorites_echo=$(md5sum_check "${favorites_file}" "")
-	local md5sum_check_gamelist_echo=$(md5sum_check "${gamelist_file}" "")
+	local md5sum_check_favorites_echo
+    md5sum_check_favorites_echo=$(md5sum_check "${favorites_file}" "")
+	local md5sum_check_gamelist_echo
+    md5sum_check_gamelist_echo=$(md5sum_check "${gamelist_file}" "")
 
 	if [[ "$md5sum_check_favorites_echo" = "0" ]] && [[ "$md5sum_check_gamelist_echo" = "0" ]]; then
         echo "${script_name}: ${system} no favorite changes"
@@ -40,6 +42,8 @@ check_new() {
 }
 
 clear_existing_favorites() {
+    echo "${script_name}: ${system} clearing favorites"
+
     sed -i 's/name> /name>/g' "$gamelist_file"
     sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\//g" "$gamelist_file"
 

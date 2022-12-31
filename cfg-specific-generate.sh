@@ -38,7 +38,8 @@ fi
 
 # helper functions
 check_new() {
-	local md5sum_check_echo=$(md5sum_check "${script_dir}/$$script_name}" "$machine")
+	local md5sum_check_echo
+	md5sum_check_echo=$(md5sum_check "${script_dir}/${script_name}" "$machine")
 
 	if [[ "$md5sum_check_echo" = "0" ]]; then
 		echo "${script_name}: ${machine} nothing new" && exit 0
@@ -187,7 +188,8 @@ main() {
 	rom_cfg
 
 	# create new md5sum
-	local md5sum_check_echo=$(md5sum_check "${script_dir}/${script_name}" "$machine")
+	local md5sum_check_echo
+	md5sum_check_echo=$(md5sum_check "${script_dir}/${script_name}" "$machine")
 }
 
 main "${@}"
