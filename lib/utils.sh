@@ -16,10 +16,10 @@ declare -A system_dats=(
 
 readonly -A system_dbs=(
 	["3do"]="The 3DO Company - 3DO"
-    ["amiga"]="Commodore - Amiga"
-    ["amstradcpc"]="Amstrad - CPC"
-    ["atari2600"]="Atari - 2600"
-    ["atari5200"]="Atari - 5200"
+	["amiga"]="Commodore - Amiga"
+	["amstradcpc"]="Amstrad - CPC"
+	["atari2600"]="Atari - 2600"
+	["atari5200"]="Atari - 5200"
 	["atari7800"]="Atari - 7800"
 	["atarilynx"]="Atari - Lynx"
 	["atarist"]="Atari - ST"
@@ -74,7 +74,7 @@ readonly -A system_dbs=(
 
 readonly -A system_retro_corenames=(
 	["amiga"]="PUAE"
-    ["amstradcpc"]="cap32"
+	["amstradcpc"]="cap32"
 	["atari2600"]="Stella"
 	["atari5200"]="Atari800"
 	["atari7800"]="ProSystem"
@@ -87,7 +87,7 @@ readonly -A system_retro_corenames=(
 	["gb"]="Gambatte"
 	["gbc"]="Gambatte"
 	["intellivision"]="FreeIntv"
-    ["jaguar"]="Virtual Jaguar"
+	["jaguar"]="Virtual Jaguar"
 	["mame2003-plus"]="MAME 2003-Plus"
 	["mame2010"]="MAME 2010"
 	["mastersystem"]="Genesis Plus GX"
@@ -104,7 +104,7 @@ readonly -A system_retro_corenames=(
 	["sg-1000"]="Genesis Plus GX"
 	["shmups"]="FinalBurn Neo"
 	["vic20"]="VICE xvic"
-    ["videopac"]="O2EM"
+	["videopac"]="O2EM"
 	["x68000"]="PX68K"
 	["zxspectrum"]="fuse"
 )
@@ -178,14 +178,14 @@ check_favorites() {
 
 	favorites="${favorites_dir}/favorites-${system}.txt"
 
-    [[ ! -f "$favorites" ]] && return 0
+	[[ ! -f "$favorites" ]] && return 0
 
-    echo "Check favorites - ${system}..."
+	echo "Check favorites - ${system}..."
 	local -a faves
-    readarray -t faves < "$favorites"
+	readarray -t faves < "$favorites"
 
 	local fav
-    for fav in "${faves[@]}"; do
+	for fav in "${faves[@]}"; do
 		local fav_amped="${fav//amp;/}"
 		local fav_amped_sedkey
 		fav_amped_sedkey=$(sed_escape_keyword "$fav_amped")
@@ -213,7 +213,7 @@ check_favorites() {
 		fi
 
 		[[ "$fav_not_found" = 1 ]] && echo "${fav} not found"
-    done
+	done
 
 	return "$fav_not_found"
 }
@@ -292,7 +292,7 @@ mkrm() {
 }
 
 ra_escape() {
-    echo "$1" | tr '&*/:\`<>?\\|' '_'
+	echo "$1" | tr '&*/:\`<>?\\|' '_'
 }
 
 sed_escape_keyword() {
