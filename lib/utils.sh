@@ -221,11 +221,13 @@ check_favorites() {
 md5sum_check() {
 	local target="$1"
 	local machine="$2"
-	local result=1
+	local real_target
+	real_target="$(realpath "$target")"
 	local target_dir
-	target_dir="$(dirname "$target")"
+	target_dir="$(dirname "$real_target")"
 	local target_base
-	target_base="$(basename "$target")"
+	target_base="$(basename "$real_target")"
+	local result=1
 	local md5name
 
 	if [[ -n "$machine" ]]; then
@@ -238,15 +240,15 @@ md5sum_check() {
 	local result
 
 	if [[ -f "${target_dir}/${md5name}".md5 ]]; then
-		cmp -s "${target_dir}/${md5name}".md5 "${utils_temp_dir}${target_dir}/${md5name}".md5
+		cmp -s "${target_dir}/${md5name}".md5 "${utils_temp_dir}/${target_dir}/${md5name}".md5
 		result=$?
 	fi
 
-	if [[ "$result" != 0 ]] && [[ -f "${utils_temp_dir}${target_dir}/${md5name}".md5 ]]; then
-		cp -p "${utils_temp_dir}${target_dir}/${md5name}".md5 "${target_dir}/${md5name}".md5
+	if [[ "$result" != 0 ]] && [[ -f "${utils_temp_dir}/${target_dir}/${md5name}".md5 ]]; then
+		cp -p "${utils_temp_dir}/${target_dir}/${md5name}".md5 "${target_dir}/${md5name}".md5
 	fi
 
-	rm -rf "${utils_temp_dir}${target_dir}/${md5name}".md5
+	rm -rf "${utils_temp_dir}/${target_dir}/${md5name}".md5
 	echo "$result"
 }
 
@@ -280,8 +282,8 @@ md5sum_gen() {
 		md5name="${target_base}"
 	fi
 
-	mkdir -p "${utils_temp_dir}${target_dir}"
-	echo "${md5[0]}"  > "${utils_temp_dir}${target_dir}/${md5name}".md5
+	mkdir -p "${utils_temp_dir}/${target_dir}"
+	echo "${md5[0]}"  > "${utils_temp_dir}/${target_dir}/${md5name}".md5
 }
 
 mkrm() {
