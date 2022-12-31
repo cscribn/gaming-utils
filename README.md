@@ -12,6 +12,10 @@ Getting help
 
 Convert 7-zip files to zip files.
 
+## catver-unique.sh
+
+Get all the unique values from a catver ini file.
+
 ## cfg-specific-generate.sh
 
 Generate folder-, core-, or rom-specific retroarch configurations. Useful for turbo and other settings that tend to differ per machine. See ./lib/cfg.example.sh for an example library file. This script is for advanced users.
