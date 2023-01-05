@@ -50,7 +50,7 @@ path_gen() {
     if [ "$system_db" = "Coleco - ColecoVision" ]; then
         {
             echo "      \"subsystem_roms\": ["
-            echo "        \"${rom_path}/${system_db}/${json_rom}\""
+            echo "        \"${rom_path}/${json_rom}\""
             echo "      ],"
             echo "      \"subsystem_ident\": \"cv\","
             echo "      \"subsystem_name\": \"ColecoVision\","
