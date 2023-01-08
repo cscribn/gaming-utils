@@ -27,9 +27,12 @@ special_items["Quake.sh"]="Quake;quake/id1/pak0.pak;tyrquake_libretro.so"
 special_items["Ninja Ryuuken Den III - Yomi no Hakobune (Japan).nes"]="Nintendo - Nintendo Entertainment System;Ninja Ryuuken Den III - Yomi no Hakobune (Japan).nes;fceumm_libretro.so"
 special_items["Ultimate Doom.sh"]="Doom;doom/ultimate-doom/DOOM.WAD;prboom_libretro.so"
 
+declare core_name
+declare core_path
 declare gamelist
 declare playlist
 declare playlists_dir
+declare rom_path
 declare rom_orig
 declare system_db
 
@@ -110,13 +113,17 @@ label_gen() {
 }
 
 body_gen() {
+    local core_name_new
+
     if [[ -n "${special_cores[$rom_orig]}" ]]; then
-        core_name="${special_cores[$rom_orig]}"
+        core_name_new="${special_cores[$rom_orig]}"
+    else
+        core_name_new="$core_name"
     fi
 
     {
-        echo "      \"core_path\": \"${core_path}/${core_name}\","
-        echo "      \"core_name\": \"${core_name}\","
+        echo "      \"core_path\": \"${core_path}/${core_name_new}\","
+        echo "      \"core_name\": \"${core_name_new}\","
         echo "      \"crc32\": \"DETECT\","
         echo "      \"dbname\": \"${system_db}.lpl\""
         echo -n "    }"
