@@ -11,9 +11,26 @@ script_name="$(basename "${0}")"
 declare script_dir
 script_dir="$(dirname "$0")"
 
+declare -A special_paths
+declare -A special_cores
+declare -A special_items
+special_items["Aleste 2 - Compile (1989) [ROM Version] [v8 by Ricbit] [3275].rom"]="Microsoft - MSX;Aleste 2 - Compile (1989) [ROM Version] [v8 by Ricbit] [3275].rom;fmsx_libretro.so"
+special_items["Doom - Sigil.sh"]="Doom;doom/sigil/DOOM.WAD;prboom_libretro.so"
+special_items["Doom 2.sh"]="Doom;doom/doom2/DOOM2.WAD;prboom_libretro.so"
+special_items["Final Doom - The Plutonia Experiment.sh"]="Doom;doom/PLUTONIA/PLUTONIA.WAD;prboom_libretro.so"
+special_items["Final Doom - The Plutonia Experiment.sh"]="Doom;doom/final-doom-plutonia-experiment/PLUTONIA.WAD;prboom_libretro.so"
+special_items["Final Doom - TNT - Evilution.sh"]="Doom;doom/final-doom-tnt-evilution/TNT.WAD;prboom_libretro.so"
+special_items["Quake Episode 5 (dopa).sh"]="Quake;quake/dopa/pak0.pak;tyrquake_libretro.so"
+special_items["Quake Mission Pack 1 (hipnotic).sh"]="Quake;quake/hypnotic/pak0.pak;tyrquake_libretro.so"
+special_items["Quake Mission Pack 2 (rogue).sh"]="Quake;quake/rogue/pak0.pak;tyrquake_libretro.so"
+special_items["Quake.sh"]="Quake;quake/id1/pak0.pak;tyrquake_libretro.so"
+special_items["Ninja Ryuuken Den III - Yomi no Hakobune (Japan).nes"]="Nintendo - Nintendo Entertainment System;Ninja Ryuuken Den III - Yomi no Hakobune (Japan).nes;fceumm_libretro.so"
+special_items["Ultimate Doom.sh"]="Doom;doom/ultimate-doom/DOOM.WAD;prboom_libretro.so"
+
 declare gamelist
 declare playlist
 declare playlists_dir
+declare rom_orig
 declare system_db
 
 # include
@@ -34,12 +51,33 @@ intro_gen() {
     } > "$playlist"
 }
 
+special_get() {
+    local item_value_array
+
+    local item_key
+    for item_key in "${!special_items[@]}"; do
+        IFS=';' read -ra item_value_array <<< "${special_items[$item_key]}"
+        if [[ "${item_value_array[0]}" = "$system_db" ]]; then
+            special_paths["$item_key"]="${item_value_array[1]}"
+            special_cores["$item_key"]="${item_value_array[2]}"
+        fi
+    done
+}
+
 path_gen() {
     local line="$1"
     # Strip off beginning ./
     local path_map
     mapfile -t path_map < <(echo "$line" | grep -Pio 'path>\.\/\K[^<]*')
-    local rom="${path_map[0]}"
+    rom_orig="${path_map[0]}"
+    local rom
+
+    if [[ -n "${special_paths[$rom_orig]}" ]]; then
+        rom="${special_paths[$rom_orig]}"
+    else
+        rom="$rom_orig"
+    fi
+
     local json_rom=${rom//&amp;/&}
 
     {
@@ -72,6 +110,10 @@ label_gen() {
 }
 
 body_gen() {
+    if [[ -n "${special_cores[$rom_orig]}" ]]; then
+        core_name="${special_cores[$rom_orig]}"
+    fi
+
     {
         echo "      \"core_path\": \"${core_path}/${core_name}\","
         echo "      \"core_name\": \"${core_name}\","
@@ -114,6 +156,7 @@ main() {
     mkdir -p "$playlists_dir"
     playlist="${playlists_dir}/${system_db}.lpl"
     echo "${script_name}: ${system_db} playlist - started"
+    special_get
     intro_gen
 
     local first_time="true"
