@@ -13,19 +13,6 @@ script_dir="$(dirname "$0")"
 
 declare -A special_paths
 declare -A special_cores
-declare -A special_items
-special_items["Aleste 2 - Compile (1989) [ROM Version] [v8 by Ricbit] [3275].rom"]="Microsoft - MSX;Aleste 2 - Compile (1989) [ROM Version] [v8 by Ricbit] [3275].rom;fmsx_libretro.so"
-special_items["Doom - Sigil.sh"]="Doom;doom/sigil/DOOM.WAD;prboom_libretro.so"
-special_items["Doom 2.sh"]="Doom;doom/doom2/DOOM2.WAD;prboom_libretro.so"
-special_items["Final Doom - The Plutonia Experiment.sh"]="Doom;doom/PLUTONIA/PLUTONIA.WAD;prboom_libretro.so"
-special_items["Final Doom - The Plutonia Experiment.sh"]="Doom;doom/final-doom-plutonia-experiment/PLUTONIA.WAD;prboom_libretro.so"
-special_items["Final Doom - TNT - Evilution.sh"]="Doom;doom/final-doom-tnt-evilution/TNT.WAD;prboom_libretro.so"
-special_items["Quake Episode 5 (dopa).sh"]="Quake;quake/dopa/pak0.pak;tyrquake_libretro.so"
-special_items["Quake Mission Pack 1 (hipnotic).sh"]="Quake;quake/hypnotic/pak0.pak;tyrquake_libretro.so"
-special_items["Quake Mission Pack 2 (rogue).sh"]="Quake;quake/rogue/pak0.pak;tyrquake_libretro.so"
-special_items["Quake.sh"]="Quake;quake/id1/pak0.pak;tyrquake_libretro.so"
-special_items["Ninja Ryuuken Den III - Yomi no Hakobune (Japan).nes"]="Nintendo - Nintendo Entertainment System;Ninja Ryuuken Den III - Yomi no Hakobune (Japan).nes;fceumm_libretro.so"
-special_items["Ultimate Doom.sh"]="Doom;doom/ultimate-doom/DOOM.WAD;prboom_libretro.so"
 
 declare core_name
 declare core_path
@@ -38,6 +25,7 @@ declare system_db
 
 # include
 source "${script_dir}/lib/utils.sh"
+source "${script_dir}/lib/special.sh" > /dev/null 2>&1
 
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then

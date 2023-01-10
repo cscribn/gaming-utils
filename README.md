@@ -18,15 +18,15 @@ Get all the unique values from a catver ini file.
 
 ## cfg-specific-generate.sh
 
-Generate folder-, core-, or rom-specific retroarch configurations. Useful for turbo and other settings that tend to differ per machine. See ./lib/cfg.example.sh for an example library file. This script is for advanced users.
+Generate folder-, core-, or rom-specific retroarch configurations. Useful for turbo and other settings that tend to differ per machine. See `./lib/cfg.example.sh` for an example library file. This script is for advanced users.
 
 ## cfg-replace.sh
 
-Replace/add values to retroarch cfgs like retroarch.cfg and retroarch-core-options.cfg.
+Replace/add values to retroarch cfgs like `retroarch.cfg` and `retroarch-core-options.cfg`.
 
 ## emulators-name-clean.sh
 
-Return the EmulationStation "clean" names for roms. For use in emulators.cfg when assigning specific emulators to specific roms.
+Return the EmulationStation "clean" names for roms. For use in `emulators.cfg` when assigning specific emulators to specific roms.
 
 ## favorites-update.sh
 
@@ -34,7 +34,7 @@ Create favorites for each of your gamelists by inserting a space in front of rom
 
 ## game2playlist.sh
 
-Convert an EmulationStation gamelist to a Retroarch playlist.
+Convert an EmulationStation gamelist to a Retroarch playlist. See `./lib/special.example.sh` for an optional example of how to handle special paths or cores for specific games.
 
 ## miniclassics-cores-wget.sh
 
