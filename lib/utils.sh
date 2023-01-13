@@ -21,6 +21,7 @@ readonly -A system_dbs=(
 	["atari2600"]="Atari - 2600"
 	["atari5200"]="Atari - 5200"
 	["atari7800"]="Atari - 7800"
+	["atarijaguar"]="Atari - Jaguar"
 	["atarilynx"]="Atari - Lynx"
 	["atarist"]="Atari - ST"
 	["c64"]="Commodore - 64"
@@ -36,7 +37,6 @@ readonly -A system_dbs=(
 	["gba"]="Nintendo - Game Boy Advance"
 	["gbc"]="Nintendo - Game Boy Color"
 	["intellivision"]="Mattel - Intellivision"
-	["jaguar"]="Atari - Jaguar"
 	["mame2003-plus"]="MAME 2003-Plus"
 	["mame2010"]="MAME 2010"
 	["mastersystem"]="Sega - Master System - Mark III"
@@ -69,6 +69,7 @@ readonly -A system_dbs=(
 	["videopac"]="Magnavox - Odyssey2"
 	["wonderswan"]="Bandai - WonderSwan"
 	["wonderswancolor"]="Bandai - WonderSwan Color"
+	["x1"]="Sharp - X1"
 	["x68000"]="Sharp - X68000"
 	["zxspectrum"]="Sinclair - ZX Spectrum"
 )
@@ -79,6 +80,7 @@ readonly -A system_retro_corenames=(
 	["atari2600"]="Stella"
 	["atari5200"]="Atari800"
 	["atari7800"]="ProSystem"
+	["atarijaguar"]="Virtual Jaguar"
 	["atarilynx"]="Handy"
 	["c64"]="VICE x64"
 	["coleco"]="FinalBurn Neo"
@@ -88,7 +90,6 @@ readonly -A system_retro_corenames=(
 	["gb"]="Gambatte"
 	["gbc"]="Gambatte"
 	["intellivision"]="FreeIntv"
-	["jaguar"]="Virtual Jaguar"
 	["mame2003-plus"]="MAME 2003-Plus"
 	["mame2010"]="MAME 2010"
 	["mastersystem"]="Genesis Plus GX"
@@ -106,6 +107,7 @@ readonly -A system_retro_corenames=(
 	["shmups"]="FinalBurn Neo"
 	["vic20"]="VICE xvic"
 	["videopac"]="O2EM"
+	["x1"]="X Millennium"
 	["x68000"]="PX68K"
 	["zxspectrum"]="fuse"
 )
@@ -118,6 +120,7 @@ readonly -a systems_underscores=(
 	"atari2600"
 	"atari5200"
 	"atari7800"
+	"atarijaguar"
 	"atarilynx"
 	"atarist"
 	"c64"
@@ -132,7 +135,6 @@ readonly -a systems_underscores=(
 	"gba"
 	"gbc"
 	"intellivision"
-	"jaguar"
 	"mame2003_plus"
 	"mame2010"
 	"mastersystem"
@@ -164,6 +166,7 @@ readonly -a systems_underscores=(
 	"videopac"
 	"wonderswan"
 	"wonderswancolor"
+	"x1"
 	"x68000"
 	"zxspectrum"
 )
@@ -293,6 +296,22 @@ mkrm() {
 
 ra_escape() {
 	echo "$1" | tr '&*/:\`<>?\\|' '_'
+}
+
+rm_empty_dirs() {
+	local target_dir="$1"
+	local machine="$2"
+
+	cd "${target_dir:?}" > /dev/null || exit 1
+	find . -type d -empty -delete
+	cd - > /dev/null || exit 1
+}
+
+rm_empty_dirs_ssh() {
+	local target_dir="$1"
+	local machine="$2"
+
+	ssh "pi@${machine}" "cd \"${target_dir}\" > /dev/null || exit 1; find . -type d -empty -delete; cd - > /dev/null || exit 1"
 }
 
 sed_escape_keyword() {
