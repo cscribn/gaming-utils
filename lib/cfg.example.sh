@@ -13,6 +13,14 @@ readonly -a cfg_types=(
 # system_cfgs: the system cfgs you wish to generate
 # of the form <machine>_<system>_<cfg_type>="value"
 # used along with cfg_types above
+readonly a500_amstradcpc_input_player1_turbo_btn="x"
+readonly a500_amstradcpc_input_turbo_default_button="a"
+readonly a500_atari5200_input_turbo_default_button="a"
+readonly a500_atarijaguar_input_player1_turbo_btn="x"
+readonly a500_msx_input_turbo_default_button="a"
+readonly a500_sg_1000_input_turbo_default_button="a"
+readonly a500_videopac_input_player1_turbo_btn="x"
+
 readonly retrobar_amstradcpc_input_player1_turbo_btn="x"
 readonly retrobar_amstradcpc_input_turbo_default_button="a"
 readonly retrobar_atari5200_input_turbo_default_button="a"
@@ -63,6 +71,11 @@ readonly -a y_turbo_systems=(
 
 # input values per system and button
 readonly -A input_btn_values=(
+	["a500;a"]="1"
+	["a500;b"]="2"
+	["a500;x"]="0"
+	["a500;y"]="3"
+
 	["retrobar;a"]="5"
 	["retrobar;b"]="4"
 	["retrobar;x"]="1"

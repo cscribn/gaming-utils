@@ -12,6 +12,8 @@ script_dir="$(dirname "$0")"
 
 declare cfg_dir
 declare machine
+declare machine_cfg_dir
+declare system_cfg_dir
 
 readonly -A input_turbo_default_values=(
 	["a"]="2"
@@ -22,7 +24,7 @@ readonly -A input_turbo_default_values=(
 
 readonly retroarch_cfg_dir="opt/retropie/configs/all/retroarch/config"
 declare -a rom_cfgs_done=()
-declare system_cfg
+declare dir_cfg
 
 # include
 source "${script_dir}/lib/cfg.sh" > /dev/null 2>&1 || ( echo "Missing ./lib/cfg.sh" && exit 1 )
@@ -40,53 +42,48 @@ check_new() {
 	local md5sum_check_echo
 	md5sum_check_echo=$(md5sum_check "${script_dir}/${script_name}" "$machine")
 
-	if [[ "$md5sum_check_echo" = "0" ]]; then
-		echo "${script_name}: ${machine} nothing new" && exit 0
-	else
-		echo "${script_name}: ${machine} - cleaning cfgs"
-		local machine_cfg_dir="${cfg_dir}/${machine}/opt/retropie/configs"
+	[[ "$md5sum_check_echo" = "0" ]] && echo "${script_name}: ${machine} nothing new" && exit 0
 
-		find "${machine_cfg_dir:?}/"* -maxdepth 1 -type d ! -wholename "${machine_cfg_dir}/all/emulationstation" ! -wholename "${machine_cfg_dir}/all" ! -wholename "${machine_cfg_dir}/daphne" ! -wholename "${machine_cfg_dir}/ports/openbor" ! -wholename "${machine_cfg_dir}/ports" -exec rm -rf {} +
-	fi
-}
+	if [[ "$machine" = "retro"* ]]; then
+		machine_cfg_dir="${cfg_dir}/${machine}/opt/retropie/configs/all/retroarch/config"
 
-init() {
-	local ports=""
+		echo "${script_name}: ${machine} - cleaning system cfgs"
+		system_cfg_dir="${cfg_dir}/${machine}/opt/retropie/configs"
 
-	if [[ "$system" = "doom" ]] || [[ "$system" = "quake" ]]; then
-		ports="ports/"
+		find "${system_cfg_dir:?}/"* -maxdepth 1 -type d ! -wholename "${system_cfg_dir}/all/emulationstation" ! -wholename "${system_cfg_dir}/all" ! -wholename "${system_cfg_dir}/daphne" ! -wholename "${system_cfg_dir}/ports/openbor" ! -wholename "${system_cfg_dir}/ports" -exec rm -rf {} +
+	elif [[ "$machine" = "a500" ]]; then
+		machine_cfg_dir="${cfg_dir}/${machine}/Pandory/.user/.config/retroarch/config"
 	fi
 
-	local cfg_path="${cfg_dir}/${machine}/opt/retropie/configs/${ports}${system/_/-}"
-	mkdir -p "${cfg_path}"
-	system_cfg="${cfg_path}/retroarch.cfg"
+	echo "${script_name}: ${machine} - cleaning machine cfgs"
+	rm -rf "${machine_cfg_dir:?}/"*
 }
 
-system_cfg_header() {
-	{
-		echo "# Settings made here will only override settings in the global retroarch.cfg if placed above the #include line"
-		echo ""
-	} >> "$system_cfg"
+dir_cfg_init() {
+	mkdir -p "${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}"
+	dir_cfg="${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}/${system/_/-}.cfg"
 }
 
-system_cfg_y_turbo() {
+dir_cfg_y_turbo() {
 	if printf '%s\0' "${y_turbo_systems[@]}" | grep -Fxqz "${system/_/-}"; then
+		echo "${script_name}: ${machine} - dir cfg y turbo- ${system}"
+
 		value="${input_btn_values[${machine};y]}"
-		echo "input_player1_turbo_btn = \"${value}\"" >> "$system_cfg"
-		echo "input_player2_turbo_btn = \"${value}\"" >> "$system_cfg"
+		echo "input_player1_turbo_btn = \"${value}\"" >> "$dir_cfg"
+		echo "input_player2_turbo_btn = \"${value}\"" >> "$dir_cfg"
 	fi
 }
 
-system_cfg() {
+dir_cfg() {
 	local cfg_value
 
 	local cfg_type
 	for cfg_type in "${cfg_types[@]}"; do
 		eval button_value="( \${${machine}_${system}_${cfg_type}} )"
 
-		if [[ -z "${button_value}" ]]; then
-			continue
-		fi
+		[[ -z "${button_value}" ]] && continue
+
+		echo "${script_name}: ${machine} - dir cfg - ${system}"
 
 		if [[ "${cfg_type}" = "input_turbo_default_button" ]]; then
 			cfg_value="${input_turbo_default_values[${button_value}]}"
@@ -94,39 +91,30 @@ system_cfg() {
 			cfg_value="${input_btn_values[${machine};${button_value}]}"
 		fi
 
-		echo "${cfg_type} = \"${cfg_value}\"" >> "$system_cfg"
+		echo "${cfg_type} = \"${cfg_value}\"" >> "$dir_cfg"
 
 		if [[ "${cfg_type}" = "input_player1_turbo_btn" ]]; then
-			echo "input_player2_turbo_btn = \"${cfg_value}\"" >> "$system_cfg"
+			echo "input_player2_turbo_btn = \"${cfg_value}\"" >> "$dir_cfg"
 		fi
 	done
-}
-
-system_cfg_footer() {
-	{
-		echo ""
-		echo "#include \"/opt/retropie/configs/all/retroarch.cfg\""
-	} >> "$system_cfg"
-
-	echo "${script_name}: ${machine} - system - ${system}"
 }
 
 rom_cfg_y_turbo() {
 	local c
 	for c in "${y_turbo_rom_cfgs[@]}"; do
+		echo "${script_name}: ${machine} - rom y turbo - ${rom}"
+
 		IFS=';' read -ra y_turbo_rom_cfg <<< "$c"
 		local system="${y_turbo_rom_cfg[0]}"
 		local rom="${y_turbo_rom_cfg[1]}"
 		local value="${input_btn_values[${machine};y]}"
 		local cfg
 
-		mkdir -p "${cfg_dir}/${machine}/${retroarch_cfg_dir}/${system_retro_corenames[$system]}"
-		cfg="${cfg_dir}/${machine}/${retroarch_cfg_dir}/${system_retro_corenames[$system]}/${rom}.cfg"
+		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$system]}"
+		cfg="${machine_cfg_dir}/${system_retro_corenames[$system]}/${rom}.cfg"
 
 		echo "input_player1_turbo_btn = \"${value}\"" >> "$cfg"
 		echo "input_player2_turbo_btn = \"${value}\"" >> "$cfg"
-
-		echo "${script_name}: ${machine} - rom y turbo - ${rom}"
 	done
 }
 
@@ -140,14 +128,16 @@ rom_cfg() {
 		local value
 		local cfg_file
 
+		echo "${script_name}: ${machine} - ${cfg} - ${rom}"
+
 		if [[ "${cfg}" = "input_turbo_default_button" ]]; then
 			value="${input_turbo_default_values[${rom_cfgs[$i]}]}"
 		else
 			value="${input_btn_values[${machine};${rom_cfgs[$i]}]}"
 		fi
 
-		mkdir -p "${cfg_dir}/${machine}/${retroarch_cfg_dir}/${system_retro_corenames[$system]}"
-		cfg_file="${cfg_dir}/${machine}/${retroarch_cfg_dir}/${system_retro_corenames[$system]}/${rom}.cfg"
+		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$system]}"
+		cfg_file="${machine_cfg_dir}/${system_retro_corenames[$system]}/${rom}.cfg"
 
 		if [[ -f "${HOME}/Gaming/bin/roms-cfg/${system}/${rom}.cfg" ]] && ! printf '%s\0' "${rom_cfgs[@]}" | grep -Fxqz "${machine};${system};${rom}"; then
 			cat "${HOME}/Gaming/bin/roms-cfg/${system}/${rom}.cfg" >> "$cfg"
@@ -159,9 +149,29 @@ rom_cfg() {
 		if [[ "${cfg}" = "input_player1_turbo_btn" ]]; then
 			echo "input_player2_turbo_btn = \"${value}\"" >> "$cfg_file"
 		fi
-
-		echo "${script_name}: ${machine} - ${cfg} - ${rom}"
 	done
+}
+
+system_cfg() {
+	[[ "$machine" != "retro"* ]] && return 0
+
+	echo "${script_name}: ${machine} - system - ${system}"
+
+	local ports=""
+
+	if [[ "$system" = "doom" ]] || [[ "$system" = "quake" ]]; then
+		ports="ports/"
+	fi
+
+	local cfg_path="${system_cfg_dir}/${ports}${system/_/-}"
+	mkdir -p "${cfg_path}"
+	system_cfg="${cfg_path}/retroarch.cfg"
+
+	{
+		echo "# Settings made here will only override settings in the global retroarch.cfg if placed above the #include line"
+		echo ""
+		echo "#include \"/opt/retropie/configs/all/retroarch.cfg\""
+	} >> "$system_cfg"
 }
 
 # main function
@@ -178,11 +188,10 @@ main() {
 	local system_underscores
 	for system_underscores in "${systems_underscores[@]}"; do
 		system="$system_underscores"
-		init
-		system_cfg_header
-		system_cfg_y_turbo
 		system_cfg
-		system_cfg_footer
+		dir_cfg_init
+		dir_cfg_y_turbo
+		dir_cfg
 	done
 
 	rom_cfg_y_turbo
