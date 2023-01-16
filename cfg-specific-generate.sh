@@ -53,6 +53,10 @@ check_new() {
 		find "${system_cfg_dir:?}/"* -maxdepth 1 -type d ! -wholename "${system_cfg_dir}/all/emulationstation" ! -wholename "${system_cfg_dir}/all" ! -wholename "${system_cfg_dir}/daphne" ! -wholename "${system_cfg_dir}/ports/openbor" ! -wholename "${system_cfg_dir}/ports" -exec rm -rf {} +
 	elif [[ "$machine" = "a500" ]]; then
 		machine_cfg_dir="${cfg_dir}/${machine}/Pandory/.user/.config/retroarch/config"
+	elif [[ "$machine" = "psclassic" ]]; then
+		machine_cfg_dir="${cfg_dir}/${machine}/project_eris/opt/retroarch/config/retroarch/config"
+	elif [[ "$machine" = "segamini" ]]; then
+		machine_cfg_dir="${cfg_dir}/${machine}/project_lunar/retroarch/config"
 	fi
 
 	echo "${script_name}: ${machine} - cleaning machine cfgs"

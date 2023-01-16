@@ -21,6 +21,14 @@ readonly a500_msx_input_turbo_default_button="a"
 readonly a500_sg_1000_input_turbo_default_button="a"
 readonly a500_videopac_input_player1_turbo_btn="x"
 
+readonly psclassic_amstradcpc_input_player1_turbo_btn="x"
+readonly psclassic_amstradcpc_input_turbo_default_button="a"
+readonly psclassic_atari5200_input_turbo_default_button="a"
+readonly psclassic_atarijaguar_input_player1_turbo_btn="x"
+readonly psclassic_msx_input_turbo_default_button="a"
+readonly psclassic_sg_1000_input_turbo_default_button="a"
+readonly psclassic_videopac_input_player1_turbo_btn="x"
+
 readonly retrobar_amstradcpc_input_player1_turbo_btn="x"
 readonly retrobar_amstradcpc_input_turbo_default_button="a"
 readonly retrobar_atari5200_input_turbo_default_button="a"
@@ -44,6 +52,16 @@ readonly retroboy_atarijaguar_input_player1_turbo_btn="x"
 readonly retroboy_msx_input_turbo_default_button="a"
 readonly retroboy_sg_1000_input_turbo_default_button="a"
 readonly retroboy_videopac_input_player1_turbo_btn="x"
+
+readonly segamini_amstradcpc_input_player1_turbo_btn="x"
+readonly segamini_amstradcpc_input_turbo_default_button="a"
+readonly segamini_atari5200_input_turbo_default_button="a"
+readonly segamini_gx4000_input_player1_turbo_btn="x"
+readonly segamini_gx4000_input_turbo_default_button="a"
+readonly segamini_jaguar_input_player1_turbo_btn="x"
+readonly segamini_msx_input_turbo_default_button="a"
+readonly segamini_sg_1000_input_turbo_default_button="a"
+readonly segamini_videopac_input_player1_turbo_btn="x"
 
 # systmes that will have input_player1_turbo_btn and input_player2_turbo_btn both set to y
 readonly -a y_turbo_systems=(
@@ -76,6 +94,11 @@ readonly -A input_btn_values=(
 	["a500;x"]="0"
 	["a500;y"]="3"
 
+	["psclassic;a"]="1"
+	["psclassic;b"]="2"
+	["psclassic;x"]="0"
+	["psclassic;y"]="3"
+
 	["retrobar;a"]="5"
 	["retrobar;b"]="4"
 	["retrobar;x"]="1"
@@ -90,6 +113,11 @@ readonly -A input_btn_values=(
 	["retroboy;b"]="1"
 	["retroboy;x"]="2"
 	["retroboy;y"]="3"
+
+	["segamini;a"]="4"
+	["segamini;b"]="2"
+	["segamini;x"]="3"
+	["segamini;y"]="1"
 )
 
 # roms that will have input_player1_turbo_btn and input_player2_turbo_btn both set to y
