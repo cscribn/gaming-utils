@@ -100,7 +100,6 @@ readonly -A system_retro_corenames=(
 	["ngpc"]="Beetle NeoPop"
 	["pc"]="DOSBox-pure"
 	["pc88"]="QUASI88"
-	["pcengine"]="Beetle SuperGrafx"
 	["pcfx"]="Beetle PC-FX"
 	["saturn"]="YabaSanshiro"
 	["sg-1000"]="Genesis Plus GX"
