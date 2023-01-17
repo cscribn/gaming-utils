@@ -53,15 +53,15 @@ readonly retroboy_msx_input_turbo_default_button="a"
 readonly retroboy_sg_1000_input_turbo_default_button="a"
 readonly retroboy_videopac_input_player1_turbo_btn="x"
 
-readonly segamini_amstradcpc_input_player1_turbo_btn="x"
-readonly segamini_amstradcpc_input_turbo_default_button="a"
-readonly segamini_atari5200_input_turbo_default_button="a"
-readonly segamini_gx4000_input_player1_turbo_btn="x"
-readonly segamini_gx4000_input_turbo_default_button="a"
-readonly segamini_jaguar_input_player1_turbo_btn="x"
-readonly segamini_msx_input_turbo_default_button="a"
-readonly segamini_sg_1000_input_turbo_default_button="a"
-readonly segamini_videopac_input_player1_turbo_btn="x"
+readonly segamdmini_amstradcpc_input_player1_turbo_btn="x"
+readonly segamdmini_amstradcpc_input_turbo_default_button="a"
+readonly segamdmini_atari5200_input_turbo_default_button="a"
+readonly segamdmini_gx4000_input_player1_turbo_btn="x"
+readonly segamdmini_gx4000_input_turbo_default_button="a"
+readonly segamdmini_jaguar_input_player1_turbo_btn="x"
+readonly segamdmini_msx_input_turbo_default_button="a"
+readonly segamdmini_sg_1000_input_turbo_default_button="a"
+readonly segamdmini_videopac_input_player1_turbo_btn="x"
 
 # systmes that will have input_player1_turbo_btn and input_player2_turbo_btn both set to y
 readonly -a y_turbo_systems=(
@@ -114,10 +114,10 @@ readonly -A input_btn_values=(
 	["retroboy;x"]="2"
 	["retroboy;y"]="3"
 
-	["segamini;a"]="4"
-	["segamini;b"]="2"
-	["segamini;x"]="3"
-	["segamini;y"]="1"
+	["segamdmini;a"]="4"
+	["segamdmini;b"]="2"
+	["segamdmini;x"]="3"
+	["segamdmini;y"]="1"
 )
 
 # roms that will have input_player1_turbo_btn and input_player2_turbo_btn both set to y
