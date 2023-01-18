@@ -20,17 +20,17 @@ readonly segamdmini_dir="${script_dir}/cores-segamdmini-modmyclassic-nightly"
 
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
-    echo "Usage: ./${script_name}"
-    exit
+	echo "Usage: ./${script_name}"
+	exit
 fi
 
 # main function
 main() {
-    rm -f "${psclassic_dir}/"*
-    wget -nd -r -l 1 -P "$psclassic_dir" -A so -e robots=off "$classicmodscloud_psclassic"
+	rm -f "${psclassic_dir}/"*
+	wget -nd -r -l 1 -P "$psclassic_dir" -A so -e robots=off "$classicmodscloud_psclassic"
 
-    rm -f "${segamdmini_dir}/"*
-    wget -nd -r -l 1 -P "$segamdmini_dir" -A so -e robots=off "$classicmodscloud_segamdmini"
+	rm -f "${segamdmini_dir}/"*
+	wget -nd -r -l 1 -P "$segamdmini_dir" -A so -e robots=off "$classicmodscloud_segamdmini"
 }
 
 main "${@}"
