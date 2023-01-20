@@ -106,7 +106,7 @@ readonly -A system_retro_corenames=(
 	["shmups"]="FinalBurn Neo"
 	["vic20"]="VICE xvic"
 	["videopac"]="O2EM"
-	["x1"]="X Millennium"
+	["x1"]="x1"
 	["x68000"]="PX68K"
 	["zxspectrum"]="fuse"
 )
