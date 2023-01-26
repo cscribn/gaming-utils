@@ -40,7 +40,7 @@ fi
 # helper functions
 check_new() {
 	local md5sum_check_echo
-	md5sum_check_echo=$(md5sum_check "${script_dir}/${script_name}" "$machine")
+	md5sum_check_echo=$(md5sum_check "${script_dir}/lib/cfg.sh" "$machine")
 
 	[[ "$md5sum_check_echo" = "0" ]] && echo "${script_name}: ${machine} nothing new" && exit 0
 
