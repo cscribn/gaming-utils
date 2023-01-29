@@ -56,7 +56,7 @@ check_new() {
 	elif [[ "$machine" = "psclassic" ]]; then
 		machine_cfg_dir="${cfg_dir}/${machine}/project_eris/opt/retroarch/config/retroarch/config"
 	elif [[ "$machine" = "segamdmini" ]]; then
-		machine_cfg_dir="${cfg_dir}/${machine}/project_lunar/retroarch/config"
+		machine_cfg_dir="${cfg_dir}/${machine}/hakchi/libretro/config"
 	fi
 
 	echo "${script_name}: ${machine} - cleaning machine cfgs"
