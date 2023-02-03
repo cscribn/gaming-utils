@@ -113,7 +113,7 @@ body_gen() {
 		echo "      \"core_path\": \"${core_path}/${core_name_new}\","
 		echo "      \"core_name\": \"${core_name_new}\","
 		echo "      \"crc32\": \"DETECT\","
-		echo "      \"dbname\": \"${system_db}.lpl\""
+		echo "      \"db_name\": \"${system_db}.lpl\""
 		echo -n "    }"
 	} >> "$playlist"
 }
