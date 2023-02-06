@@ -11,8 +11,10 @@ declare script_dir
 script_dir="$(dirname "$0")"
 
 declare cfg_dir
+declare dir_cfg
 declare machine
 declare machine_cfg_dir
+declare -a rom_cfgs_done=()
 declare system_cfg_dir
 
 readonly -A input_turbo_default_values=(
@@ -21,10 +23,6 @@ readonly -A input_turbo_default_values=(
 	["x"]="3"
 	["y"]="1"
 )
-
-readonly retroarch_cfg_dir="opt/retropie/configs/all/retroarch/config"
-declare -a rom_cfgs_done=()
-declare dir_cfg
 
 # include
 source "${script_dir}/lib/cfg.sh" > /dev/null 2>&1 || ( echo "Missing ./lib/cfg.sh" && exit 1 )
@@ -78,7 +76,7 @@ dir_cfg_y_turbo() {
 	fi
 }
 
-dir_cfg() {
+dir_cfg_gen() {
 	local cfg_value
 
 	local cfg_type
@@ -195,7 +193,7 @@ main() {
 		system_cfg
 		dir_cfg_init
 		dir_cfg_y_turbo
-		dir_cfg
+		dir_cfg_gen
 	done
 
 	rom_cfg_y_turbo
