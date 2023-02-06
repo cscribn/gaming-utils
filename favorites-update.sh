@@ -91,7 +91,7 @@ set_favorites() {
 		fi
 
 		sed -i "s/name>${fav_sedkey}</name> ${fav_sedrep}</" "$gamelist_file"
-		sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${fav_amped_ra_sedkey}/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!${fav_amped_ra_sedrep}/" "$gamelist_file"
+		sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${fav_amped_ra_sedkey}\.png/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!${fav_amped_ra_sedrep}.png/" "$gamelist_file"
 	done
 
 	cd - > /dev/null || exit 1
