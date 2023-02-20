@@ -118,8 +118,10 @@ readonly -A input_btn_values=(
 readonly -a y_turbo_rom_cfgs=(
 	"amiga;Deluxe Galaga (v1.2 AGA)"
 	"fba;1943"
+	"fba;ddux"
 	"fba;digdug"
 	"fba;esb"
+	"fba;fantzn2x"
 	"fba;galaga"
 	"fba;galaxian"
 	"fba;invaders"
