@@ -70,11 +70,15 @@ path_gen() {
 	fi
 
 	local json_rom=${rom//&amp;/&}
+	local json_rom_no_ext=${rom%.*}
 
-	{
-		echo "    {"
-		echo "      \"path\": \"${rom_path}/${json_rom}\","
-	} >> "$playlist"
+	echo "    {" >> "$playlist"
+
+	if [ "${rom_path}" = "/media/Games" ]; then
+		echo "      \"path\": \"${rom_path}/${json_rom_no_ext}/${json_rom}\"," >> "$playlist"
+	else
+		echo "      \"path\": \"${rom_path}/${json_rom}\"," >> "$playlist"
+	fi
 
 	if [ "$system_db" = "Coleco - ColecoVision" ]; then
 		{
