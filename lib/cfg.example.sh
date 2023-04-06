@@ -154,7 +154,6 @@ readonly -a y_turbo_rom_cfgs=(
 	"mame2003-plus;xexex"
 	"mame2010;ncv1"
 	"mame2010;ncv2"
-	"nds;Warhawk DS (USA)"
 	"neogeo;blazstar"
 	"neogeo;maglord"
 	"neogeo;pulstar"
@@ -202,7 +201,7 @@ readonly -A rom_cfgs=(
 	["mame2010;ncv1;input_turbo_default_button"]="a"
 	["mame2010;ncv2;input_turbo_default_button"]="a"
 	["megadrive;Space Harrier II (World);input_player1_turbo_btn"]="x"
-	["nds;Warhawk DS (USA);input_turbo_default_button"]="a"
+
 	["neogeo;lasthope;input_player1_turbo_btn"]="x"
 	["neogeo;mslug;input_player1_turbo_btn"]="x"
 	["neogeo;mslug3;input_player1_turbo_btn"]="x"
