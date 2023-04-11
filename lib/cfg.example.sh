@@ -164,7 +164,6 @@ readonly -a y_turbo_rom_cfgs=(
 	"shmups;ddonpach"
 	"shmups;dogyuun"
 	"shmups;donpachi"
-	"shmups;esprade"
 	"shmups;feversos"
 	"shmups;fireshrk"
 	"shmups;gunbird"
