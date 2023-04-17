@@ -11,6 +11,7 @@ readonly -A special_items=(
 	["Final Doom - The Plutonia Experiment.sh"]="Doom;doom/PLUTONIA/PLUTONIA.WAD;km_prboom_xtreme_libretro.so"
 	["Final Doom - TNT - Evilution.sh"]="Doom;doom/final-doom-tnt-evilution/TNT.WAD;km_prboom_xtreme_libretro.so"
 	["Jazz Jackrabbit (1992)(Epic Megagames).sh"]="DOS;Jazz Jackrabbit (1992)(Epic Megagames)/JAZZ.EXE;km_dosbox_pure_libretro.so"
+	["Mario Tennis (USA).z64"]="Nintendo - Nintendo 64;Mario Tennis (USA).z64;km_mupen64_plus_libretro"
 	["Ninja Ryuuken Den III - Yomi no Hakobune (Japan).nes"]="Nintendo - Nintendo Entertainment System;Ninja Ryuuken Den III - Yomi no Hakobune (Japan).nes;km_fceumm_libretro.so"
 	["Quake Episode 5 (dopa).sh"]="Quake;quake/dopa/pak0.pak;km_tyrquake_libretro.so"
 	["Quake Mission Pack 1 (hipnotic).sh"]="Quake;quake/hypnotic/pak0.pak;km_tyrquake_libretro.so"
