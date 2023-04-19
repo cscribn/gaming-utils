@@ -215,6 +215,7 @@ readonly -A rom_cfgs=(
 	["sg-1000;Knightmare (Taiwan) (Unl);input_turbo_default_button"]="b"
 	["shmups;esprade;input_player1_turbo_btn"]="x"
 	["x68000;Chourensha 68K v1.01 (1995)(Famibe No Yosshin);input_turbo_default_button"]="a"
+	["x68000;Flame Wing v1.02 (1994)(Itasenpara);input_turbo_default_button"]="a"
 	["x68000;Nemesis '94 Gradius 2 (1994)(Gra2 Project Team);input_turbo_default_button"]="a"
 	["zxspectrum;Flying Shark 128K (1987)(Firebird);input_turbo_default_button"]="a"
 )
