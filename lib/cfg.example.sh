@@ -117,6 +117,7 @@ readonly -A input_btn_values=(
 # roms that will have input_player1_turbo_btn and input_player2_turbo_btn both set to y
 readonly -a y_turbo_rom_cfgs=(
 	"amiga;Deluxe Galaga (v1.2 AGA)"
+	"fba;1942"
 	"fba;1943"
 	"fba;ddux"
 	"fba;digdug"
