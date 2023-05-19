@@ -39,3 +39,7 @@ Convert an EmulationStation gamelist to a Retroarch playlist. See `./lib/special
 ## miniclassics-cores-wget.sh
 
 Download the latest nightly psclassic and segamdmini cores from modmyclassiccloud. Assumes wget is installed and in your path.
+
+## rom2m3u.sh
+
+Create an m3u playlist file for your roms. "Disk" parts of rom name will be stripped off for comparison.
