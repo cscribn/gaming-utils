@@ -217,6 +217,7 @@ readonly -A rom_cfgs=(
 	["snes;U.N. Squadron (USA);input_turbo_default_button"]="y"
 	["x68000;Chourensha 68K v1.01 (1995)(Famibe No Yosshin);input_turbo_default_button"]="a"
 	["x68000;Flame Wing v1.02 (1994)(Itasenpara);input_turbo_default_button"]="a"
+	["x68000;Nemesis '90 Kai (1993)(SPS);input_turbo_default_button"]="a"
 	["x68000;Nemesis '94 Gradius 2 (1994)(Gra2 Project Team);input_turbo_default_button"]="a"
 	["zxspectrum;Flying Shark 128K (1987)(Firebird);input_turbo_default_button"]="a"
 )
