@@ -96,6 +96,7 @@ readonly -A system_retro_corenames=(
 	["pc"]="DOSBox-pure"
 	["pc88"]="QUASI88"
 	["pcfx"]="Beetle PC-FX"
+	["quake"]="TyrQuake"
 	["sg-1000"]="Genesis Plus GX"
 	["shmups"]="FinalBurn Neo"
 	["snes"]="Snes9x 2010"

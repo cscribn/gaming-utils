@@ -87,31 +87,37 @@ readonly -A input_btn_values=(
 	["a500;b"]="2"
 	["a500;x"]="0"
 	["a500;y"]="3"
+	["a500;m"]="99"
 
 	["psclassic;a"]="1"
 	["psclassic;b"]="2"
 	["psclassic;x"]="0"
 	["psclassic;y"]="3"
+	["psclassic;m"]="99"
 
 	["retrobar;a"]="5"
 	["retrobar;b"]="4"
 	["retrobar;x"]="1"
 	["retrobar;y"]="3"
+	["retrobar;m"]="99"
 
 	["retrobed;a"]="4"
 	["retrobed;b"]="2"
 	["retrobed;x"]="3"
 	["retrobed;y"]="1"
+	["retrobed;m"]="99"
 
 	["retroboy;a"]="0"
 	["retroboy;b"]="1"
 	["retroboy;x"]="2"
 	["retroboy;y"]="3"
+	["retroboy;m"]="99"
 
 	["segamdmini;a"]="4"
 	["segamdmini;b"]="2"
 	["segamdmini;x"]="3"
 	["segamdmini;y"]="1"
+	["segamdmini;m"]="99"
 )
 
 # roms that will have input_player1_turbo_btn and input_player2_turbo_btn both set to y
@@ -211,6 +217,7 @@ readonly -A rom_cfgs=(
 	["pc88;Gradius;input_turbo_default_button"]="a"
 	["pc88;Melt Down;input_player1_turbo_btn"]="x"
 	["pc88;Melt Down;input_turbo_default_button"]="y"
+	["quake;id1;input_player1_turbo_btn"]="m"
 	["sg-1000;Knightmare (Taiwan) (Unl);input_turbo_default_button"]="b"
 	["shmups;esprade;input_player1_turbo_btn"]="x"
 	["snes;U.N. Squadron (USA);input_player1_turbo_btn"]="a"
