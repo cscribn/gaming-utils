@@ -31,7 +31,7 @@ source "${script_dir}/lib/utils.sh"
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
     echo "Usage: ${script_name} cfg_dir machine"
-	echo "./lib/cfg.sh needs to be present (see ./lib/cfg.example.sh)"
+	echo "./lib/cfg.sh needs to be present (see ./lib/cfg.sample.sh)"
     exit
 fi
 
