@@ -53,7 +53,7 @@ check_new() {
 		machine_cfg_dir="${cfg_dir}/${machine}/Pandory/.user/.config/retroarch/config"
 	elif [[ "$machine" = "psclassic" ]]; then
 		machine_cfg_dir="${cfg_dir}/${machine}/retroarch/config"
-	elif [[ "$machine" = "segamdmini" ]]; then
+	elif [[ "$machine" = "segamini" ]]; then
 		machine_cfg_dir="${cfg_dir}/${machine}/hakchi/libretro/config"
 	fi
 
