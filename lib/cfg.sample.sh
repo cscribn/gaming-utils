@@ -131,6 +131,7 @@ readonly -a y_turbo_rom_cfgs=(
 	"fba;fantzn2x"
 	"fba;galaga"
 	"fba;galaxian"
+	"fba;gaplus"
 	"fba;invaders"
 	"fba;mpatrol"
 	"fba;pooyan"
