@@ -38,6 +38,7 @@ add_replace() {
             echo "${script_name}: updating ${key} to ${value}"
 			sed -i "s/^${key}[[:space:]].*/${key} = ${value}/" "$target_file"
 		else
+			value=${value//\\\//\/}
 			echo "${script_name}: adding ${key} with ${value}"
 			echo "$key = $value" >> "$target_file"
 		fi
