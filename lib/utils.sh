@@ -26,6 +26,7 @@ readonly -A system_dbs=(
 	["atarist"]="Atari - ST"
 	["c64"]="Commodore - 64"
 	["coleco"]="Coleco - ColecoVision"
+	["daphne"]="Daphne"
 	["dkong"]="Donkey Kong"
 	["doom"]="Doom"
 	["dreamcast"]="Sega - Dreamcast"
