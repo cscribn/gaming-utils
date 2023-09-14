@@ -188,8 +188,11 @@ main() {
 	check_new
 
 	local system_underscores
-	for system_underscores in "${systems_underscores[@]}"; do
-		system="$system_underscores"
+	for system in "${!system_dbs[@]}"; do
+		[[ "$system" = "daphne" ]] || [[ "$system" = "openbor" ]] && continue
+
+		# since these can become variable names using reflection, replace dashes with underscores
+		system=${system//-/_}
 		system_cfg
 		dir_cfg_init
 		dir_cfg_y_turbo
