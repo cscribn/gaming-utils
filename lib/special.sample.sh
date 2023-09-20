@@ -8,7 +8,6 @@ readonly -A special_items=(
 	["Doom - Sigil.sh"]="Doom;doom/sigil/DOOM.WAD;km_prboom_xtreme_libretro.so"
 	["Doom 2.sh"]="Doom;doom/doom2/DOOM2.WAD;km_prboom_xtreme_libretro.so"
 	["Final Doom - The Plutonia Experiment.sh"]="Doom;doom/final-doom-plutonia-experiment/PLUTONIA.WAD;km_prboom_xtreme_libretro.so"
-	["Final Doom - The Plutonia Experiment.sh"]="Doom;doom/PLUTONIA/PLUTONIA.WAD;km_prboom_xtreme_libretro.so"
 	["Final Doom - TNT - Evilution.sh"]="Doom;doom/final-doom-tnt-evilution/TNT.WAD;km_prboom_xtreme_libretro.so"
 	["Galaxian (Japan).nes"]="Nintendo - Nintendo Entertainment System;Galaxian (Japan).nes;km_fceumm_libretro.so"
 	["Jazz Jackrabbit (1992)(Epic Megagames).sh"]="DOS;Jazz Jackrabbit (1992)(Epic Megagames)/JAZZ.EXE;km_dosbox_pure_libretro.so"
