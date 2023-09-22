@@ -42,6 +42,7 @@ readonly -A system_dbs=(
 	["mastersystem"]="Sega - Master System - Mark III"
 	["megadrive"]="Sega - Mega Drive - Genesis"
 	["megadrive-msu"]="Sega - Mega Drive - Genesis - MSU"
+	["moto"]="Thomson - MOTO"
 	["msx"]="Microsoft - MSX"
 	["n64"]="Nintendo - Nintendo 64"
 	["nds"]="Nintendo - Nintendo DS"
