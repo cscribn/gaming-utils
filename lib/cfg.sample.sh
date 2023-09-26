@@ -144,6 +144,7 @@ readonly -a y_turbo_rom_cfgs=(
 	"fba;galaxian"
 	"fba;gaplus"
 	"fba;invaders"
+	"fba;junofrst"
 	"fba;mooncrst"
 	"fba;mpatrol"
 	"fba;pooyan"
