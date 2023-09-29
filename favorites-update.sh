@@ -128,15 +128,7 @@ main() {
 		exit 0
 	fi
 
-	if [ "$system" = "mame2003-plus" ]; then
-		system_db="MAME"
-	elif [[ "$system" = "mame"* ]]; then
-		echo "${script_name}: ${system} no favorites (MAME)"
-		md5sum_check_echo=$("${gamelist_file}" "")
-		exit 0
-	else
-		system_db="${system_dbs[$system]}"
-	fi
+	system_db="${system_dbs[$system]}"
 
 	check_new
 	clear_existing_favorites
