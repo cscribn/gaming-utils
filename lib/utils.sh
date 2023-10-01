@@ -97,6 +97,7 @@ readonly -A system_retro_corenames=(
 	["mastersystem"]="Genesis Plus GX"
 	["megadrive"]="Genesis Plus GX"
 	["megadrive-msu"]="Genesis Plus GX"
+	["moto"]="theodore"
 	["msx"]="blueMSX"
 	["nds"]="DeSmuME 2015"
 	["neogeo"]="FinalBurn Neo"
