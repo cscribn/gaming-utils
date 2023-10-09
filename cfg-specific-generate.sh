@@ -36,7 +36,7 @@ if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
 fi
 
 # helper functions
-check_new() {
+check_new_clean() {
 	local md5sum_check_echo
 	md5sum_check_echo=$(md5sum_check "${script_dir}/lib/cfg.sh" "$machine")
 
@@ -48,7 +48,17 @@ check_new() {
 		echo "${script_name}: ${machine} - cleaning system cfgs"
 		system_cfg_dir="${cfg_dir}/${machine}/opt/retropie/configs"
 
-		find "${system_cfg_dir:?}/"* -maxdepth 1 -type d ! -wholename "${system_cfg_dir}/all/emulationstation" ! -wholename "${system_cfg_dir}/all" ! -wholename "${system_cfg_dir}/daphne" ! -wholename "${system_cfg_dir}/ports/openbor" ! -wholename "${system_cfg_dir}/ports" -exec rm -rf {} +
+		find "${system_cfg_dir:?}/"* -maxdepth 1 -type d \
+			! -wholename "${system_cfg_dir}/all" \
+			! -wholename "${system_cfg_dir}/all/emulationstation" \
+			! -wholename "${system_cfg_dir}/daphne" \
+			! -wholename "${system_cfg_dir}/nds" \
+			! -wholename "${system_cfg_dir}/nds/drastic" \
+			! -wholename "${system_cfg_dir}/ports" \
+			! -wholename "${system_cfg_dir}/ports/openbor" \
+			! -wholename "${system_cfg_dir}/saturn" \
+			! -wholename "${system_cfg_dir}/saturn/yabasanshiro" \
+			-exec rm -rf {} +
 	elif [[ "$machine" = "a500" ]]; then
 		machine_cfg_dir="${cfg_dir}/${machine}/Pandory/.user/.config/retroarch/config"
 	elif [[ "$machine" = "psclassic" ]]; then
@@ -185,11 +195,14 @@ main() {
 	machine="$2"
 	[[ "$machine" = "" ]] && echo "Missing machine" && exit 1
 
-	check_new
+	check_new_clean
 
-	local system_underscores
 	for system in "${!system_dbs[@]}"; do
-		[[ "$system" = "daphne" ]] || [[ "$system" = "openbor" ]] && continue
+		[[ "$system" = "daphne" ]] || \
+		[[ "$system" = "nds" ]] || \
+		[[ "$system" = "openbor" ]] || \
+		[[ "$system" = "saturn" ]] \
+		&& continue
 
 		# since these can become variable names using reflection, replace dashes with underscores
 		system=${system//-/_}
