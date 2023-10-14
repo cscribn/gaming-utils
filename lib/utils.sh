@@ -107,6 +107,7 @@ readonly -A system_retro_corenames=(
 	["sg-1000"]="Genesis Plus GX"
 	["shmups"]="FinalBurn Neo"
 	["snes"]="Snes9x 2010"
+	["snes-msu1"]="Snes9x"
 	["vic20"]="VICE xvic"
 	["videopac"]="O2EM"
 	["x1"]="x1"
