@@ -10,6 +10,7 @@ declare -A system_dats=(
 	["mame2003-plus"]="mame2003-plus"
 	["mame2010"]="mame2010"
 	["neogeo"]="neogeo"
+	["pacman"]="fba"
 	["shmups"]="fba"
 	["spectrum"]="spectrum"
 )
@@ -50,6 +51,7 @@ readonly -A system_dbs=(
 	["nes"]="Nintendo - Nintendo Entertainment System"
 	["ngpc"]="SNK - Neo Geo Pocket Color"
 	["openbor"]="OpenBOR"
+	["pacman"]="Arcade - Pac-Man - FBNeo"
 	["pc"]="DOS"
 	["pc88"]="NEC - PC-88"
 	["pc98"]="NEC - PC-98"
