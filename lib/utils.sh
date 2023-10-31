@@ -167,6 +167,15 @@ check_favorites() {
 	return "$fav_not_found"
 }
 
+echoerr() {
+	local message="$1"
+
+	tput setab 1
+	echo -n "$message"
+	tput sgr0
+	echo ""
+}
+
 md5sum_check() {
 	local target="$1"
 	local machine="$2"

@@ -84,7 +84,8 @@ set_favorites() {
 		fav_amped_ra_sedrep=$(sed_escape_replace "$fav_amped_ra")
 
 		if [ ! -f "$fav_amped_ra_png" ]; then
-			echo "${script_name}: ${fav_amped_ra_png} not found"
+			echoerr "${script_name}: ${fav_amped_ra_png} not found"
+			rm -f "${gamelist_file}.md5"
 			exit 1
 		else
 			mv "$fav_amped_ra_png" !!!"$fav_amped_ra_png"
