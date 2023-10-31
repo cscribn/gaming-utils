@@ -11,6 +11,7 @@ script_name="$(basename "${0}")"
 declare script_dir
 script_dir="$(dirname "$0")"
 
+declare fav_not_found
 declare favorites_dir
 declare favorites_file
 declare gamelists_dir
@@ -83,16 +84,14 @@ set_favorites() {
 		local fav_amped_ra_sedrep
 		fav_amped_ra_sedrep=$(sed_escape_replace "$fav_amped_ra")
 
-		if [ ! -f "$fav_amped_ra_png" ]; then
-			echoerr "${script_name}: ${fav_amped_ra_png} not found"
-			rm -f "${gamelist_file}.md5"
-			exit 1
-		else
+		if [ -f "$fav_amped_ra_png" ]; then
 			mv "$fav_amped_ra_png" !!!"$fav_amped_ra_png"
+			sed -i "s/name>${fav_sedkey}</name> ${fav_sedrep}</" "$gamelist_file"
+			sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${fav_amped_ra_sedkey}\.png/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!${fav_amped_ra_sedrep}.png/" "$gamelist_file"
+		else
+			echoerr "${script_name}: ${fav_amped_ra_png} not found"
+			fav_not_found=1
 		fi
-
-		sed -i "s/name>${fav_sedkey}</name> ${fav_sedrep}</" "$gamelist_file"
-		sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${fav_amped_ra_sedkey}\.png/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!${fav_amped_ra_sedrep}.png/" "$gamelist_file"
 	done
 
 	cd - > /dev/null || exit 1
@@ -133,7 +132,11 @@ main() {
 
 	check_new
 	clear_existing_favorites
+
+	fav_not_found=0
 	set_favorites
+
+	[[ "$fav_not_found" = 1 ]] && rm -f "${gamelist_file}.md5" && exit 1
 
 	md5sum_check_echo=$(md5sum_check "${favorites_file}" "")
 	md5sum_check_echo=$(md5sum_check "${gamelist_file}" "")
