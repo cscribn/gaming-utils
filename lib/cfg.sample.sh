@@ -226,7 +226,6 @@ readonly -A rom_cfgs=(
 	["mame2003-plus;bucky;input_player1_turbo_btn"]="x"
 	["mame2003-plus;p47;input_turbo_default_button"]="a"
 	["mame2003-plus;seganinj;input_player1_turbo_btn"]="x"
-	["mame2003-plus;input_turbo_default_button"]="a"
 	["mame2010;ncv1;input_turbo_default_button"]="a"
 	["mame2010;ncv2;input_turbo_default_button"]="a"
 	["megadrive;Space Harrier II (World);input_player1_turbo_btn"]="x"
