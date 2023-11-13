@@ -51,11 +51,14 @@ check_new_clean() {
 		find "${system_cfg_dir:?}/"* -maxdepth 1 -type d \
 			! -wholename "${system_cfg_dir}/all" \
 			! -wholename "${system_cfg_dir}/all/emulationstation" \
+			! -wholename "${system_cfg_dir}/all/emulationstation/gamelists" \
 			! -wholename "${system_cfg_dir}/daphne" \
 			! -wholename "${system_cfg_dir}/nds" \
 			! -wholename "${system_cfg_dir}/nds/drastic" \
+			! -wholename "${system_cfg_dir}/nds/drastic/config" \
 			! -wholename "${system_cfg_dir}/ports" \
 			! -wholename "${system_cfg_dir}/ports/openbor" \
+			! -wholename "${system_cfg_dir}/ports/openbor/Saves" \
 			! -wholename "${system_cfg_dir}/saturn" \
 			! -wholename "${system_cfg_dir}/saturn/yabasanshiro" \
 			-exec rm -rf {} +
