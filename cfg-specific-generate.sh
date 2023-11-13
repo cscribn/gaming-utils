@@ -48,10 +48,12 @@ check_new_clean() {
 		echo "${script_name}: ${machine} - cleaning system cfgs"
 		system_cfg_dir="${cfg_dir}/${machine}/opt/retropie/configs"
 
-		find "${system_cfg_dir:?}/"* -maxdepth 1 -type d \
+		find "${system_cfg_dir:?}/"* -maxdepth 2 -type d \
 			! -wholename "${system_cfg_dir}/all" \
 			! -wholename "${system_cfg_dir}/all/emulationstation" \
 			! -wholename "${system_cfg_dir}/all/emulationstation/gamelists" \
+			! -wholename "${system_cfg_dir}/all/retroarch" \
+			! -wholename "${system_cfg_dir}/all/retroarch/thumbnails" \
 			! -wholename "${system_cfg_dir}/daphne" \
 			! -wholename "${system_cfg_dir}/nds" \
 			! -wholename "${system_cfg_dir}/nds/drastic" \
