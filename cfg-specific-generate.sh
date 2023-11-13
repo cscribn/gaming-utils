@@ -53,6 +53,7 @@ check_new_clean() {
 			! -wholename "${system_cfg_dir}/all/emulationstation" \
 			! -wholename "${system_cfg_dir}/all/emulationstation/gamelists" \
 			! -wholename "${system_cfg_dir}/all/retroarch" \
+			! -wholename "${system_cfg_dir}/all/retroarch/autoconfig" \
 			! -wholename "${system_cfg_dir}/all/retroarch/thumbnails" \
 			! -wholename "${system_cfg_dir}/daphne" \
 			! -wholename "${system_cfg_dir}/nds" \
