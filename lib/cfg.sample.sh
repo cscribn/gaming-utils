@@ -125,6 +125,12 @@ readonly -A input_btn_values=(
 	["retroboy;y"]="3"
 	["retroboy;m"]="99"
 
+	["retrovlieg;a"]="1"
+	["retrovlieg;b"]="2"
+	["retrovlieg;x"]="7"
+	["retrovlieg;y"]="6"
+	["retrovlieg;m"]="99"
+
 	["segamini;a"]="4"
 	["segamini;b"]="2"
 	["segamini;x"]="3"
