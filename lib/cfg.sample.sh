@@ -170,6 +170,7 @@ readonly -a y_turbo_rom_cfgs=(
 	"mame2003-plus;contra"
 	"mame2003-plus;darius"
 	"mame2003-plus;gigawing"
+	"mame2003-plus;imgfight"
 	"mame2003-plus;nbbatman"
 	"mame2003-plus;p47"
 	"mame2003-plus;rampage"
