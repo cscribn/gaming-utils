@@ -36,13 +36,13 @@ check_new() {
 	md5sum_check_gamelist_echo=$(md5sum_check "${gamelist_file}" "")
 
 	if [[ "$md5sum_check_favorites_echo" = "0" ]] && [[ "$md5sum_check_gamelist_echo" = "0" ]]; then
-		echo "${script_name}: ${system} no favorite changes"
+		echo "${script_name}: ${system} no favorite/gamelist changes"
 		exit 0
 	fi
 }
 
 clear_existing_favorites() {
-	echo "${script_name}: ${system} clearing favorites"
+	echo_color "${script_name}: ${system} clearing favorites" "green"
 
 	sed -i 's/name> /name>/g' "$gamelist_file"
 	sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\//g" "$gamelist_file"
@@ -62,7 +62,7 @@ clear_existing_favorites() {
 }
 
 set_favorites() {
-	echo "${script_name}: ${system} setting favorites"
+	echo_color "${script_name}: ${system} setting favorites" "green"
 
 	local favorites
 	readarray -t favorites < "$favorites_file"
@@ -89,7 +89,7 @@ set_favorites() {
 			sed -i "s/name>${fav_sedkey}</name> ${fav_sedrep}</" "$gamelist_file"
 			sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${fav_amped_ra_sedkey}\.png/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!${fav_amped_ra_sedrep}.png/" "$gamelist_file"
 		else
-			echoerr "${script_name}: ${fav_amped_ra_png} not found"
+			echo_color "${script_name}: ${fav_amped_ra_png} not found" "red"
 			fav_not_found=1
 		fi
 	done

@@ -167,13 +167,20 @@ check_favorites() {
 	return "$fav_not_found"
 }
 
-echoerr() {
+echo_color() {
 	local message="$1"
+	local color
 
-	tput setab 1
-	echo -n "$message"
-	tput sgr0
-	echo ""
+	case $2 in
+		green)
+			color=2
+			;;
+		*)
+			color=1 # red
+			;;
+	esac
+
+	echo "$(tput setab ${color})${message}$(tput sgr 0)"
 }
 
 md5sum_check() {
