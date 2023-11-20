@@ -107,6 +107,7 @@ readonly -A system_retro_corenames=(
 	["atarilynx"]="Handy"
 	["c64"]="VICE x64"
 	["coleco"]="FinalBurn Neo"
+	["fba"]="FinalBurn Neo"
 	["gamegear"]="Genesis Plus GX"
 	["gb"]="Gambatte"
 	["gbc"]="Gambatte"
