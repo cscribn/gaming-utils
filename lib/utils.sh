@@ -27,9 +27,9 @@ declare -A rom_dats=(
 
 declare -A system_dats=(
 	["arcade"]="arcade"
+	["arcade-gold"]="arcade"
+	["arcade-post"]="arcade"
 	["coleco"]="coleco"
-	["mame2003-plus"]="mame2003-plus"
-	["mame2010"]="mame2010"
 	["neogeo"]="neogeo"
 	["spectrum"]="spectrum"
 )
