@@ -185,6 +185,29 @@ check_favorites() {
 	return "$fav_not_found"
 }
 
+clear_existing_favorites() {
+	local system_db="$1"
+	local gamelist_file="$2"
+	local thumbnails_dir="$3"
+
+	sed -i 's/name> /name>/g' "$gamelist_file"
+	sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\//g" "$gamelist_file"
+
+	cd "$thumbnails_dir/${system_db}/Named_Boxarts" > /dev/null || exit 1
+
+	shopt -s nullglob
+
+	local thumbnail
+	for thumbnail in !!!*; do
+		mv "$thumbnail" "${thumbnail:3}"
+	done
+
+	shopt -u nullglob
+
+	cd - > /dev/null || exit 1
+}
+
+
 echo_color() {
 	local message="$1"
 	local color
