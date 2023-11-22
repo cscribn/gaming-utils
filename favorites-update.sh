@@ -41,6 +41,26 @@ check_new() {
 	fi
 }
 
+clear_existing_favorites() {
+	echo_color "${script_name}: ${system} clearing favorites" "green"
+
+	sed -i 's/name> /name>/g' "$gamelist_file"
+	sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\//g" "$gamelist_file"
+
+	cd "$thumbnails_dir/${system_db}/Named_Boxarts" > /dev/null || exit 1
+
+	shopt -s nullglob
+
+	local thumbnail
+	for thumbnail in !!!*; do
+		mv "$thumbnail" "${thumbnail:3}"
+	done
+
+	shopt -u nullglob
+
+	cd - > /dev/null || exit 1
+}
+
 set_favorites() {
 	echo_color "${script_name}: ${system} setting favorites" "green"
 
@@ -111,8 +131,7 @@ main() {
 	system_db="${system_dbs[$system]}"
 
 	check_new
-	echo_color "${script_name}: ${system} clearing favorites" "green"
-	clear_existing_favorites "{system_db}" "${gamelist_file}" "${thumbnails_dir}"
+	clear_existing_favorites
 
 	fav_not_found=0
 	set_favorites
