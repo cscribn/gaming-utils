@@ -142,6 +142,7 @@ readonly -A input_btn_values=(
 readonly -a y_turbo_rom_cfgs=(
 	"fba;1942"
 	"fba;1943"
+	"fba;1944"
 	"fba;aliensyn"
 	"fba;batsugun"
 	"fba;blktiger"
