@@ -140,9 +140,11 @@ readonly -A input_btn_values=(
 
 # roms that will have input_player1_turbo_btn and input_player2_turbo_btn both set to y
 readonly -a y_turbo_rom_cfgs=(
+	"fba;1941"
 	"fba;1942"
 	"fba;1943"
 	"fba;1944"
+	"fba;19xx"
 	"fba;aliensyn"
 	"fba;batsugun"
 	"fba;blktiger"
