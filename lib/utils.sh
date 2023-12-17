@@ -98,7 +98,7 @@ readonly -a systems_fba_nonarcade=(
 )
 
 readonly -A system_retro_corenames=(
-	["amiga"]="PUAE"
+	["amiga"]="PUAE 2021"
 	["amstradcpc"]="cap32"
 	["atari2600"]="Stella"
 	["atari5200"]="Atari800"
