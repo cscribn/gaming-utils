@@ -189,6 +189,7 @@ readonly -a y_turbo_rom_cfgs=(
 	"fba;scontra"
 	"fba;shollow"
 	"fba;simpsons2pj"
+	"fba;spacefb"
 	"fba;ssridersubc"
 	"fba;sstriker"
 	"fba;stargate"
