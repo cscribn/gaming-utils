@@ -12,17 +12,13 @@ Getting help
 
 Convert 7-zip files to zip files.
 
-## catver-unique.sh
+## cfg-replace.sh
 
-Get all the unique values from a catver ini file.
+Replace/add values to retroarch cfgs like `retroarch.cfg` and `retroarch-core-options.cfg`.
 
 ## cfg-specific-generate.sh
 
 Generate folder-, core-, or rom-specific retroarch configurations. Useful for turbo and other settings that tend to differ per machine. See `./lib/cfg.sample.sh` for a sample library file. This script is for advanced users.
-
-## cfg-replace.sh
-
-Replace/add values to retroarch cfgs like `retroarch.cfg` and `retroarch-core-options.cfg`.
 
 ## emulators-name-clean.sh
 
