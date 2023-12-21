@@ -160,6 +160,7 @@ readonly -a y_turbo_rom_cfgs=(
 	"fba;feversos"
 	"fba;fireshrk"
 	"fba;galaga"
+	"fba;galagamf"
 	"fba;galaxian"
 	"fba;gaplus"
 	"fba;gigawing"
