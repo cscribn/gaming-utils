@@ -157,11 +157,6 @@ rom_cfg() {
 		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$system]}"
 		cfg_file="${machine_cfg_dir}/${system_retro_corenames[$system]}/${rom}.cfg"
 
-		if [[ -f "${HOME}/Gaming/bin/roms-cfg/${system}/${rom}.cfg" ]] && ! printf '%s\0' "${rom_cfgs[@]}" | grep -Fxqz "${machine};${system};${rom}"; then
-			cat "${HOME}/Gaming/bin/roms-cfg/${system}/${rom}.cfg" >> "$cfg"
-			rom_cfgs_done+=("${machine};${system};${rom}")
-		fi
-
 		echo "${cfg} = \"${value}\"" >> "$cfg_file"
 
 		if [[ "${cfg}" = "input_player1_turbo_btn" ]]; then
