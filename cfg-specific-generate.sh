@@ -84,11 +84,17 @@ dir_cfg_init() {
 
 dir_cfg_y_turbo() {
 	if printf '%s\0' "${y_turbo_systems[@]}" | grep -Fxqz "${system/_/-}"; then
-		echo "${script_name}: ${machine} - dir cfg y turbo- ${system}"
+		echo "${script_name}: ${machine} - dir cfg y turbo - ${system}"
 
 		value="${input_btn_values[${machine};y]}"
 		echo "input_player1_turbo_btn = \"${value}\"" >> "$dir_cfg"
 		echo "input_player2_turbo_btn = \"${value}\"" >> "$dir_cfg"
+
+		if [[ "$system" = "scv" ]]; then
+			echo "${script_name}: ${machine} - duty cycle, period - ${system}"
+			echo "input_duty_cycle = \"6\"" >> "$dir_cfg"
+			echo "input_turbo_period = \"12\"" >> "$dir_cfg"
+		fi
 	fi
 }
 
