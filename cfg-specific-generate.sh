@@ -41,37 +41,29 @@ check_new_clean() {
 	md5sum_check_echo=$(md5sum_check "${script_dir}/lib/cfg.sh" "$machine")
 
 	[[ "$md5sum_check_echo" = "0" ]] && echo "${script_name}: ${machine} nothing new" && exit 0
+	
+	machine_cfg_dir="${cfg_dir}/${machine}/opt/retropie/configs/all/retroarch/config"
 
-	if [[ "$machine" = "retro"* ]]; then
-		machine_cfg_dir="${cfg_dir}/${machine}/opt/retropie/configs/all/retroarch/config"
+	echo "${script_name}: ${machine} - cleaning system cfgs"
+	system_cfg_dir="${cfg_dir}/${machine}/opt/retropie/configs"
 
-		echo "${script_name}: ${machine} - cleaning system cfgs"
-		system_cfg_dir="${cfg_dir}/${machine}/opt/retropie/configs"
-
-		find "${system_cfg_dir:?}/"* -maxdepth 2 -type d \
-			! -wholename "${system_cfg_dir}/all" \
-			! -wholename "${system_cfg_dir}/all/emulationstation" \
-			! -wholename "${system_cfg_dir}/all/emulationstation/gamelists" \
-			! -wholename "${system_cfg_dir}/all/retroarch" \
-			! -wholename "${system_cfg_dir}/all/retroarch/autoconfig" \
-			! -wholename "${system_cfg_dir}/all/retroarch/thumbnails" \
-			! -wholename "${system_cfg_dir}/daphne" \
-			! -wholename "${system_cfg_dir}/nds" \
-			! -wholename "${system_cfg_dir}/nds/drastic" \
-			! -wholename "${system_cfg_dir}/nds/drastic/config" \
-			! -wholename "${system_cfg_dir}/ports" \
-			! -wholename "${system_cfg_dir}/ports/openbor" \
-			! -wholename "${system_cfg_dir}/ports/openbor/Saves" \
-			! -wholename "${system_cfg_dir}/saturn" \
-			! -wholename "${system_cfg_dir}/saturn/yabasanshiro" \
-			-exec rm -rf {} +
-	elif [[ "$machine" = "a500" ]]; then
-		machine_cfg_dir="${cfg_dir}/${machine}/Pandory/.user/.config/retroarch/config"
-	elif [[ "$machine" = "psclassic" ]]; then
-		machine_cfg_dir="${cfg_dir}/${machine}/retroarch/config"
-	elif [[ "$machine" = "segamini" ]]; then
-		machine_cfg_dir="${cfg_dir}/${machine}/hakchi/libretro/config"
-	fi
+	find "${system_cfg_dir:?}/"* -maxdepth 2 -type d \
+		! -wholename "${system_cfg_dir}/all" \
+		! -wholename "${system_cfg_dir}/all/emulationstation" \
+		! -wholename "${system_cfg_dir}/all/emulationstation/gamelists" \
+		! -wholename "${system_cfg_dir}/all/retroarch" \
+		! -wholename "${system_cfg_dir}/all/retroarch/autoconfig" \
+		! -wholename "${system_cfg_dir}/all/retroarch/thumbnails" \
+		! -wholename "${system_cfg_dir}/daphne" \
+		! -wholename "${system_cfg_dir}/nds" \
+		! -wholename "${system_cfg_dir}/nds/drastic" \
+		! -wholename "${system_cfg_dir}/nds/drastic/config" \
+		! -wholename "${system_cfg_dir}/ports" \
+		! -wholename "${system_cfg_dir}/ports/openbor" \
+		! -wholename "${system_cfg_dir}/ports/openbor/Saves" \
+		! -wholename "${system_cfg_dir}/saturn" \
+		! -wholename "${system_cfg_dir}/saturn/yabasanshiro" \
+		-exec rm -rf {} +
 
 	echo "${script_name}: ${machine} - cleaning machine cfgs"
 	rm -rf "${machine_cfg_dir:?}/"*
