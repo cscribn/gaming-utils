@@ -50,7 +50,7 @@ main() {
 		rm -r "$temp_dir"
 	done
 
-	 cd - > /dev/null || exit
+	cd - > /dev/null || exit
 }
 
 main "${@}"
