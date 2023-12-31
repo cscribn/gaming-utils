@@ -73,10 +73,10 @@ readonly -A input_btn_values=(
 	["retrobar;y"]="3"
 	["retrobar;m"]="99"
 
-	["retrobed;a"]="4"
-	["retrobed;b"]="2"
+	["retrobed;a"]="2"
+	["retrobed;b"]="1"
 	["retrobed;x"]="3"
-	["retrobed;y"]="1"
+	["retrobed;y"]="0"
 	["retrobed;m"]="99"
 
 	["retroboy;a"]="0"
