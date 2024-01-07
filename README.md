@@ -1,4 +1,4 @@
-# RetroPie-Utils
+# gaming-utils
 
 All scripts are tested using Git Bash on Windows.
 
