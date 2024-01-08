@@ -14,7 +14,6 @@ declare cfg_dir
 declare dir_cfg
 declare machine
 declare machine_cfg_dir
-declare -a rom_cfgs_done=()
 declare system_cfg_dir
 
 readonly -A input_turbo_default_values=(
@@ -171,28 +170,6 @@ rom_cfg() {
 	done
 }
 
-system_cfg() {
-	[[ "$machine" != "retro"* ]] && return 0
-
-	echo "${script_name}: ${machine} - system - ${system}"
-
-	local ports=""
-
-	if [[ "$system" = "doom" ]] || [[ "$system" = "quake" ]]; then
-		ports="ports/"
-	fi
-
-	local cfg_path="${system_cfg_dir}/${ports}${system/_/-}"
-	mkdir -p "${cfg_path}"
-	system_cfg="${cfg_path}/retroarch.cfg"
-
-	{
-		echo "# Settings made here will only override settings in the global retroarch.cfg if placed above the #include line"
-		echo ""
-		echo "#include \"/opt/retropie/configs/all/retroarch.cfg\""
-	} >> "$system_cfg"
-}
-
 # main function
 main() {
 	# check inputs
@@ -213,7 +190,6 @@ main() {
 
 		# since these can become variable names using reflection, replace dashes with underscores
 		system=${system//-/_}
-		system_cfg
 		dir_cfg_init
 		dir_cfg_y_turbo
 		dir_cfg_gen
