@@ -4,3 +4,6 @@ bin/
 etc/
 lib/cfg.sh
 lib/special.sh
+sync/
+sync-generated/
+sync-lfs/
