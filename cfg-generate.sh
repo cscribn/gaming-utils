@@ -14,7 +14,6 @@ declare cfg_dir
 declare dir_cfg
 declare machine
 declare machine_cfg_dir
-declare system_cfg_dir
 
 readonly -A input_turbo_default_values=(
 	["a"]="2"
@@ -36,10 +35,15 @@ fi
 
 # helper functions
 check_new_clean() {
-	local md5sum_check_echo
-	md5sum_check_echo=$(md5sum_check "${script_dir}/lib/cfg.sh" "$machine")
+	local md5sum_check_cfg_echo
+	md5sum_check_cfg_echo=$(md5sum_check "${script_dir}/lib/cfg.sh" "$machine")
+	local md5sum_check_retroarch_echo
+	md5sum_check_retroarch_echo=$(md5sum_check "${script_dir}/etc/retroarch/retroarch-${machine}.cfg")
 
-	[[ "$md5sum_check_echo" = "0" ]] && echo "${script_name}: ${machine} nothing new" && exit 0
+	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_echo" = "0" ]]; then
+		echo "${script_name}: ${machine} nothing new"
+		exit 0
+	fi
 
 	if [[ "$machine" = "retro"* ]]; then
 		machine_cfg_dir="${cfg_dir}/mirror/${machine}/opt/retropie/configs/all/retroarch/config"
@@ -55,9 +59,14 @@ check_new_clean() {
 	rm -rf "${machine_cfg_dir:?}/"*
 }
 
-dir_cfg_init() {
+cfg_init() {
 	mkdir -p "${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}"
 	dir_cfg="${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}/${system/_/-}.cfg"
+}
+
+core_cfg_gen() {
+	core_cfg="${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}/${system_retro_corenames[${system/_/-}]}.cfg"
+	cp "${script_dir}/etc/retroarch/retroarch-${machine}.cfg" "$core_cfg"
 }
 
 dir_cfg_y_turbo() {
@@ -169,7 +178,8 @@ main() {
 
 		# since these can become variable names using reflection, replace dashes with underscores
 		system=${system//-/_}
-		dir_cfg_init
+		cfg_init
+		core_cfg_gen
 		dir_cfg_y_turbo
 		dir_cfg_gen
 	done
