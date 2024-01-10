@@ -11,6 +11,7 @@ declare script_dir
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 declare cfg_dir
+declare core_opts_cfg_source
 declare dir_cfg
 declare machine
 declare machine_cfg_dir
@@ -35,12 +36,20 @@ fi
 
 # helper functions
 check_new_clean() {
+	if [[ "$machine" = "retro"* ]]; then
+		core_opts_cfg_source="${script_dir}/etc/retroarch/retroarch-core-options-retropie.cfg"
+	else
+		core_opts_cfg_source="${script_dir}/etc/retroarch/retroarch-core-options-miniclassics.cfg"
+	fi
+
 	local md5sum_check_cfg_echo
 	md5sum_check_cfg_echo=$(md5sum_check "${script_dir}/lib/cfg.sh" "$machine")
-	local md5sum_check_retroarch_echo
-	md5sum_check_retroarch_echo=$(md5sum_check "${script_dir}/etc/retroarch/retroarch-${machine}.cfg")
+	local md5sum_check_retroarch_cfg_echo
+	md5sum_check_retroarch_cfg_echo=$(md5sum_check "${script_dir}/etc/retroarch/retroarch-${machine}.cfg")
+	local md5sum_check_retroarch_core_opts_echo
+	md5sum_check_retroarch_core_opts_echo=$(md5sum_check "$core_opts_cfg_source")
 
-	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_echo" = "0" ]]; then
+	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_core_opts_echo" = "0" ]]; then
 		echo "${script_name}: ${machine} nothing new"
 		exit 0
 	fi
@@ -65,8 +74,13 @@ cfg_init() {
 }
 
 core_cfg_gen() {
+	local core_cfg
 	core_cfg="${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}/${system_retro_corenames[${system/_/-}]}.cfg"
 	cp "${script_dir}/etc/retroarch/retroarch-${machine}.cfg" "$core_cfg"
+}
+
+core_options_gen() {
+	cp "$core_opts_cfg_source" "${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}/${system_retro_corenames[${system/_/-}]}.opt"
 }
 
 dir_cfg_y_turbo() {
@@ -182,6 +196,7 @@ main() {
 		core_cfg_gen
 		dir_cfg_y_turbo
 		dir_cfg_gen
+		core_options_gen
 	done
 
 	rom_cfg_y_turbo
