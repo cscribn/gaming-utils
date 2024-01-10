@@ -35,6 +35,11 @@ if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
 fi
 
 # helper functions
+all_cfg_cp() {
+	echo "${script_name}: ${machine} - copying all cfgs"
+	cp -r "${script_dir}/sync/mirror/all/retroarch/config/"* "$machine_cfg_dir"
+}
+
 check_new_clean() {
 	if [[ "$machine" = "retro"* ]]; then
 		core_opts_cfg_source="${script_dir}/etc/retroarch/retroarch-core-options-retropie.cfg"
@@ -195,6 +200,7 @@ main() {
 
 	rom_cfg_y_turbo
 	rom_cfg
+	all_cfg_cp
 
 	# create new md5sum
 	local md5sum_check_echo
