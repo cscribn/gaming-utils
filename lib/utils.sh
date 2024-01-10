@@ -280,22 +280,6 @@ ra_escape() {
 	echo "$1" | tr '&*/:\`<>?\\|' '_'
 }
 
-rm_empty_dirs() {
-	local target_dir="$1"
-	local machine="$2"
-
-	cd "${target_dir:?}" > /dev/null || exit 1
-	find . -type d -empty -delete
-	cd - > /dev/null || exit 1
-}
-
-rm_empty_dirs_ssh() {
-	local target_dir="$1"
-	local machine="$2"
-
-	ssh "pi@${machine}" "cd \"${target_dir}\" > /dev/null || exit 1; find . -type d -empty -delete; cd - > /dev/null || exit 1"
-}
-
 sed_escape_keyword() {
 	printf '%s\n' "$1" | sed -e 's/[]\/$*.^[]/\\&/g'
 }
