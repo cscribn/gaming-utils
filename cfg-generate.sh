@@ -47,7 +47,7 @@ check_new_clean() {
 	local md5sum_check_retroarch_cfg_echo
 	md5sum_check_retroarch_cfg_echo=$(md5sum_check "${script_dir}/etc/retroarch/retroarch-${machine}.cfg")
 	local md5sum_check_retroarch_core_opts_echo
-	md5sum_check_retroarch_core_opts_echo=$(md5sum_check "$core_opts_cfg_source")
+	md5sum_check_retroarch_core_opts_echo=$(md5sum_check "$core_opts_cfg_source" "$machine")
 
 	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_core_opts_echo" = "0" ]]; then
 		echo "${script_name}: ${machine} nothing new"
@@ -127,13 +127,13 @@ dir_cfg_gen() {
 rom_cfg_y_turbo() {
 	local c
 	for c in "${y_turbo_rom_cfgs[@]}"; do
-		echo "${script_name}: ${machine} - rom y turbo - ${rom}"
-
 		IFS=';' read -ra y_turbo_rom_cfg <<< "$c"
 		local system="${y_turbo_rom_cfg[0]}"
 		local rom="${y_turbo_rom_cfg[1]}"
 		local value="${input_btn_values[${machine};y]}"
 		local cfg
+
+		echo "${script_name}: ${machine} - rom y turbo - ${rom}"		
 
 		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$system]}"
 		cfg="${machine_cfg_dir}/${system_retro_corenames[$system]}/${rom}.cfg"
@@ -183,13 +183,7 @@ main() {
 
 	check_new_clean
 
-	for system in "${!system_dbs[@]}"; do
-		[[ "$system" = "daphne" ]] || \
-		[[ "$system" = "nds" ]] || \
-		[[ "$system" = "openbor" ]] || \
-		[[ "$system" = "saturn" ]] \
-		&& continue
-
+	for system in "${!system_retro_corenames[@]}"; do
 		# since these can become variable names using reflection, replace dashes with underscores
 		system=${system//-/_}
 		cfg_init
