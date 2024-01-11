@@ -85,7 +85,8 @@ core_cfg_gen() {
 }
 
 core_options_gen() {
-	cp "$core_opts_cfg_source" "${machine_cfg_dir}/${system_retro_corenames[${system//_/-}]}/${system_retro_corenames[${system//_/-}]}.opt"
+	[[ "$system" = "vic20" ]] && return
+	cp "$core_opts_cfg_source" "${machine_cfg_dir}/${system_retro_corenames[${system//_/-}]}/${system//_/-}.opt"
 }
 
 dir_cfg_y_turbo() {
