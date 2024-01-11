@@ -74,22 +74,22 @@ check_new_clean() {
 }
 
 cfg_init() {
-	mkdir -p "${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}"
-	dir_cfg="${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}/${system/_/-}.cfg"
+	mkdir -p "${machine_cfg_dir}/${system_retro_corenames[${system//_/-}]}"
+	dir_cfg="${machine_cfg_dir}/${system_retro_corenames[${system//_/-}]}/${system//_/-}.cfg"
 }
 
 core_cfg_gen() {
 	local core_cfg
-	core_cfg="${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}/${system_retro_corenames[${system/_/-}]}.cfg"
+	core_cfg="${machine_cfg_dir}/${system_retro_corenames[${system//_/-}]}/${system_retro_corenames[${system//_/-}]}.cfg"
 	cp "${script_dir}/etc/retroarch/retroarch-${machine}.cfg" "$core_cfg"
 }
 
 core_options_gen() {
-	cp "$core_opts_cfg_source" "${machine_cfg_dir}/${system_retro_corenames[${system/_/-}]}/${system_retro_corenames[${system/_/-}]}.opt"
+	cp "$core_opts_cfg_source" "${machine_cfg_dir}/${system_retro_corenames[${system//_/-}]}/${system_retro_corenames[${system//_/-}]}.opt"
 }
 
 dir_cfg_y_turbo() {
-	if printf '%s\0' "${y_turbo_systems[@]}" | grep -Fxqz "${system/_/-}"; then
+	if printf '%s\0' "${y_turbo_systems[@]}" | grep -Fxqz "${system//_/-}"; then
 		echo "${script_name}: ${machine} - dir cfg y turbo - ${system}"
 
 		value="${input_btn_values[${machine};y]}"
