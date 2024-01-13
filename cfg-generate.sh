@@ -37,7 +37,7 @@ fi
 # helper functions
 all_cfg_cp() {
 	echo "${script_name}: ${machine} - copying all cfgs"
-	cp -r "${script_dir}/sync/mirror/all/retroarch/config/"* "$machine_cfg_dir"
+	cp -r "${script_dir}/etc/retroarch/config/"* "$machine_cfg_dir"
 }
 
 check_new_clean() {
