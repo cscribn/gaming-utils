@@ -193,7 +193,7 @@ main() {
 		# since these can become variable names using reflection, replace dashes with underscores
 		system=${system//-/_}
 		cfg_init
-		core_cfg_gen
+		[[ "$machine" = "retro"* ]] && core_cfg_gen
 		dir_cfg_y_turbo
 		dir_cfg_gen
 		core_options_gen
