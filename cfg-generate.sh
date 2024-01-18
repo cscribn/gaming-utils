@@ -86,7 +86,15 @@ core_cfg_gen() {
 
 core_options_gen() {
 	[[ "$system" = "vic20" ]] && return
-	cp "$core_opts_cfg_source" "${machine_cfg_dir}/${system_retro_corenames[${system//_/-}]}/${system//_/-}.opt"
+
+	local corename="${system_retro_corenames[${system//_/-}]}"
+	echo "${script_name}: ${machine} - core options generate - ${corename}"
+
+	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename"; then 
+		grep "${corename_core_options[${corename}]}" "$core_opts_cfg_source" > "${machine_cfg_dir}/${corename}/${system//_/-}.opt"
+	else
+		true > "${machine_cfg_dir}/${corename}/${system//_/-}.opt"
+	fi
 }
 
 dir_cfg_y_turbo() {

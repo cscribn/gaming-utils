@@ -34,6 +34,31 @@ declare -A system_dats=(
 	["spectrum"]="spectrum"
 )
 
+readonly -A corename_core_options=(
+	["Atari800"]="atari800_"
+	["Beetle SuperGrafx"]="sgx_"
+	["Beetle WonderSwan"]="wswan_"
+	["cap32"]="cap32_"
+	["DuckStation"]="duckstation_"
+	["FCEUmm"]="fceumm_"
+	["FinalBurn Neo"]="fbneo-"
+	["Flycast"]="reicast_"
+	["fuse"]="fuse_"
+	["Gambatte"]="gambatte_"
+	["MAME 2003-Plus"]="mame2003-plus_"
+	["MAME"]="mame_current_"
+	["Mupen64Plus GLES3"]="mupen64plus-"
+	["Neko Project II kai"]="np2kai_"
+	["Nestopia"]="nestopia_"
+	["Opera"]="opera_"
+	["PUAE 2021"]="puae_"
+	["QUASI88"]="q88_"
+	["theodore"]="theodore_"
+	["VICE x64"]="vice_"
+	["VICE xvic"]="vice_"
+	["Virtual Jaguar"]="virtualjaguar_"
+)
+
 readonly -A system_dbs=(
 	["3do"]="3DO Company - 3DO"
 	["amiga"]="Commodore - Amiga"
