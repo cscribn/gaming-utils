@@ -88,6 +88,14 @@ path_gen() {
 			echo "      \"subsystem_ident\": \"cv\","
 			echo "      \"subsystem_name\": \"ColecoVision\","
 		} >> "$playlist"
+	elif [ "$system_db" = "Epoch - Super Cassette Vision" ]; then
+		{
+			echo "      \"subsystem_roms\": ["
+			echo "        \"${rom_path}/${json_rom}\""
+			echo "      ],"
+			echo "      \"subsystem_ident\": \"scv\","
+			echo "      \"subsystem_name\": \"Super Cassette Vision\","
+		} >> "$playlist"
 	fi
 }
 
