@@ -49,8 +49,11 @@ check_new_clean() {
 
 	local md5sum_check_cfg_echo
 	md5sum_check_cfg_echo=$(md5sum_check "${script_dir}/lib/cfg.sh" "$machine")
-	local md5sum_check_retroarch_cfg_echo
-	md5sum_check_retroarch_cfg_echo=$(md5sum_check "${script_dir}/etc/retroarch/retroarch-${machine}.cfg")
+	local md5sum_check_retroarch_cfg_echo="0"
+
+	# only perform md5sum check in this script for retro* machines
+	[[ "$machine" = "retro"* ]] && md5sum_check_retroarch_cfg_echo=$(md5sum_check "${script_dir}/etc/retroarch/retroarch-${machine}.cfg")
+
 	local md5sum_check_retroarch_core_opts_echo
 	md5sum_check_retroarch_core_opts_echo=$(md5sum_check "$core_opts_cfg_source" "$machine")
 
@@ -90,7 +93,7 @@ core_options_gen() {
 	local corename="${system_retro_corenames[${system//_/-}]}"
 	echo "${script_name}: ${machine} - core options generate - ${corename}"
 
-	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename"; then 
+	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename"; then
 		grep "${corename_core_options[${corename}]}" "$core_opts_cfg_source" > "${machine_cfg_dir}/${corename}/${system//_/-}.opt"
 	else
 		true > "${machine_cfg_dir}/${corename}/${system//_/-}.opt"
@@ -147,7 +150,7 @@ rom_cfg_y_turbo() {
 		local value="${input_btn_values[${machine};y]}"
 		local cfg
 
-		echo "${script_name}: ${machine} - rom y turbo - ${rom}"		
+		echo "${script_name}: ${machine} - rom y turbo - ${rom}"
 
 		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$system]}"
 		cfg="${machine_cfg_dir}/${system_retro_corenames[$system]}/${rom}.cfg"
