@@ -173,6 +173,7 @@ readonly -a y_turbo_rom_cfgs=(
 	"arcade-pre90s;tempest"
 	"arcade-pre90s;terracre"
 	"arcade-pre90s;timeplt"
+	"arcade-pre90s;toki"
 	"arcade-pre90s;twincobr"
 	"arcade-pre90s;vsduckhunt"
 	"arcade-pre90s;wb3"
