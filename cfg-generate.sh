@@ -15,6 +15,7 @@ declare core_opts_cfg_source
 declare dir_cfg
 declare machine
 declare machine_cfg_dir
+declare system
 
 readonly -A input_turbo_default_values=(
 	["a"]="2"
@@ -145,15 +146,15 @@ rom_cfg_y_turbo() {
 	local c
 	for c in "${y_turbo_rom_cfgs[@]}"; do
 		IFS=';' read -ra y_turbo_rom_cfg <<< "$c"
-		local system="${y_turbo_rom_cfg[0]}"
+		local cfg_y_system="${y_turbo_rom_cfg[0]}"
 		local rom="${y_turbo_rom_cfg[1]}"
 		local value="${input_btn_values[${machine};y]}"
 		local cfg
 
 		echo "${script_name}: ${machine} - rom y turbo - ${rom}"
 
-		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$system]}"
-		cfg="${machine_cfg_dir}/${system_retro_corenames[$system]}/${rom}.cfg"
+		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$cfg_y_system]}"
+		cfg="${machine_cfg_dir}/${system_retro_corenames[$cfg_y_system]}/${rom}.cfg"
 
 		echo "input_player1_turbo_btn = \"${value}\"" >> "$cfg"
 		echo "input_player2_turbo_btn = \"${value}\"" >> "$cfg"
@@ -164,7 +165,7 @@ rom_cfg() {
 	local i
 	for i in "${!rom_cfgs[@]}"; do
 		IFS=';' read -ra rom_cfg <<< "$i"
-		local system="${rom_cfg[0]}"
+		local cfg_system="${rom_cfg[0]}"
 		local rom="${rom_cfg[1]}"
 		local cfg="${rom_cfg[2]}"
 		local value
@@ -178,8 +179,8 @@ rom_cfg() {
 			value="${input_btn_values[${machine};${rom_cfgs[$i]}]}"
 		fi
 
-		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$system]}"
-		cfg_file="${machine_cfg_dir}/${system_retro_corenames[$system]}/${rom}.cfg"
+		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}"
+		cfg_file="${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}/${rom}.cfg"
 
 		echo "${cfg} = \"${value}\"" >> "$cfg_file"
 
