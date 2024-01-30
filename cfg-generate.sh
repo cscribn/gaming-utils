@@ -17,6 +17,7 @@ declare dir_cfg
 declare machine
 declare machine_cfg_dir
 declare system
+declare system_no_under
 
 readonly -A input_turbo_default_values=(
 	["a"]="2"
@@ -93,9 +94,9 @@ core_options_gen() {
 	echo "${script_name}: ${machine} - core options generate - ${corename}"
 
 	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename"; then
-		grep "${corename_core_options[${corename}]}" "$core_opts_cfg_source" > "${machine_cfg_dir}/${corename}/${system}.opt"
+		grep "${corename_core_options[${corename}]}" "$core_opts_cfg_source" >> "${machine_cfg_dir}/${corename}/${system_no_under}.opt"
 	else
-		true > "${machine_cfg_dir}/${corename}/${system}.opt"
+		true >> "${machine_cfg_dir}/${corename}/${system_no_under}.opt"
 	fi
 }
 
@@ -204,6 +205,8 @@ main() {
 
 	for system in "${!system_retro_corenames[@]}"; do
 		corename="${system_retro_corenames[${system}]}"
+		system_no_under="${system%_*}"
+
 		cfg_init
 		[[ "$machine" = "retro"* ]] && core_cfg_gen
 		dir_cfg_y_turbo
