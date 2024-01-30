@@ -117,27 +117,32 @@ dir_cfg_y_turbo() {
 	fi
 }
 
-dir_cfg_gen() {
-	local cfg_value
+machine_cfg_gen() {
+	local m
+	for m in "${machine_cfgs[@]}"; do
+		IFS=';' read -ra machine_cfg <<< "$m"
+		local cfg_machine="${machine_cfg[0]}"
+		local cfg_system="${machine_cfg[1]}"
+		local cfg_name="${machine_cfg[2]}"
+		local cfg_button="${machine_cfg[3]}"
+		local cfg_value
 
-	local cfg_type
-	for cfg_type in "${cfg_types[@]}"; do
-		eval button_value="( \${${machine}_${system}_${cfg_type}} )"
+		[[ "$cfg_machine" = "$machine" ]] || continue
+		echo "${script_name}: ${cfg_machine} - machine cfg - ${cfg_system}"
 
-		[[ -z "${button_value}" ]] && continue
-
-		echo "${script_name}: ${machine} - dir cfg - ${system}"
-
-		if [[ "${cfg_type}" = "input_turbo_default_button" ]]; then
-			cfg_value="${input_turbo_default_values[${button_value}]}"
+		if [[ "${cfg_name}" = "input_turbo_default_button" ]]; then
+			cfg_value="${input_turbo_default_values[${cfg_button}]}"
 		else
-			cfg_value="${input_btn_values[${machine};${button_value}]}"
+			cfg_value="${input_btn_values[${cfg_machine};${cfg_button}]}"
 		fi
 
-		echo "${cfg_type} = \"${cfg_value}\"" >> "$dir_cfg"
+		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}"
+		local cfg_file="${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}/${cfg_system}.cfg"
 
-		if [[ "${cfg_type}" = "input_player1_turbo_btn" ]]; then
-			echo "input_player2_turbo_btn = \"${cfg_value}\"" >> "$dir_cfg"
+		echo "${cfg_name} = \"${cfg_value}\"" >> "$cfg_file"
+
+		if [[ "${cfg_name}" = "input_player1_turbo_btn" ]]; then
+			echo "input_player2_turbo_btn = \"${cfg_value}\"" >> "$cfg_file"
 		fi
 	done
 }
@@ -207,10 +212,10 @@ main() {
 		cfg_init
 		[[ "$machine" = "retro"* ]] && core_cfg_gen
 		dir_cfg_y_turbo
-		dir_cfg_gen
 		core_options_gen
 	done
 
+	machine_cfg_gen
 	rom_cfg_y_turbo
 	rom_cfg
 	all_cfg_cp
