@@ -10,6 +10,7 @@ script_name="$(basename "${0}")"
 declare script_dir
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+declare corename
 declare cfg_dir
 declare core_opts_cfg_source
 declare dir_cfg
@@ -78,20 +79,17 @@ check_new_clean() {
 }
 
 cfg_init() {
-	mkdir -p "${machine_cfg_dir}/${system_retro_corenames[${system}]}"
-	dir_cfg="${machine_cfg_dir}/${system_retro_corenames[${system}]}/${system}.cfg"
+	mkdir -p "${machine_cfg_dir}/${corename}"
+	dir_cfg="${machine_cfg_dir}/${corename}/${system}.cfg"
 }
 
 core_cfg_gen() {
-	local core_cfg
-	core_cfg="${machine_cfg_dir}/${system_retro_corenames[${system}]}/${system_retro_corenames[${system}]}.cfg"
-	cp "${script_dir}/etc/retroarch/retroarch-${machine}.cfg" "$core_cfg"
+	cp "${script_dir}/etc/retroarch/retroarch-${machine}.cfg" "${machine_cfg_dir}/${corename}/${corename}.cfg"
 }
 
 core_options_gen() {
 	[[ "$system" = "vic20" ]] && return
 
-	local corename="${system_retro_corenames[${system}]}"
 	echo "${script_name}: ${machine} - core options generate - ${corename}"
 
 	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename"; then
@@ -105,9 +103,9 @@ dir_cfg_y_turbo() {
 	if printf '%s\0' "${y_turbo_systems[@]}" | grep -Fxqz "${system}"; then
 		echo "${script_name}: ${machine} - dir cfg y turbo - ${system}"
 
-		value="${input_btn_values[${machine};y]}"
-		echo "input_player1_turbo_btn = \"${value}\"" >> "$dir_cfg"
-		echo "input_player2_turbo_btn = \"${value}\"" >> "$dir_cfg"
+		local cfg_value="${input_btn_values[${machine};y]}"
+		echo "input_player1_turbo_btn = \"${cfg_value}\"" >> "$dir_cfg"
+		echo "input_player2_turbo_btn = \"${cfg_value}\"" >> "$dir_cfg"
 
 		if [[ "$system" = "scv" ]]; then
 			echo "${script_name}: ${machine} - duty cycle, period - ${system}"
@@ -152,17 +150,16 @@ rom_cfg_y_turbo() {
 	for c in "${y_turbo_rom_cfgs[@]}"; do
 		IFS=';' read -ra y_turbo_rom_cfg <<< "$c"
 		local cfg_y_system="${y_turbo_rom_cfg[0]}"
-		local rom="${y_turbo_rom_cfg[1]}"
-		local value="${input_btn_values[${machine};y]}"
-		local cfg
+		local cfg_rom="${y_turbo_rom_cfg[1]}"
+		local cfg_value="${input_btn_values[${machine};y]}"
 
-		echo "${script_name}: ${machine} - rom y turbo - ${rom}"
+		echo "${script_name}: ${machine} - rom y turbo - ${cfg_rom}"
 
 		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$cfg_y_system]}"
-		cfg="${machine_cfg_dir}/${system_retro_corenames[$cfg_y_system]}/${rom}.cfg"
+		local cfg_file="${machine_cfg_dir}/${system_retro_corenames[$cfg_y_system]}/${cfg_rom}.cfg"
 
-		echo "input_player1_turbo_btn = \"${value}\"" >> "$cfg"
-		echo "input_player2_turbo_btn = \"${value}\"" >> "$cfg"
+		echo "input_player1_turbo_btn = \"${cfg_value}\"" >> "$cfg_file"
+		echo "input_player2_turbo_btn = \"${cfg_value}\"" >> "$cfg_file"
 	done
 }
 
@@ -171,26 +168,25 @@ rom_cfg() {
 	for i in "${!rom_cfgs[@]}"; do
 		IFS=';' read -ra rom_cfg <<< "$i"
 		local cfg_system="${rom_cfg[0]}"
-		local rom="${rom_cfg[1]}"
-		local cfg="${rom_cfg[2]}"
-		local value
-		local cfg_file
+		local cfg_rom="${rom_cfg[1]}"
+		local cfg_name="${rom_cfg[2]}"
+		local cfg_value
 
-		echo "${script_name}: ${machine} - ${cfg} - ${rom}"
+		echo "${script_name}: ${machine} - ${cfg_name} - ${cfg_rom}"
 
-		if [[ "${cfg}" = "input_turbo_default_button" ]]; then
-			value="${input_turbo_default_values[${rom_cfgs[$i]}]}"
+		if [[ "${cfg_name}" = "input_turbo_default_button" ]]; then
+			cfg_value="${input_turbo_default_values[${rom_cfgs[$i]}]}"
 		else
-			value="${input_btn_values[${machine};${rom_cfgs[$i]}]}"
+			cfg_value="${input_btn_values[${machine};${rom_cfgs[$i]}]}"
 		fi
 
 		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}"
-		cfg_file="${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}/${rom}.cfg"
+		local cfg_file="${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}/${cfg_rom}.cfg"
 
-		echo "${cfg} = \"${value}\"" >> "$cfg_file"
+		echo "${cfg_name} = \"${cfg_value}\"" >> "$cfg_file"
 
-		if [[ "${cfg}" = "input_player1_turbo_btn" ]]; then
-			echo "input_player2_turbo_btn = \"${value}\"" >> "$cfg_file"
+		if [[ "${cfg_name}" = "input_player1_turbo_btn" ]]; then
+			echo "input_player2_turbo_btn = \"${cfg_value}\"" >> "$cfg_file"
 		fi
 	done
 }
@@ -207,6 +203,7 @@ main() {
 	check_new_clean
 
 	for system in "${!system_retro_corenames[@]}"; do
+		corename="${system_retro_corenames[${system}]}"
 		cfg_init
 		[[ "$machine" = "retro"* ]] && core_cfg_gen
 		dir_cfg_y_turbo
