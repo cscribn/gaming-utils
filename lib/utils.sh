@@ -56,7 +56,6 @@ readonly -A corename_core_options=(
 	["theodore"]="theodore_"
 	["VICE x64"]="vice_"
 	["VICE xvic"]="vice_"
-	["Virtual Jaguar"]="virtualjaguar_"
 )
 
 readonly -A system_dbs=(
@@ -68,9 +67,7 @@ readonly -A system_dbs=(
 	["atari2600"]="Atari - 2600"
 	["atari5200"]="Atari - 5200"
 	["atari7800"]="Atari - 7800"
-	["atarijaguar"]="Atari - Jaguar"
 	["atarilynx"]="Atari - Lynx"
-	["atarist"]="Atari - ST"
 	["c64"]="Commodore - 64"
 	["coleco"]="Coleco - ColecoVision"
 	["daphne"]="Arcade - Laser Disc"
@@ -137,9 +134,7 @@ readonly -A system_retro_corenames=(
 	["atari2600"]="Stella"
 	["atari5200"]="Atari800"
 	["atari7800"]="ProSystem"
-	["atarijaguar"]="Virtual Jaguar"
 	["atarilynx"]="Handy"
-	["atarist"]="Hatari"
 	["c64"]="VICE x64"
 	["coleco"]="FinalBurn Neo"
 	["dreamcast"]="Flycast"
