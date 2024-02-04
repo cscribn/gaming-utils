@@ -8,7 +8,8 @@
 		"files.associations": {
 			"**/es_*.cfg": "xml",
             "**/*.cfg": "properties",
-			"**/*.opt": "properties"
+			"**/*.opt": "properties",
+			"**/*.rmp": "properties"
 		},
 		"files.exclude": {
 			"**/*.md5": true,
