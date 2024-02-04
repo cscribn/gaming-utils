@@ -1,8 +1,11 @@
 {
 	"folders": [
 		{
-			"path": "./"
+			"path": "./",
 		},
+		{
+			"path": "../../Documents/FreeFileSync",
+		}
 	],
 	"settings": {
 		"files.associations": {
@@ -15,7 +18,8 @@
 			"**/*.md5": true,
 			"**/*.png": true,
 			"**/*.svg": true,
-			"**/sync-lfs": true
+			"**/sync-lfs": true,
+			"**/win-*.ffs_batch": true
 		},
 		"search.quickOpen.includeHistory": false
 	}
