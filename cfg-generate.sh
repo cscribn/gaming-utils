@@ -202,6 +202,7 @@ main() {
 	[[ "$machine" = "" ]] && echo "Missing machine" && exit 1
 
 	check_new_clean
+	all_cfg_cp
 
 	for system in "${!system_retro_corenames[@]}"; do
 		corename="${system_retro_corenames[${system}]}"
@@ -216,7 +217,6 @@ main() {
 	machine_cfg_gen
 	rom_cfg_y_turbo
 	rom_cfg
-	all_cfg_cp
 
 	# create new md5sum
 	local md5sum_check_echo
