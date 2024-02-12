@@ -205,7 +205,6 @@ readonly -a y_turbo_rom_cfgs=(
 	"pc;NUKEM2"
 	"pc88;Gradius"
 	"pc88;Melt Down"
-	"snes-msu1;Contra (USA) (MSU1)"
 	"snes;U.N. Squadron (USA)"
 )
 
@@ -247,7 +246,6 @@ readonly -A rom_cfgs=(
 	["quake;id1;input_player1_turbo_btn"]="m"
 	["quake;rogue;input_player1_turbo_btn"]="m"
 	["sg-1000;Knightmare (Taiwan) (Unl);input_turbo_default_button"]="b"
-	["snes-msu1;Contra (USA) (MSU1);input_turbo_default_button"]="y"
 	["snes;U.N. Squadron (USA);input_player1_turbo_btn"]="a"
 	["x68000;Chourensha 68K v1.01 (1995)(Famibe No Yosshin);input_turbo_default_button"]="a"
 	["x68000;Flame Wing v1.02 (1994)(Itasenpara);input_turbo_default_button"]="a"
