@@ -26,11 +26,11 @@ declare -A rom_dats=(
 )
 
 declare -A system_dats=(
-	["arcade"]="arcade"
 	["arcade-pre90s"]="arcade"
 	["arcade-pst90s"]="arcade"
 	["coleco"]="coleco"
 	["neogeo"]="neogeo"
+	["scv"]="scv"
 	["spectrum"]="spectrum"
 )
 
