@@ -16,6 +16,7 @@ declare favorites_dir
 declare favorites_file
 declare gamelists_dir
 declare gamelist_file
+declare system
 declare system_db
 declare thumbnails_dir
 
