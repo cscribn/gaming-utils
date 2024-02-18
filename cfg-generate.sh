@@ -93,9 +93,9 @@ core_options_gen() {
 	echo "${script_name}: ${machine} - core options generate - ${corename}"
 
 	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename"; then
-		grep "${corename_core_options[${corename}]}" "$core_opts_cfg_source" >> "${machine_cfg_dir}/${corename}/${corename}.opt"
+		grep "${corename_core_options[${corename}]}" "$core_opts_cfg_source" > "${machine_cfg_dir}/${corename}/${corename}.opt"
 	else
-		true >> "${machine_cfg_dir}/${corename}/${corename}.opt"
+		true > "${machine_cfg_dir}/${corename}/${corename}.opt"
 	fi
 
 	if [[ "$machine" != "retro"* ]] && printf '%s\0' "${!dupe_cfg_dirs[@]}" | grep -Fxqz "$corename"; then
