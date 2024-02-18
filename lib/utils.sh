@@ -58,6 +58,22 @@ readonly -A corename_core_options=(
 	["VICE xvic"]="vice_"
 )
 
+readonly -A dupe_cfg_dirs=(
+	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
+	["Opera"]="Opera Xtreme"
+	["PrBoom"]="PrBoom Xtreme"
+	["PUAE 2021"]="P-UAE Xtreme"
+	["Stella"]="Stella 2014"
+	["VICE x64"]="VICE Xtreme x64"
+)
+
+readonly -A dupe_remaps_dirs=(
+	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
+	["Opera"]="Opera Xtreme"
+	["PrBoom"]="PrBoom Xtreme"
+	["PUAE 2021"]="P-UAE Xtreme"
+)
+
 readonly -A system_dbs=(
 	["3do"]="3DO Company - 3DO"
 	["amiga"]="Commodore - Amiga"
