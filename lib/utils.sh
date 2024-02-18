@@ -75,7 +75,7 @@ readonly -A dupe_remaps_dirs=(
 )
 
 readonly -A system_dbs=(
-	["3do"]="3DO Company - 3DO"
+	["3do"]="Panasonic - 3DO"
 	["amiga"]="Commodore - Amiga"
 	["amstradcpc"]="Amstrad - CPC"
 	["arcade-pre90s"]="Arcade - 80s and Before"
