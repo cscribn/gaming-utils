@@ -3,37 +3,6 @@
 # variables
 readonly utils_temp_dir="/c/Windows/Temp"
 
-declare -A rom_dats=(
-	["astdelux"]="mame2003-plus"
-	["astinvad"]="mame2003-plus"
-	["astrob"]="mame2003-plus"
-	["astrof"]="mame2003-plus"
-	["bigfight"]="mame2010"
-	["bigkong"]="mame2010"
-	["bublbobr"]="mame2003-plus"
-	["crysking"]="mame2010"
-	["ddragon"]="mame2003-plus"
-	["foodf"]="mame2003-plus"
-	["gorf"]="mame2003-plus"
-	["moonwlkb"]="mame2003-plus"
-	["ncv1"]="mame2010"
-	["ncv2"]="mame2010"
-	["outrun"]="mame2003-plus"
-	["polepos"]="mame2010"
-	["polepos2"]="mame2010"
-	["salmndr2"]="mame2003-plus"
-	["shienryu"]="mame2003-plus"
-)
-
-declare -A system_dats=(
-	["arcade-pre90s"]="arcade"
-	["arcade-pst90s"]="arcade"
-	["coleco"]="coleco"
-	["neogeo"]="neogeo"
-	["scv"]="scv"
-	["spectrum"]="spectrum"
-)
-
 readonly -A corename_core_options=(
 	["Atari800"]="atari800_"
 	["Beetle SuperGrafx"]="sgx_"
@@ -72,6 +41,37 @@ readonly -A dupe_remaps_dirs=(
 	["Opera"]="Opera Xtreme"
 	["PrBoom"]="PrBoom Xtreme"
 	["PUAE 2021"]="P-UAE Xtreme"
+)
+
+declare -A rom_dats=(
+	["astdelux"]="mame2003-plus"
+	["astinvad"]="mame2003-plus"
+	["astrob"]="mame2003-plus"
+	["astrof"]="mame2003-plus"
+	["bigfight"]="mame2010"
+	["bigkong"]="mame2010"
+	["bublbobr"]="mame2003-plus"
+	["crysking"]="mame2010"
+	["ddragon"]="mame2003-plus"
+	["foodf"]="mame2003-plus"
+	["gorf"]="mame2003-plus"
+	["moonwlkb"]="mame2003-plus"
+	["ncv1"]="mame2010"
+	["ncv2"]="mame2010"
+	["outrun"]="mame2003-plus"
+	["polepos"]="mame2010"
+	["polepos2"]="mame2010"
+	["salmndr2"]="mame2003-plus"
+	["shienryu"]="mame2003-plus"
+)
+
+declare -A system_dats=(
+	["arcade-pre90s"]="arcade"
+	["arcade-pst90s"]="arcade"
+	["coleco"]="coleco"
+	["neogeo"]="neogeo"
+	["scv"]="scv"
+	["spectrum"]="spectrum"
 )
 
 readonly -A system_dbs=(
