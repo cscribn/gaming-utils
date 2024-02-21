@@ -45,15 +45,15 @@ check_new() {
 clear_existing_favorites() {
 	echo_color "${script_name}: ${system} clearing favorites" "green"
 
-	sed -i 's/name> /name>/g' "$gamelist_file"
-	sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\//g" "$gamelist_file"
+	sed -i "s/name>${fav_symbol_es}/name>/g" "$gamelist_file"
+	sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${fav_symbol_ra}/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\//g" "$gamelist_file"
 
 	cd "$thumbnails_dir/${system_db}/Named_Boxarts" > /dev/null || exit 1
 
 	shopt -s nullglob
 
 	local thumbnail
-	for thumbnail in !!!*; do
+	for thumbnail in "${fav_symbol_ra}"*; do
 		mv "$thumbnail" "${thumbnail:3}"
 	done
 
@@ -86,9 +86,9 @@ set_favorites() {
 		fav_amped_ra_sedrep=$(sed_escape_replace "$fav_amped_ra")
 
 		if [ -f "$fav_amped_ra_png" ]; then
-			mv "$fav_amped_ra_png" !!!"$fav_amped_ra_png"
-			sed -i "s/name>${fav_sedkey}</name> ${fav_sedrep}</" "$gamelist_file"
-			sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${fav_amped_ra_sedkey}\.png/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/!!!${fav_amped_ra_sedrep}.png/" "$gamelist_file"
+			mv "$fav_amped_ra_png" "${fav_symbol_ra}${fav_amped_ra_png}"
+			sed -i "s/name>${fav_sedkey}</name>${fav_symbol_es}${fav_sedrep}</" "$gamelist_file"
+			sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${fav_amped_ra_sedkey}\.png/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${fav_symbol_ra}${fav_amped_ra_sedrep}.png/" "$gamelist_file"
 		else
 			echo_color "${script_name}: ${fav_amped_ra_png} not found" "red"
 			fav_not_found=1

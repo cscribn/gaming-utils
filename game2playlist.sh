@@ -96,7 +96,7 @@ label_gen() {
 	local name_map
 	mapfile -t name_map < <(echo "$line" | grep -Pio 'name>\K[^<]*')
 	local name="${name_map[0]}"
-	name=$(sed 's/^ /!!!/' <<< $name)
+	name=$(sed "s/^${fav_symbol_es}/${fav_symbol_ra}/" <<< $name)
 	local json_name=${name//&amp;/&}
 
 	{
