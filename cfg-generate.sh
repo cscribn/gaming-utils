@@ -93,15 +93,19 @@ core_options_gen() {
 
 	echo "${script_name}: ${machine} - core options generate - ${corename}"
 
-	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename"; then
-		grep "${corename_core_options[${corename}]}" "$core_opts_cfg_source" > "${machine_cfg_dir}/${corename}/${system_no_under}.opt"
+	local opt_file
+	if [[ "$machine" = "retro"* ]]; then
+		opt_file="${machine_cfg_dir}/${corename}/${system_no_under}.opt"
+	elif printf '%s\0' "${!dupe_cfg_dirs[@]}" | grep -Fxqz "$corename"; then
+		opt_file="${machine_cfg_dir}/${corename}/${dupe_cfg_dirs[${corename}]}.opt"
 	else
-		true > "${machine_cfg_dir}/${corename}/${system_no_under}.opt"
+		opt_file="${machine_cfg_dir}/${corename}/${corename}.opt"
 	fi
 
-	if [[ "$machine" != "retro"* ]] && printf '%s\0' "${!dupe_cfg_dirs[@]}" | grep -Fxqz "$corename"; then
-		cp "${machine_cfg_dir}/${corename}/${system_no_under}.opt" \
-			"${machine_cfg_dir}/${dupe_cfg_dirs[${corename}]}/${system_no_under}.opt"
+	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename"; then
+		grep "${corename_core_options[${corename}]}" "$core_opts_cfg_source" > "$opt_file"
+	else
+		true > "$opt_file"
 	fi
 }
 
