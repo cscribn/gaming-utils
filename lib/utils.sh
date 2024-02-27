@@ -72,7 +72,6 @@ declare -A system_dats=(
 	["arcade-pst90s"]="arcade"
 	["coleco"]="coleco"
 	["neogeo"]="neogeo"
-	["scv"]="scv"
 	["spectrum"]="spectrum"
 )
 
@@ -117,7 +116,6 @@ readonly -A system_dbs=(
 	["psxclassic"]="Sony - PlayStation Classic"
 	["quake"]="Microsoft - DOS - Quake"
 	["saturn"]="Sega - Saturn"
-	["scv"]="Epoch - Super Cassette Vision"
 	["sega32x"]="Sega - 32X"
 	["segacd"]="Sega - Mega-CD - Sega CD"
 	["sg-1000"]="Sega - SG-1000"
@@ -181,7 +179,6 @@ readonly -A system_retro_corenames=(
 	["psx_2"]="DuckStation"
 	["psxclassic"]="PCSX-ReARMed"
 	["quake"]="TyrQuake"
-	["scv"]="MAME"
 	["sega32x"]="PicoDrive"
 	["segacd"]="Genesis Plus GX"
 	["sg-1000"]="Genesis Plus GX"

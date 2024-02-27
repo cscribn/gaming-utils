@@ -116,12 +116,6 @@ dir_cfg_y_turbo() {
 		local cfg_value="${input_btn_values[${machine};y]}"
 		echo "input_player1_turbo_btn = \"${cfg_value}\"" >> "$dir_cfg"
 		echo "input_player2_turbo_btn = \"${cfg_value}\"" >> "$dir_cfg"
-
-		if [[ "$system" = "scv" ]]; then
-			echo "${script_name}: ${machine} - duty cycle, period - ${system}"
-			echo "input_duty_cycle = \"6\"" >> "$dir_cfg"
-			echo "input_turbo_period = \"12\"" >> "$dir_cfg"
-		fi
 	fi
 }
 

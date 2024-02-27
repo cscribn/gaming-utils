@@ -64,7 +64,6 @@ readonly -a y_turbo_systems=(
 	"msx"
 	"ngpc"
 	"pcfx"
-	"scv"
 	"sg-1000"
 	"vic20"
 	"x1"
