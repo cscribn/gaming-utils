@@ -221,6 +221,7 @@ readonly -A rom_cfgs=(
 	["arcade-pst90s_2;bucky;input_player1_turbo_btn"]="x"
 	["arcade-pst90s_3;ncv1;input_turbo_default_button"]="a"
 	["arcade-pst90s_3;ncv2;input_turbo_default_button"]="a"
+	["atari5200;Choplifter! (USA);input_turbo_default_button"]="a"
 	["atari7800;Astro Blaster (20230627) (FB86A5A0);input_turbo_default_button"]="a"
 	["atari7800;Bentley Bear - Crystal Quest by Bob DeCrescenzo (V20130718RC5);input_turbo_default_button"]="a"
 	["intellivision;d2k;input_turbo_default_button"]="a"
