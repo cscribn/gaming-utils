@@ -69,7 +69,7 @@ path_gen() {
 		rom="$rom_orig"
 	fi
 
-	local json_rom=${rom//&amp;/&}
+	local json_rom=${rom//&amp;/\&}
 	local json_rom_no_ext=${rom%.*}
 
 	echo "    {" >> "$playlist"
@@ -97,7 +97,7 @@ label_gen() {
 	mapfile -t name_map < <(echo "$line" | grep -Pio 'name>\K[^<]*')
 	local name="${name_map[0]}"
 	name=$(sed "s/^${fav_symbol_es}/${fav_symbol_ra}/" <<< $name)
-	local json_name=${name//&amp;/&}
+	local json_name=${name//&amp;/\&}
 
 	{
 		echo "      \"label\": \"${json_name}\","
@@ -115,7 +115,7 @@ body_gen() {
 
 	{
 		echo "      \"core_path\": \"${core_path}/${core_name_new}\","
-		echo "      \"core_name\": \"${core_name_new}\","
+		echo "      \"core_name\": \"DETECT\","
 		echo "      \"crc32\": \"DETECT\","
 		echo "      \"db_name\": \"${system_db}.lpl\""
 		echo -n "    }"
