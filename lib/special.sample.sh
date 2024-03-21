@@ -42,6 +42,7 @@ readonly -A special_items=(
 	["Quake.sh"]="Microsoft - DOS - Quake;quake/id1/pak0.pak;km_tyrquake_libretro.so"
 	["Rastan (1990)(Taito Corporation).sh"]="Microsoft - DOS;Rastan (1990)(Taito Corporation)/RASTAN.EXE;km_dosbox_pure_libretro.so"
 	["salmndr2.zip"]="Arcade - 90s and After;salmndr2.zip;km_mame2003_plus_libretro.so"
+	["spiders.zip"]="Arcade - 80s and Before;spiders.zip;km_mame2003_plus_libretro.so"
 	["Tyrian 2000 (1999)(XSIV Games) [Action].sh"]="Microsoft - DOS;Tyrian 2000 (1999)(XSIV Games) [Action]/Tyrian2k.exe;km_dosbox_pure_libretro.so"
 	["Ultimate Doom.sh"]="Microsoft - DOS - DOOM;doom/ultimate-doom/DOOM.WAD;km_prboom_xtreme_libretro.so"
 )

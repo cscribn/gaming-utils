@@ -65,6 +65,7 @@ declare -A rom_dats=(
 	["polepos2"]="mame2010"
 	["salmndr2"]="mame2003-plus"
 	["shienryu"]="mame2003-plus"
+	["spiders"]="mame2003-plus"
 )
 
 declare -A system_dats=(
