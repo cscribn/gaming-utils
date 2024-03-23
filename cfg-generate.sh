@@ -89,8 +89,6 @@ core_cfg_gen() {
 }
 
 core_options_gen() {
-	[[ "$system" = "vic20" ]] && return
-
 	echo "${script_name}: ${machine} - core options generate - ${corename}"
 
 	local opt_file
