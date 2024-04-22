@@ -169,6 +169,7 @@ readonly -a y_turbo_rom_cfgs=(
 	"arcade-pst90s;feversos"
 	"arcade-pst90s;fireshrk"
 	"arcade-pst90s;gigawing"
+	"arcade-pst90s;gijoe"
 	"arcade-pst90s;gunbird"
 	"arcade-pst90s;gunbird2"
 	"arcade-pst90s;guwange"
