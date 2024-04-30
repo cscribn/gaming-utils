@@ -39,13 +39,34 @@ fi
 
 # helper functions
 all_cfg_cp() {
-	echo "${script_name}: ${machine} - copying all cfgs"
-	cp -r "${script_dir}/etc/retroarch/config/"* "$machine_cfg_dir"
+	local c
+	for c in "${script_dir}/etc/retroarch/config/"*/; do
+		c=$(basename "$c")
+		[[ "$c" = "remaps" ]] && continue
+
+		local new_c
+		new_c=$(machine_cfg_dir_get "$c")
+
+		echo "${script_name}: ${machine} - copying cfgs - ${new_c}"
+		mkdir -p "${machine_cfg_dir}/${new_c}"
+		cp "${script_dir}/etc/retroarch/config/${c}/"* "${machine_cfg_dir}/${new_c}"
+	done
+
+	local r
+	for r in "${script_dir}/etc/retroarch/config/remaps/"*/; do
+		r=$(basename "$r")
+		local new_r
+		new_r=$(machine_remaps_dir_get "$r")
+
+		echo "${script_name}: ${machine} - copying remaps - ${new_r}"
+		mkdir -p "${machine_cfg_dir}/remaps/${new_r}"
+		cp "${script_dir}/etc/retroarch/config/remaps/${r}/"* "${machine_cfg_dir}/remaps/${new_r}"
+	done
 }
 
 check_new_clean() {
 	if [[ "$machine" = "retro"* ]]; then
-		core_opts_cfg_source="${script_dir}/etc/retroarch/retroarch-core-options-retropie.cfg"
+		core_opts_cfg_source="${script_dir}/etc/retroarch/retroarch-core-options-sbc.cfg"
 	else
 		core_opts_cfg_source="${script_dir}/etc/retroarch/retroarch-core-options-miniclassics.cfg"
 	fi
@@ -94,14 +115,14 @@ core_options_gen() {
 	local opt_file
 	if [[ "$machine" = "retro"* ]]; then
 		opt_file="${machine_cfg_dir}/${corename}/${system_no_under}.opt"
-	elif printf '%s\0' "${!dupe_cfg_dirs[@]}" | grep -Fxqz "$corename"; then
-		opt_file="${machine_cfg_dir}/${corename}/${dupe_cfg_dirs[${corename}]}.opt"
 	else
 		opt_file="${machine_cfg_dir}/${corename}/${corename}.opt"
 	fi
 
-	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename"; then
-		grep "${corename_core_options[${corename}]}" "$core_opts_cfg_source" > "$opt_file"
+	local corename_orig="${system_retro_corenames[$system]}"
+
+	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename_orig"; then
+		grep "${corename_core_options[$corename_orig]}" "$core_opts_cfg_source" > "$opt_file"
 	else
 		true > "$opt_file"
 	fi
@@ -114,6 +135,26 @@ dir_cfg_y_turbo() {
 		local cfg_value="${input_btn_values[${machine};y]}"
 		echo "input_player1_turbo_btn = \"${cfg_value}\"" >> "$dir_cfg"
 		echo "input_player2_turbo_btn = \"${cfg_value}\"" >> "$dir_cfg"
+	fi
+}
+
+machine_cfg_dir_get() {
+	local dir="$1"
+
+	if [[ "$machine" != "retro"* ]] && printf '%s\0' "${!miniclassics_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+		echo "${miniclassics_cfg_dirs[$dir]}"
+	else
+		echo "$dir"
+	fi
+}
+
+machine_remaps_dir_get() {
+	local dir="$1"
+
+	if [[ "$machine" != "retro"* ]] && printf '%s\0' "${!miniclassics_remaps_dirs[@]}" | grep -Fxqz "$dir"; then
+		echo "${miniclassics_remaps_dirs[$dir]}"
+	else
+		echo "$dir"
 	fi
 }
 
@@ -131,13 +172,14 @@ machine_cfg_gen() {
 		echo "${script_name}: ${cfg_machine} - machine cfg - ${cfg_system}"
 
 		if [[ "${cfg_name}" = "input_turbo_default_button" ]]; then
-			cfg_value="${input_turbo_default_values[${cfg_button}]}"
+			cfg_value="${input_turbo_default_values[$cfg_button]}"
 		else
 			cfg_value="${input_btn_values[${cfg_machine};${cfg_button}]}"
 		fi
 
-		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}"
-		local cfg_file="${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}/${cfg_system}.cfg"
+		corename=$(machine_cfg_dir_get "${system_retro_corenames[$cfg_system]}")
+		mkdir -p "${machine_cfg_dir}/${corename}"
+		local cfg_file="${machine_cfg_dir}/${corename}/${cfg_system}.cfg"
 
 		echo "${cfg_name} = \"${cfg_value}\"" >> "$cfg_file"
 
@@ -157,8 +199,9 @@ rom_cfg_y_turbo() {
 
 		echo "${script_name}: ${machine} - rom y turbo - ${cfg_rom}"
 
-		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$cfg_y_system]}"
-		local cfg_file="${machine_cfg_dir}/${system_retro_corenames[$cfg_y_system]}/${cfg_rom}.cfg"
+		corename=$(machine_cfg_dir_get "${system_retro_corenames[$cfg_y_system]}")
+		mkdir -p "${machine_cfg_dir}/${corename}"
+		local cfg_file="${machine_cfg_dir}/${corename}/${cfg_rom}.cfg"
 
 		echo "input_player1_turbo_btn = \"${cfg_value}\"" >> "$cfg_file"
 		echo "input_player2_turbo_btn = \"${cfg_value}\"" >> "$cfg_file"
@@ -182,8 +225,9 @@ rom_cfg() {
 			cfg_value="${input_btn_values[${machine};${rom_cfgs[$i]}]}"
 		fi
 
-		mkdir -p "${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}"
-		local cfg_file="${machine_cfg_dir}/${system_retro_corenames[$cfg_system]}/${cfg_rom}.cfg"
+		corename=$(machine_cfg_dir_get "${system_retro_corenames[$cfg_system]}")
+		mkdir -p "${machine_cfg_dir}/${corename}"
+		local cfg_file="${machine_cfg_dir}/${corename}/${cfg_rom}.cfg"
 
 		echo "${cfg_name} = \"${cfg_value}\"" >> "$cfg_file"
 
@@ -206,7 +250,7 @@ main() {
 	all_cfg_cp
 
 	for system in "${!system_retro_corenames[@]}"; do
-		corename="${system_retro_corenames[${system}]}"
+		corename=$(machine_cfg_dir_get "${system_retro_corenames[$system]}")
 		system_no_under="${system%_*}"
 
 		cfg_init
