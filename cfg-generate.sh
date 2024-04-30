@@ -86,7 +86,9 @@ check_new_clean() {
 		exit 0
 	fi
 
-	if [[ "$machine" = "retro"* ]]; then
+	if [[ "$machine" = "retropad" ]]; then
+		machine_cfg_dir="${cfg_dir}/mirror/${machine}/home/ark/.config/retroarch/config"
+	elif [[ "$machine" = "retro"* ]]; then
 		machine_cfg_dir="${cfg_dir}/mirror/${machine}/opt/retropie/configs/all/retroarch/config"
 	elif [[ "$machine" = "a500" ]]; then
 		machine_cfg_dir="${cfg_dir}/mirror/${machine}/Pandory/.user/.config/retroarch/config"
