@@ -126,6 +126,7 @@ core_options_gen() {
 	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename_orig"; then
 		grep "${corename_core_options[$corename_orig]}" "$core_opts_cfg_source" > "$opt_file"
 	else
+		# Create an empty core options file. This is to prevent the global core options from being erroneously populated.
 		true > "$opt_file"
 	fi
 }
