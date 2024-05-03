@@ -144,7 +144,9 @@ dir_cfg_y_turbo() {
 machine_cfg_dir_get() {
 	local dir="$1"
 
-	if [[ "$machine" != "retro"* ]] && printf '%s\0' "${!miniclassics_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+	if [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+		echo "${retropad_cfg_dirs[$dir]}"
+	elif [[ "$machine" != "retro"* ]] && printf '%s\0' "${!miniclassics_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${miniclassics_cfg_dirs[$dir]}"
 	else
 		echo "$dir"
@@ -154,7 +156,9 @@ machine_cfg_dir_get() {
 machine_remaps_dir_get() {
 	local dir="$1"
 
-	if [[ "$machine" != "retro"* ]] && printf '%s\0' "${!miniclassics_remaps_dirs[@]}" | grep -Fxqz "$dir"; then
+	if [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_remaps_dirs[@]}" | grep -Fxqz "$dir"; then
+		echo "${retropad_remaps_dirs[$dir]}"
+	elif [[ "$machine" != "retro"* ]] && printf '%s\0' "${!miniclassics_remaps_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${miniclassics_remaps_dirs[$dir]}"
 	else
 		echo "$dir"

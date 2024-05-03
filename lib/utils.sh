@@ -45,6 +45,14 @@ readonly -A miniclassics_remaps_dirs=(
 	["PUAE 2021"]="P-UAE Xtreme"
 )
 
+readonly -A retropad_cfg_dirs=(
+	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
+)
+
+readonly -A retropad_remaps_dirs=(
+	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
+)
+
 declare -A rom_dats=(
 	["astdelux"]="mame2003-plus"
 	["astinvad"]="mame2003-plus"
