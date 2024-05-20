@@ -26,7 +26,7 @@ Return the EmulationStation "clean" names for roms. For use in `emulators.cfg` w
 
 ## favorites-update.sh
 
-Create favorites for each of your gamelists by inserting a space in front of rom names, so they sort to the top. This script assumes you used SkraperUI to generate your gamelist and thumbnails, and that you've run skraper-fix.sh for the given system.
+Create favorites for each of your gamelists by inserting a space and star in front of rom names, so they sort to the top. This script assumes you used SkraperUI to generate your gamelist and thumbnails, and that you've run skraper-fix.sh for the given system.
 
 ## game2playlist.sh
 
