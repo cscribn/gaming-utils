@@ -18,7 +18,10 @@
 			"**/*.md5": true,
 			"**/*.png": true,
 			"**/*.svg": true,
-			"**/sync-lfs": true,
+			"**/sync-lfs/mirror": true,
+			"**/sync-lfs/update/retroarch/system": true,
+			"**/sync-lfs/update/roms": true,
+			"**/sync-lfs/update/segamini": true,
 			"**/win-*.ffs_batch": true
 		},
 		"search.quickOpen.includeHistory": false,
