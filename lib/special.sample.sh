@@ -43,6 +43,7 @@ readonly -A special_items=(
 	["Pokemon Puzzle League (USA)"]="Nintendo - Nintendo Entertainment System;Space Invaders (USA).z64;km_mupen64_xtreme_libretro.so"
 	["polepos.zip"]="Arcade - 80s and Before;polepos.zip;km_mame2010_libretro.so"
 	["polepos2.zip"]="Arcade - 80s and Before;polepos2.zip;km_mame2010_libretro.so"
+	["Robotron 64 (USA)"]="Nintendo - Nintendo Entertainment System;Robotron 64 (USA).z64;km_mupen64_xtreme_libretro.so"
 	["rogue"]="Microsoft - DOS - Quake;quake/rogue/pak0.pak;km_tyrquake_libretro.so"
 	["salmndr2.zip"]="Arcade - 90s and After;salmndr2.zip;km_mame2003_plus_libretro.so"
 	["Space Invaders (USA)"]="Nintendo - Nintendo Entertainment System;Space Invaders (USA).z64;km_mupen64_xtreme_libretro.so"
