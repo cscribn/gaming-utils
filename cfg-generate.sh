@@ -134,6 +134,8 @@ machine_cfg_dir_get() {
 
 	if [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${retropad_cfg_dirs[$dir]}"
+	elif [[ "$machine" = "segamini" ]] && printf '%s\0' "${!segamini_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+		echo "${segamini_cfg_dirs[$dir]}"
 	elif [[ "$machine" != "retro"* ]] && printf '%s\0' "${!miniclassics_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${miniclassics_cfg_dirs[$dir]}"
 	else
@@ -146,6 +148,8 @@ machine_remaps_dir_get() {
 
 	if [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${retropad_cfg_dirs[$dir]}"
+	if [[ "$machine" = "segamini" ]] && printf '%s\0' "${!segamini_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+		echo "${segamini_cfg_dirs[$dir]}"
 	elif [[ "$machine" != "retro"* ]] && printf '%s\0' "${!miniclassics_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${miniclassics_cfg_dirs[$dir]}"
 	else

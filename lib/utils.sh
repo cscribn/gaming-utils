@@ -34,7 +34,7 @@ readonly -A corename_core_options=(
 
 readonly -A miniclassics_cfg_dirs=(
 	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
-	["Mupen64Plus-Next"]="Mupen64Plus-Next GLES2"
+	["Mupen64Plus-Next"]="Mupen64Plus-Next GLES3"
 	["Opera"]="Opera Xtreme"
 	["PrBoom"]="PrBoom Xtreme"
 	["PUAE 2021"]="P-UAE Xtreme"
@@ -67,6 +67,16 @@ declare -A rom_dats=(
 	["salmndr2"]="mame2003-plus"
 	["shienryu"]="mame2003-plus"
 	["spiders"]="mame2003-plus"
+)
+
+readonly -A segamini_cfg_dirs=(
+	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
+	["Mupen64Plus-Next"]="Mupen64Plus-Next GLES2"
+	["Opera"]="Opera Xtreme"
+	["PrBoom"]="PrBoom Xtreme"
+	["PUAE 2021"]="P-UAE Xtreme"
+	["Stella"]="Stella 2014"
+	["VICE x64"]="VICE Xtreme x64"
 )
 
 declare -A system_dats=(
