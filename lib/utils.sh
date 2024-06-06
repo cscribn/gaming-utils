@@ -42,19 +42,7 @@ readonly -A miniclassics_cfg_dirs=(
 	["VICE x64"]="VICE Xtreme x64"
 )
 
-readonly -A miniclassics_remaps_dirs=(
-	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
-	["Mupen64Plus-Next"]="Mupen64Plus-Next GLES2"
-	["Opera"]="Opera Xtreme"
-	["PrBoom"]="PrBoom Xtreme"
-	["PUAE 2021"]="P-UAE Xtreme"
-)
-
 readonly -A retropad_cfg_dirs=(
-	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
-)
-
-readonly -A retropad_remaps_dirs=(
 	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
 )
 
