@@ -105,7 +105,7 @@ label_gen() {
 }
 
 body_gen() {
-	local core_name_new
+	local core_name_new, core_name_new_trimmed
 
 	if [[ -n "${special_cores[$rom_orig]}" ]]; then
 		core_name_new="${special_cores[$rom_orig]}"
@@ -113,9 +113,11 @@ body_gen() {
 		core_name_new="$core_name"
 	fi
 
+	core_name_new_trimmed=${core_name_new/_libretro.so/}
+
 	{
 		echo "      \"core_path\": \"${core_path}/${core_name_new}\","
-		echo "      \"core_name\": \"DETECT\","
+		echo "      \"core_name\": \"${core_name_new_trimmed}\","
 		echo "      \"crc32\": \"DETECT\","
 		echo "      \"db_name\": \"${system_db}.lpl\""
 		echo -n "    }"
