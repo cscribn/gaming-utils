@@ -105,7 +105,8 @@ label_gen() {
 }
 
 body_gen() {
-	local core_name_new, core_name_new_trimmed
+	local core_name_new
+	local core_name_new_trimmed
 
 	if [[ -n "${special_cores[$rom_orig]}" ]]; then
 		core_name_new="${special_cores[$rom_orig]}"
