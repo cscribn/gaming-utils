@@ -132,7 +132,9 @@ core_options_gen() {
 machine_cfg_dir_get() {
 	local dir="$1"
 
-	if [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+	if [[ "$machine" = "a500" ]] && printf '%s\0' "${!a500_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+		echo "${a500_cfg_dirs[$dir]}"
+	elif [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${retropad_cfg_dirs[$dir]}"
 	elif [[ "$machine" = "segamini" ]] && printf '%s\0' "${!segamini_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${segamini_cfg_dirs[$dir]}"
@@ -146,7 +148,9 @@ machine_cfg_dir_get() {
 machine_remaps_dir_get() {
 	local dir="$1"
 
-	if [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+	if [[ "$machine" = "a500" ]] && printf '%s\0' "${!a500_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+		echo "${a500_cfg_dirs[$dir]}"
+	elif [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${retropad_cfg_dirs[$dir]}"
 	elif [[ "$machine" = "segamini" ]] && printf '%s\0' "${!segamini_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${segamini_cfg_dirs[$dir]}"

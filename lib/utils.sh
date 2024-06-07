@@ -5,6 +5,10 @@ readonly fav_symbol_es=" ☆"
 readonly fav_symbol_ra="!!!"
 readonly utils_temp_dir="/c/Windows/Temp"
 
+readonly -A a500_cfg_dirs=(
+	["Mupen64Plus GLES3"]="Mupen64 Xtreme Amped"
+)
+
 readonly -A corename_core_options=(
 	["Atari800"]="atari800_"
 	["Beetle SuperGrafx"]="sgx_"
