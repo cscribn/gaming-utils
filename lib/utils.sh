@@ -6,7 +6,7 @@ readonly fav_symbol_ra="!!!"
 readonly utils_temp_dir="/c/Windows/Temp"
 
 readonly -A a500_cfg_dirs=(
-	["Mupen64Plus GLES3"]="Mupen64 Xtreme Amped"
+	["Mupen64Plus-Next"]="Mupen64 Xtreme Amped"
 )
 
 readonly -A corename_core_options=(
