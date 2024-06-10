@@ -134,12 +134,12 @@ machine_cfg_dir_get() {
 
 	if [[ "$machine" = "a500" ]] && printf '%s\0' "${!a500_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${a500_cfg_dirs[$dir]}"
+	elif [[ "$machine" = "psclassic" ]] && printf '%s\0' "${!psclassic_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+		echo "${psclassic_cfg_dirs[$dir]}"
 	elif [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${retropad_cfg_dirs[$dir]}"
 	elif [[ "$machine" = "segamini" ]] && printf '%s\0' "${!segamini_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${segamini_cfg_dirs[$dir]}"
-	elif [[ "$machine" != "retro"* ]] && printf '%s\0' "${!miniclassics_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
-		echo "${miniclassics_cfg_dirs[$dir]}"
 	else
 		echo "$dir"
 	fi
@@ -150,12 +150,12 @@ machine_remaps_dir_get() {
 
 	if [[ "$machine" = "a500" ]] && printf '%s\0' "${!a500_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${a500_cfg_dirs[$dir]}"
+	elif [[ "$machine" = "psclassic" ]] && printf '%s\0' "${!psclassic_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
+		echo "${psclassic_cfg_dirs[$dir]}"
 	elif [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${retropad_cfg_dirs[$dir]}"
 	elif [[ "$machine" = "segamini" ]] && printf '%s\0' "${!segamini_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
 		echo "${segamini_cfg_dirs[$dir]}"
-	elif [[ "$machine" != "retro"* ]] && printf '%s\0' "${!miniclassics_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
-		echo "${miniclassics_cfg_dirs[$dir]}"
 	else
 		echo "$dir"
 	fi
