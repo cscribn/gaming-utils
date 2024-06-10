@@ -44,11 +44,10 @@ readonly -A corename_core_options=(
 
 readonly -A psclassic_cfg_dirs=(
 	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
-	["Mupen64Plus-Next"]="Mupen64 Xtreme Amped"
+	["Mupen64Plus-Next"]="Mupen64Plus-Next GLES3"
 	["Opera"]="Opera Xtreme"
 	["PrBoom"]="PrBoom Xtreme"
 	["PUAE 2021"]="P-UAE Xtreme"
-	["Stella"]="Stella 2014"
 	["VICE x64"]="VICE Xtreme x64"
 )
 
