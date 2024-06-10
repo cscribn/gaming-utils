@@ -143,7 +143,6 @@ readonly -A system_dbs=(
 	["videopac"]="Magnavox - Odyssey2"
 	["wonderswan"]="Bandai - WonderSwan"
 	["wonderswancolor"]="Bandai - WonderSwan Color"
-	["x1"]="Sharp - X1"
 	["x68000"]="Sharp - X68000"
 	["zxspectrum"]="Sinclair - ZX Spectrum"
 )
@@ -206,7 +205,6 @@ readonly -A system_retro_corenames=(
 	["videopac"]="O2EM"
 	["wonderswan"]="Beetle WonderSwan"
 	["wonderswancolor"]="Beetle WonderSwan"
-	["x1"]="x1"
 	["x68000"]="PX68K"
 	["zxspectrum"]="fuse"
 )
