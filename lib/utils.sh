@@ -139,7 +139,6 @@ readonly -A system_dbs=(
 	["sg-1000"]="Sega - SG-1000"
 	["snes"]="Nintendo - Super Nintendo Entertainment System"
 	["supergrafx"]="NEC - PC Engine SuperGrafx"
-	["vectrex"]="GCE - Vectrex"
 	["vic20"]="Commodore - VIC-20"
 	["videopac"]="Magnavox - Odyssey2"
 	["wonderswan"]="Bandai - WonderSwan"
