@@ -187,7 +187,6 @@ readonly -A system_retro_corenames=(
 	["pc98"]="Neko Project II kai"
 	["pce-cd"]="Beetle SuperGrafx"
 	["pcengine"]="Beetle SuperGrafx"
-	["pcfx"]="Beetle PC-FX"
 	["psp"]="PPSSPP"
 	["psx"]="PCSX-ReARMed"
 	["psx_2"]="DuckStation"
