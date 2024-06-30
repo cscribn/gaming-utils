@@ -120,6 +120,7 @@ readonly -A system_dbs=(
 	["megadrive"]="Sega - Mega Drive - Genesis"
 	["msx"]="Microsoft - MSX"
 	["n64"]="Nintendo - Nintendo 64"
+	["nds"]="Nintendo - Nintendo DS"
 	["neogeo"]="SNK - Neo Geo"
 	["nes"]="Nintendo - Nintendo Entertainment System"
 	["ngpc"]="SNK - Neo Geo Pocket Color"
