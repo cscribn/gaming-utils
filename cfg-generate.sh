@@ -74,7 +74,11 @@ check_new_clean() {
 	local md5sum_check_retroarch_core_opts_echo
 	md5sum_check_retroarch_core_opts_echo=$(md5sum_check "$core_opts_cfg_source" "$machine")
 
-	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_core_opts_echo" = "0" ]]; then
+	local md5sum_check_config_echo
+	md5sum_check_config_echo=$(md5sum_check "${script_dir}/etc/retroarch/config" "$machine")
+
+	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_core_opts_echo" = "0" ]] \
+		&& [[ "$md5sum_check_config_echo" = "0" ]]; then
 		echo "${script_name}: ${machine} nothing new"
 		exit 0
 	fi
