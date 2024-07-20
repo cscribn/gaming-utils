@@ -40,6 +40,12 @@ readonly -A input_turbo_btn_values=(
 	["retropad;y"]="3"
 	["retropad;m"]="99"
 
+	["retrotg16;a"]="0"
+	["retrotg16;b"]="1"
+	["retrotg16;x"]="99"
+	["retrotg16;y"]="99"
+	["retrotg16;m"]="99"
+
 	["retrovlieg;a"]="1"
 	["retrovlieg;b"]="2"
 	["retrovlieg;x"]="7"

@@ -34,6 +34,8 @@ fi
 all_cfg_cp() {
 	local c
 	for c in "${script_dir}/etc/retroarch/config/"*/; do
+		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
+
 		c=$(basename "$c")
 		[[ "$c" = "remaps" ]] && continue
 
@@ -47,6 +49,8 @@ all_cfg_cp() {
 
 	local r
 	for r in "${script_dir}/etc/retroarch/config/remaps/"*/; do
+		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
+
 		r=$(basename "$r")
 		local new_r
 		new_r=$(machine_remaps_dir_get "$r")
@@ -131,6 +135,12 @@ core_options_gen() {
 		# Create an empty core options file. This is to prevent the global core options from being erroneously populated.
 		true > "$opt_file"
 	fi
+
+	if [[ "$machine" = "retrotg16" ]] && [[ "$system" = "pcengine" ]]; then
+		cp "$opt_file" "${machine_cfg_dir}/${corename}/supergrafx.opt"
+		cp "$opt_file" "${machine_cfg_dir}/${corename}/tg-cd.opt"
+		cp "$opt_file" "${machine_cfg_dir}/${corename}/tg16.opt"
+	fi
 }
 
 machine_cfg_dir_get() {
@@ -194,10 +204,12 @@ main() {
 
 	check_new_clean
 	all_cfg_cp
-	turbo_button_replace
-	retroarch_dir_replace
+	[[ "$machine" != "retrotg16" ]] && turbo_button_replace
+	[[ "$machine" != "retrotg16" ]] && retroarch_dir_replace
 
 	for system in "${!system_retro_corenames[@]}"; do
+		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
+
 		corename=$(machine_cfg_dir_get "${system_retro_corenames[$system]}")
 		system_no_under="${system%_*}"
 
