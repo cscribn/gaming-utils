@@ -5,7 +5,7 @@ set -o errexit
 set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
-# variables
+# global variables
 declare script_name
 script_name="$(basename "${0}")"
 declare script_dir
@@ -33,7 +33,7 @@ if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
 	exit
 fi
 
-# helper functions
+# functions
 intro_gen() {
 	{
 		echo "{"
@@ -96,7 +96,7 @@ label_gen() {
 	local name_map
 	mapfile -t name_map < <(echo "$line" | grep -Pio 'name>\K[^<]*')
 	local name="${name_map[0]}"
-	name=$(sed "s/^${fav_symbol_es}/${FAV_SYMBOL_RA}/" <<< $name)
+	name=$(sed "s/^${FAV_SYMBOL_ES}/${FAV_SYMBOL_RA}/" <<< $name)
 	local json_name=${name//&amp;/\&}
 
 	{

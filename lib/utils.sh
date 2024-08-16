@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# variables
+# global variables
+readonly FAV_SYMBOL_ES=" ☆"
 readonly FAV_SYMBOL_RA="!!!"
 readonly -A SYSTEM_DATS=(
 	["arcade-pre90s"]="arcade"
@@ -63,7 +64,7 @@ readonly -a SYSTEMS_FBA_NONARCADE=(
 )
 readonly UTILS_TEMP_DIR="/c/Windows/Temp"
 
-# helper functions
+# functions
 check_favorites() {
 	local check_dir
 	local fav_amped
