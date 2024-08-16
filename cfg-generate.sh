@@ -4,7 +4,7 @@
 set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
-# variables
+# global variables
 declare script_name
 script_name="$(basename "${0}")"
 declare script_dir
@@ -140,7 +140,7 @@ if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
     exit
 fi
 
-# helper functions
+# functions
 all_cfg_cp() {
 	local c
 	for c in "${script_dir}/etc/retroarch/config/"*/; do

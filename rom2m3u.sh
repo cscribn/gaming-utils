@@ -5,7 +5,7 @@ set -o errexit
 set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
-# variables
+# global variables
 declare script_name
 script_name="$(basename "${0}")"
 declare script_dir
