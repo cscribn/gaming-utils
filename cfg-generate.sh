@@ -142,6 +142,9 @@ fi
 
 # functions
 all_cfg_cp() {
+	local new_c
+	local new_r
+
 	local c
 	for c in "${script_dir}/etc/retroarch/config/"*/; do
 		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
@@ -149,7 +152,6 @@ all_cfg_cp() {
 		c=$(basename "$c")
 		[[ "$c" = "remaps" ]] && continue
 
-		local new_c
 		new_c=$(machine_cfg_dir_get "$c")
 
 		echo "${script_name}: ${machine} - copying cfgs - ${new_c}"
@@ -162,7 +164,6 @@ all_cfg_cp() {
 		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
 
 		r=$(basename "$r")
-		local new_r
 		new_r=$(machine_remaps_dir_get "$r")
 
 		echo "${script_name}: ${machine} - copying remaps - ${new_r}"
@@ -172,23 +173,24 @@ all_cfg_cp() {
 }
 
 check_new_clean() {
+	local md5sum_check_cfg_echo
+	local md5sum_check_config_echo
+	local md5sum_check_retroarch_cfg_echo
+	local md5sum_check_retroarch_core_opts_echo
+
 	if [[ "$machine" = "retro"* ]]; then
 		core_opts_cfg_source="${script_dir}/etc/retroarch/retroarch-core-options-sbc.cfg"
 	else
 		core_opts_cfg_source="${script_dir}/etc/retroarch/retroarch-core-options-miniclassics.cfg"
 	fi
 
-	local md5sum_check_cfg_echo
 	md5sum_check_cfg_echo=$(md5sum_check "${script_dir}/lib/cfg.sh" "$machine")
-	local md5sum_check_retroarch_cfg_echo="0"
+	md5sum_check_retroarch_cfg_echo="0"
 
 	# only perform md5sum check in this script for retro* machines
 	[[ "$machine" = "retro"* ]] && md5sum_check_retroarch_cfg_echo=$(md5sum_check "${script_dir}/etc/retroarch/retroarch-${machine}.cfg")
 
-	local md5sum_check_retroarch_core_opts_echo
 	md5sum_check_retroarch_core_opts_echo=$(md5sum_check "$core_opts_cfg_source" "$machine")
-
-	local md5sum_check_config_echo
 	md5sum_check_config_echo=$(md5sum_check "${script_dir}/etc/retroarch/config" "$machine")
 
 	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_core_opts_echo" = "0" ]] \
@@ -228,16 +230,18 @@ check_new_clean() {
 }
 
 core_options_gen() {
+	local corename_orig
+	local opt_file
+
 	echo "${script_name}: ${machine} - core options generate - ${corename}"
 
-	local opt_file
 	if [[ "$machine" = "retro"* ]]; then
 		opt_file="${machine_cfg_dir}/${corename}/${system_no_under}.opt"
 	else
 		opt_file="${machine_cfg_dir}/${corename}/${corename}.opt"
 	fi
 
-	local corename_orig="${system_retro_corenames[$system]}"
+	corename_orig="${system_retro_corenames[$system]}"
 
 	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename_orig"; then
 		grep "${corename_core_options[$corename_orig]}" "$core_opts_cfg_source" > "$opt_file"
@@ -305,6 +309,8 @@ turbo_button_replace() {
 
 # main function
 main() {
+	local md5sum_check_echo
+
 	# check inputs
 	cfg_dir="$1"
 	[[ "$cfg_dir" = "" ]] && echo "Missing cfg_dir" && exit 1
@@ -329,7 +335,6 @@ main() {
 	done
 
 	# create new md5sum
-	local md5sum_check_echo
 	md5sum_check_echo=$(md5sum_check "${script_dir}/${script_name}" "$machine")
 }
 
