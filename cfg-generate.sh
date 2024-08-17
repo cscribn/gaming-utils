@@ -5,12 +5,12 @@ set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
 # global variables
-declare script_name
-script_name="$(basename "${0}")"
-declare script_dir
-script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_NAME="$(basename "${0}")"
+readonly SCRIPT_NAME
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+readonly SCRIPT_DIR
 
-readonly -A a500_cfg_dirs=(
+readonly -A A500_CFG_DIRS=(
 	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
 	["Mupen64Plus-Next"]="Mupen64 Xtreme Amped"
 	["Opera"]="Opera Xtreme"
@@ -19,7 +19,8 @@ readonly -A a500_cfg_dirs=(
 	["Stella"]="Stella 2014"
 	["VICE x64"]="VICE Xtreme x64"
 )
-readonly -A corename_core_options=(
+
+readonly -A CORENAME_CORE_OPTIONS=(
 	["Atari800"]="atari800_"
 	["Beetle SuperGrafx"]="sgx_"
 	["Beetle WonderSwan"]="wswan_"
@@ -45,7 +46,7 @@ readonly -A corename_core_options=(
 	["VICE x64"]="vice_"
 	["VICE xvic"]="vice_"
 )
-readonly -A psclassic_cfg_dirs=(
+readonly -A PSCLASSIC_CFG_DIRS=(
 	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
 	["Mupen64Plus-Next"]="Mupen64Plus-Next GLES3"
 	["Opera"]="Opera Xtreme"
@@ -53,7 +54,7 @@ readonly -A psclassic_cfg_dirs=(
 	["PUAE 2021"]="P-UAE Xtreme"
 	["VICE x64"]="VICE Xtreme x64"
 )
-readonly -A segamini_cfg_dirs=(
+readonly -A SEGAMINI_CFG_DIRS=(
 	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
 	["Mupen64Plus-Next"]="Mupen64Plus-Next GLES2"
 	["Opera"]="Opera Xtreme"
@@ -62,10 +63,10 @@ readonly -A segamini_cfg_dirs=(
 	["Stella"]="Stella 2014"
 	["VICE x64"]="VICE Xtreme x64"
 )
-readonly -A retropad_cfg_dirs=(
+readonly -A RETROPAD_CFG_DIRS=(
 	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
 )
-readonly -A system_retro_corenames=(
+readonly -A SYSTEM_RETRO_CORENAMES=(
 	["3do"]="Opera"
 	["amiga"]="PUAE 2021"
 	["arcade-pre90s"]="FinalBurn Neo"
@@ -130,12 +131,12 @@ declare system
 declare system_no_under
 
 # include
-source "${script_dir}/lib/cfg.sh" > /dev/null 2>&1 || ( echo "Missing ./lib/cfg.sh" && exit 1 )
-source "${script_dir}/lib/utils.sh"
+source "${SCRIPT_DIR}/lib/cfg.sh" > /dev/null 2>&1 || ( echo "Missing ./lib/cfg.sh" && exit 1 )
+source "${SCRIPT_DIR}/lib/utils.sh"
 
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
-    echo "Usage: ${script_name} cfg_dir machine"
+    echo "Usage: ${SCRIPT_NAME} cfg_dir machine"
 	echo "./lib/cfg.sh needs to be present (see ./lib/cfg.sample.sh)"
     exit
 fi
@@ -146,7 +147,7 @@ all_cfg_cp() {
 	local new_r
 
 	local c
-	for c in "${script_dir}/etc/retroarch/config/"*/; do
+	for c in "${SCRIPT_DIR}/etc/retroarch/config/"*/; do
 		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
 
 		c=$(basename "$c")
@@ -154,21 +155,21 @@ all_cfg_cp() {
 
 		new_c=$(machine_cfg_dir_get "$c")
 
-		echo "${script_name}: ${machine} - copying cfgs - ${new_c}"
+		echo "${SCRIPT_NAME}: ${machine} - copying cfgs - ${new_c}"
 		mkdir -p "${machine_cfg_dir}/${new_c}"
-		cp "${script_dir}/etc/retroarch/config/${c}/"* "${machine_cfg_dir}/${new_c}"
+		cp "${SCRIPT_DIR}/etc/retroarch/config/${c}/"* "${machine_cfg_dir}/${new_c}"
 	done
 
 	local r
-	for r in "${script_dir}/etc/retroarch/config/remaps/"*/; do
+	for r in "${SCRIPT_DIR}/etc/retroarch/config/remaps/"*/; do
 		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
 
 		r=$(basename "$r")
 		new_r=$(machine_remaps_dir_get "$r")
 
-		echo "${script_name}: ${machine} - copying remaps - ${new_r}"
+		echo "${SCRIPT_NAME}: ${machine} - copying remaps - ${new_r}"
 		mkdir -p "${machine_cfg_dir}/remaps/${new_r}"
-		cp "${script_dir}/etc/retroarch/config/remaps/${r}/"* "${machine_cfg_dir}/remaps/${new_r}"
+		cp "${SCRIPT_DIR}/etc/retroarch/config/remaps/${r}/"* "${machine_cfg_dir}/remaps/${new_r}"
 	done
 }
 
@@ -179,23 +180,23 @@ check_new_clean() {
 	local md5sum_check_retroarch_core_opts_echo
 
 	if [[ "$machine" = "retro"* ]]; then
-		core_opts_cfg_source="${script_dir}/etc/retroarch/retroarch-core-options-sbc.cfg"
+		core_opts_cfg_source="${SCRIPT_DIR}/etc/retroarch/retroarch-core-options-sbc.cfg"
 	else
-		core_opts_cfg_source="${script_dir}/etc/retroarch/retroarch-core-options-miniclassics.cfg"
+		core_opts_cfg_source="${SCRIPT_DIR}/etc/retroarch/retroarch-core-options-miniclassics.cfg"
 	fi
 
-	md5sum_check_cfg_echo=$(md5sum_check "${script_dir}/lib/cfg.sh" "$machine")
+	md5sum_check_cfg_echo=$(md5sum_check "${SCRIPT_DIR}/lib/cfg.sh" "$machine")
 	md5sum_check_retroarch_cfg_echo="0"
 
 	# only perform md5sum check in this script for retro* machines
-	[[ "$machine" = "retro"* ]] && md5sum_check_retroarch_cfg_echo=$(md5sum_check "${script_dir}/etc/retroarch/retroarch-${machine}.cfg")
+	[[ "$machine" = "retro"* ]] && md5sum_check_retroarch_cfg_echo=$(md5sum_check "${SCRIPT_DIR}/etc/retroarch/retroarch-${machine}.cfg")
 
 	md5sum_check_retroarch_core_opts_echo=$(md5sum_check "$core_opts_cfg_source" "$machine")
-	md5sum_check_config_echo=$(md5sum_check "${script_dir}/etc/retroarch/config" "$machine")
+	md5sum_check_config_echo=$(md5sum_check "${SCRIPT_DIR}/etc/retroarch/config" "$machine")
 
 	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_core_opts_echo" = "0" ]] \
 		&& [[ "$md5sum_check_config_echo" = "0" ]]; then
-		echo "${script_name}: ${machine} nothing new"
+		echo "${SCRIPT_NAME}: ${machine} nothing new"
 		exit 0
 	fi
 
@@ -225,7 +226,7 @@ check_new_clean() {
 		retroarch_dir="~"
 	fi
 
-	echo "${script_name}: ${machine} - cleaning machine cfgs"
+	echo "${SCRIPT_NAME}: ${machine} - cleaning machine cfgs"
 	rm -rf "${machine_cfg_dir:?}/"*
 }
 
@@ -233,7 +234,7 @@ core_options_gen() {
 	local corename_orig
 	local opt_file
 
-	echo "${script_name}: ${machine} - core options generate - ${corename}"
+	echo "${SCRIPT_NAME}: ${machine} - core options generate - ${corename}"
 
 	if [[ "$machine" = "retro"* ]]; then
 		opt_file="${machine_cfg_dir}/${corename}/${system_no_under}.opt"
@@ -241,10 +242,10 @@ core_options_gen() {
 		opt_file="${machine_cfg_dir}/${corename}/${corename}.opt"
 	fi
 
-	corename_orig="${system_retro_corenames[$system]}"
+	corename_orig="${SYSTEM_RETRO_CORENAMES[$system]}"
 
-	if printf '%s\0' "${!corename_core_options[@]}" | grep -Fxqz "$corename_orig"; then
-		grep "${corename_core_options[$corename_orig]}" "$core_opts_cfg_source" > "$opt_file"
+	if printf '%s\0' "${!CORENAME_CORE_OPTIONS[@]}" | grep -Fxqz "$corename_orig"; then
+		grep "${CORENAME_CORE_OPTIONS[$corename_orig]}" "$core_opts_cfg_source" > "$opt_file"
 	else
 		# Create an empty core options file. This is to prevent the global core options from being erroneously populated.
 		true > "$opt_file"
@@ -258,52 +259,52 @@ core_options_gen() {
 }
 
 machine_cfg_dir_get() {
-	local dir="$1"
+	local dir="$2"
 
-	if [[ "$machine" = "a500" ]] && printf '%s\0' "${!a500_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
-		echo "${a500_cfg_dirs[$dir]}"
-	elif [[ "$machine" = "psclassic" ]] && printf '%s\0' "${!psclassic_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
-		echo "${psclassic_cfg_dirs[$dir]}"
-	elif [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
-		echo "${retropad_cfg_dirs[$dir]}"
-	elif [[ "$machine" = "segamini" ]] && printf '%s\0' "${!segamini_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
-		echo "${segamini_cfg_dirs[$dir]}"
+	if [[ "$machine" = "a500" ]] && printf '%s\0' "${!A500_CFG_DIRS[@]}" | grep -Fxqz "$dir"; then
+		echo "${A500_CFG_DIRS[$dir]}"
+	elif [[ "$machine" = "psclassic" ]] && printf '%s\0' "${!PSCLASSIC_CFG_DIRS[@]}" | grep -Fxqz "$dir"; then
+		echo "${PSCLASSIC_CFG_DIRS[$dir]}"
+	elif [[ "$machine" = "retropad" ]] && printf '%s\0' "${!RETROPAD_CFG_DIRS[@]}" | grep -Fxqz "$dir"; then
+		echo "${RETROPAD_CFG_DIRS[$dir]}"
+	elif [[ "$machine" = "segamini" ]] && printf '%s\0' "${!SEGAMINI_CFG_DIRS[@]}" | grep -Fxqz "$dir"; then
+		echo "${SEGAMINI_CFG_DIRS[$dir]}"
 	else
 		echo "$dir"
 	fi
 }
 
 machine_remaps_dir_get() {
-	local dir="$1"
+	local dir="$2"
 
-	if [[ "$machine" = "a500" ]] && printf '%s\0' "${!a500_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
-		echo "${a500_cfg_dirs[$dir]}"
-	elif [[ "$machine" = "psclassic" ]] && printf '%s\0' "${!psclassic_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
-		echo "${psclassic_cfg_dirs[$dir]}"
-	elif [[ "$machine" = "retropad" ]] && printf '%s\0' "${!retropad_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
-		echo "${retropad_cfg_dirs[$dir]}"
-	elif [[ "$machine" = "segamini" ]] && printf '%s\0' "${!segamini_cfg_dirs[@]}" | grep -Fxqz "$dir"; then
-		echo "${segamini_cfg_dirs[$dir]}"
+	if [[ "$machine" = "a500" ]] && printf '%s\0' "${!A500_CFG_DIRS[@]}" | grep -Fxqz "$dir"; then
+		echo "${A500_CFG_DIRS[$dir]}"
+	elif [[ "$machine" = "psclassic" ]] && printf '%s\0' "${!PSCLASSIC_CFG_DIRS[@]}" | grep -Fxqz "$dir"; then
+		echo "${PSCLASSIC_CFG_DIRS[$dir]}"
+	elif [[ "$machine" = "retropad" ]] && printf '%s\0' "${!RETROPAD_CFG_DIRS[@]}" | grep -Fxqz "$dir"; then
+		echo "${RETROPAD_CFG_DIRS[$dir]}"
+	elif [[ "$machine" = "segamini" ]] && printf '%s\0' "${!SEGAMINI_CFG_DIRS[@]}" | grep -Fxqz "$dir"; then
+		echo "${SEGAMINI_CFG_DIRS[$dir]}"
 	else
 		echo "$dir"
 	fi
 }
 
 retroarch_dir_replace() {
-	echo "${script_name}: ${machine} - retroarch dir replace"
+	echo "${SCRIPT_NAME}: ${machine} - retroarch dir replace"
 	sed -i "s/\$RETROARCH_DIR/${retroarch_dir}/g" "${machine_cfg_dir}"/*/*.cfg
 }
 
 turbo_button_replace() {
-	echo "${script_name}: ${machine} - turbo button replace - a"
+	echo "${SCRIPT_NAME}: ${machine} - turbo button replace - a"
 	sed -i "s/_turbo_btn = \"a\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};a]}\"/g" "${machine_cfg_dir}"/*/*.cfg
-	echo "${script_name}: ${machine} - turbo button replace - b"
+	echo "${SCRIPT_NAME}: ${machine} - turbo button replace - b"
 	sed -i "s/_turbo_btn = \"b\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};b]}\"/g" "${machine_cfg_dir}"/*/*.cfg
-	echo "${script_name}: ${machine} - turbo button replace - x"
+	echo "${SCRIPT_NAME}: ${machine} - turbo button replace - x"
 	sed -i "s/_turbo_btn = \"x\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};x]}\"/g" "${machine_cfg_dir}"/*/*.cfg
-	echo "${script_name}: ${machine} - turbo button replace - y"
+	echo "${SCRIPT_NAME}: ${machine} - turbo button replace - y"
 	sed -i "s/_turbo_btn = \"y\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};y]}\"/g" "${machine_cfg_dir}"/*/*.cfg
-	echo "${script_name}: ${machine} - turbo button replace - m"
+	echo "${SCRIPT_NAME}: ${machine} - turbo button replace - m"
 	sed -i "s/_turbo_btn = \"m\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};m]}\"/g" "${machine_cfg_dir}"/*/*.cfg
 }
 
@@ -323,19 +324,19 @@ main() {
 	[[ "$machine" != "retrotg16" ]] && turbo_button_replace
 	[[ "$machine" != "retrotg16" ]] && retroarch_dir_replace
 
-	for system in "${!system_retro_corenames[@]}"; do
+	for system in "${!SYSTEM_RETRO_CORENAMES[@]}"; do
 		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
 
-		corename=$(machine_cfg_dir_get "${system_retro_corenames[$system]}")
+		corename=$(machine_cfg_dir_get "${SYSTEM_RETRO_CORENAMES[$system]}")
 		system_no_under="${system%_*}"
 
 		mkdir -p "${machine_cfg_dir}/${corename}"
-		[[ "$machine" = "retro"* ]] && cp "${script_dir}/etc/retroarch/retroarch-${machine}.cfg" "${machine_cfg_dir}/${corename}/${corename}.cfg"
+		[[ "$machine" = "retro"* ]] && cp "${SCRIPT_DIR}/etc/retroarch/retroarch-${machine}.cfg" "${machine_cfg_dir}/${corename}/${corename}.cfg"
 		core_options_gen
 	done
 
 	# create new md5sum
-	md5sum_check_echo=$(md5sum_check "${script_dir}/${script_name}" "$machine")
+	md5sum_check_echo=$(md5sum_check "${SCRIPT_DIR}/${SCRIPT_NAME}" "$machine")
 }
 
 main "${@}"
