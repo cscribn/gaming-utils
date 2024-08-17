@@ -46,8 +46,8 @@ special_get() {
 	local item_value_array
 
 	local item_key
-	for item_key in "${!special_items[@]}"; do
-		IFS=';' read -ra item_value_array <<< "${special_items[$item_key]}"
+	for item_key in "${!SPECIAL_ITEMS[@]}"; do
+		IFS=';' read -ra item_value_array <<< "${SPECIAL_ITEMS[$item_key]}"
 		if [[ "${item_value_array[0]}" = "$system_db" ]]; then
 			special_paths["$item_key"]="${item_value_array[1]}"
 			special_cores["$item_key"]="${item_value_array[2]}"

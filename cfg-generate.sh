@@ -292,15 +292,15 @@ retroarch_dir_replace() {
 
 turbo_button_replace() {
 	echo "${script_name}: ${machine} - turbo button replace - a"
-	sed -i "s/_turbo_btn = \"a\"/_turbo_btn = \"${input_turbo_btn_values[${machine};a]}\"/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/_turbo_btn = \"a\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};a]}\"/g" "${machine_cfg_dir}"/*/*.cfg
 	echo "${script_name}: ${machine} - turbo button replace - b"
-	sed -i "s/_turbo_btn = \"b\"/_turbo_btn = \"${input_turbo_btn_values[${machine};b]}\"/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/_turbo_btn = \"b\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};b]}\"/g" "${machine_cfg_dir}"/*/*.cfg
 	echo "${script_name}: ${machine} - turbo button replace - x"
-	sed -i "s/_turbo_btn = \"x\"/_turbo_btn = \"${input_turbo_btn_values[${machine};x]}\"/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/_turbo_btn = \"x\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};x]}\"/g" "${machine_cfg_dir}"/*/*.cfg
 	echo "${script_name}: ${machine} - turbo button replace - y"
-	sed -i "s/_turbo_btn = \"y\"/_turbo_btn = \"${input_turbo_btn_values[${machine};y]}\"/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/_turbo_btn = \"y\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};y]}\"/g" "${machine_cfg_dir}"/*/*.cfg
 	echo "${script_name}: ${machine} - turbo button replace - m"
-	sed -i "s/_turbo_btn = \"m\"/_turbo_btn = \"${input_turbo_btn_values[${machine};m]}\"/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/_turbo_btn = \"m\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};m]}\"/g" "${machine_cfg_dir}"/*/*.cfg
 }
 
 # main function

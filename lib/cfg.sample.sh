@@ -3,7 +3,7 @@
 # copy this file to ./lib/cfg.sh and make changes
 
 # input values per system and button
-readonly -A input_turbo_btn_values=(
+readonly -A INPUT_TURBO_BTN_VALUES=(
 	["a500;a"]="1"
 	["a500;b"]="2"
 	["a500;x"]="0"

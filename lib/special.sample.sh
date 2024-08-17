@@ -2,7 +2,7 @@
 
 # copy this file to ./lib/special.sh and make changes
 
-readonly -A special_items=(
+readonly -A SPECIAL_ITEMS=(
 	["Aleste 2 - Compile (1989) [ROM Version] [v8 by Ricbit] [3275].rom"]="Microsoft - MSX;Aleste 2 - Compile (1989) [ROM Version] [v8 by Ricbit] [3275].rom;km_fmsx_libretro.so"
 	["astdelux.zip"]="Arcade - 80s and Before;astdelux.zip;km_mame2003_plus_libretro.so"
 	["astinvad.zip"]="Arcade - 80s and Before;astinvad.zip;km_mame2003_plus_libretro.so"
