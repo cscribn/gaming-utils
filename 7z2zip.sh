@@ -6,28 +6,29 @@ set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
 # global variables
-declare script_name
-script_name="$(basename "${0}")"
-declare script_dir
-script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-declare rom_dir
+SCRIPT_NAME="$(basename "${0}")"
+readonly SCRIPT_NAME
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+readonly SCRIPT_DIR
 
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
-    echo "Usage: ./${script_name} rom_path"
+    echo "Usage: ./${SCRIPT_NAME} rom_path"
     exit
 fi
 
 # main function
 main() {
-	# check_inputs
-	rom_dir="$1"
-    [[ "$rom_dir" = "" ]] && echo "Missing rom_dir" && exit 1
+	local rom_dir="$1"
+	local temp_dir
+	local zip_dir
 
+	# check_inputs
+    [[ "$rom_dir" = "" ]] && echo "Missing rom_dir" && exit 1
 	[[ ! -d "$rom_dir" ]] && echo "rom_dir doesn't exist" && exit 1
 
-	readonly temp_dir="${rom_dir}/7z2zip_temp"
-	readonly zip_dir="${rom_dir}-zip"
+	temp_dir="${rom_dir}/7z2zip_temp"
+	zip_dir="${rom_dir}-zip"
 
 	cd "$rom_dir" > /dev/null || exit
 
