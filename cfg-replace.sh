@@ -7,25 +7,24 @@ set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
 # global variables
-declare script_name
-script_name="$(basename "${0}")"
-declare script_dir
-script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
-declare target_file
-declare replacements_file
+SCRIPT_NAME="$(basename "${0}")"
+readonly SCRIPT_NAME
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+readonly SCRIPT_DIR
 
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
-    echo "Usage: ${script_name} target_file replacements_file"
-    exit
+	echo "Usage: ${SCRIPT_NAME} target_file replacements_file"
+	exit
 fi
 
 # functions
 add_replace() {
-    local key
-    local value
-    local -A replacements
+	local key
+	local -A replacements
+	local replacements_file="$1"
+	local target_file="$2"
+	local value
 
 	while IFS=" = " read -r key value; do
 		replacements[$key]=$value # Don't enclose key or value in quotes. This way handles optional spaces.
@@ -35,11 +34,11 @@ add_replace() {
 		value="${replacements[$key]}"
 
 		if [ "$(grep -E -c "^${key}[[:space:]]" "$target_file")" -ge 1 ]; then
-            echo "${script_name}: updating ${key} to ${value}"
+			echo "${SCRIPT_NAME}: updating ${key} to ${value}"
 			sed -i "s/^${key}[[:space:]].*/${key} = ${value}/" "$target_file"
 		else
 			value=${value//\\\//\/}
-			echo "${script_name}: adding ${key} with ${value}"
+			echo "${SCRIPT_NAME}: adding ${key} with ${value}"
 			echo "$key = $value" >> "$target_file"
 		fi
 	done
@@ -49,14 +48,14 @@ add_replace() {
 
 # main function
 main() {
-	# check inputs
-	target_file="$1"
-	[[ "$target_file" = "" ]] && echo "Missing target_file" && exit 1
+	local replacements_file="$1"
+	local target_file="$2"
 
-	replacements_file="$2"
+	# check inputs
+	[[ "$target_file" = "" ]] && echo "Missing target_file" && exit 1
 	[[ "$replacements_file" = "" ]] && echo "Missing replacements_file" && exit 1
 
-	add_replace
+	add_replace "$replacements_file" "$target_file"
 }
 
 main "${@}"
