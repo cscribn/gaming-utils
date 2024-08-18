@@ -9,6 +9,7 @@ SCRIPT_NAME="$(basename "${0}")"
 readonly SCRIPT_NAME
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 readonly SCRIPT_DIR
+
 readonly -A A500_CFG_DIRS=(
 	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
 	["Mupen64Plus-Next"]="Mupen64 Xtreme Amped"
@@ -18,6 +19,7 @@ readonly -A A500_CFG_DIRS=(
 	["Stella"]="Stella 2014"
 	["VICE x64"]="VICE Xtreme x64"
 )
+declare CORE_OPTS_CFG_SOURCE
 readonly -A CORENAME_CORE_OPTIONS=(
 	["Atari800"]="atari800_"
 	["Beetle SuperGrafx"]="sgx_"
@@ -44,6 +46,7 @@ readonly -A CORENAME_CORE_OPTIONS=(
 	["VICE x64"]="vice_"
 	["VICE xvic"]="vice_"
 )
+declare MACHINE_CFG_DIR
 readonly -A PSCLASSIC_CFG_DIRS=(
 	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
 	["Mupen64Plus-Next"]="Mupen64Plus-Next GLES3"
@@ -52,6 +55,7 @@ readonly -A PSCLASSIC_CFG_DIRS=(
 	["PUAE 2021"]="P-UAE Xtreme"
 	["VICE x64"]="VICE Xtreme x64"
 )
+declare RETROARCH_DIR
 readonly -A SEGAMINI_CFG_DIRS=(
 	["Mupen64Plus GLES3"]="Mupen64Plus GLES2"
 	["Mupen64Plus-Next"]="Mupen64Plus-Next GLES2"
@@ -133,15 +137,16 @@ fi
 
 # functions
 all_cfg_cp() {
+	local check_retrotg16_systems_echo
 	local machine="$1"
-	local machine_cfg_dir="$2"
-	local system="$3"
+	local system="$2"
 	local new_c
 	local new_r
 
 	local c
 	for c in "${SCRIPT_DIR}/etc/retroarch/config/"*/; do
-		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
+		check_retrotg16_systems_echo=$(check_retrotg16_systems "$machine" "$system")
+		[[ "$check_retrotg16_systems_echo" = "0" ]] && continue
 
 		c=$(basename "$c")
 		[[ "$c" = "remaps" ]] && continue
@@ -149,38 +154,36 @@ all_cfg_cp() {
 		new_c=$(machine_cfg_dir_get "$c" "$machine")
 
 		echo "${SCRIPT_NAME}: ${machine} - copying cfgs - ${new_c}"
-		mkdir -p "${machine_cfg_dir}/${new_c}"
-		cp "${SCRIPT_DIR}/etc/retroarch/config/${c}/"* "${machine_cfg_dir}/${new_c}"
+		mkdir -p "${MACHINE_CFG_DIR}/${new_c}"
+		cp "${SCRIPT_DIR}/etc/retroarch/config/${c}/"* "${MACHINE_CFG_DIR}/${new_c}"
 	done
 
 	local r
 	for r in "${SCRIPT_DIR}/etc/retroarch/config/remaps/"*/; do
-		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
+		check_retrotg16_systems_echo=$(check_retrotg16_systems "$machine" "$system")
+		[[ "$check_retrotg16_systems_echo" = "0" ]] && continue
 
 		r=$(basename "$r")
 		new_r=$(machine_remaps_dir_get "$r" "$machine")
 
 		echo "${SCRIPT_NAME}: ${machine} - copying remaps - ${new_r}"
-		mkdir -p "${machine_cfg_dir}/remaps/${new_r}"
-		cp "${SCRIPT_DIR}/etc/retroarch/config/remaps/${r}/"* "${machine_cfg_dir}/remaps/${new_r}"
+		mkdir -p "${MACHINE_CFG_DIR}/remaps/${new_r}"
+		cp "${SCRIPT_DIR}/etc/retroarch/config/remaps/${r}/"* "${MACHINE_CFG_DIR}/remaps/${new_r}"
 	done
 }
 
 check_new_clean() {
-	local core_opts_cfg_source="$1"
-	local cfg_dir="$2"
-	local machine="$3"
-	local machine_cfg_dir="$4"
+	local cfg_dir="$1"
+	local machine="$2"
 	local md5sum_check_cfg_echo
 	local md5sum_check_config_echo
 	local md5sum_check_retroarch_cfg_echo
 	local md5sum_check_retroarch_core_opts_echo
-	local retroarch_dir="$5"
 
 	if [[ "$machine" = "retro"* ]]; then
-		core_opts_cfg_source="${SCRIPT_DIR}/etc/retroarch/retroarch-core-options-sbc.cfg"
+		CORE_OPTS_CFG_SOURCE="${SCRIPT_DIR}/etc/retroarch/retroarch-core-options-sbc.cfg"
 	else
-		core_opts_cfg_source="${SCRIPT_DIR}/etc/retroarch/retroarch-core-options-miniclassics.cfg"
+		CORE_OPTS_CFG_SOURCE="${SCRIPT_DIR}/etc/retroarch/retroarch-core-options-miniclassics.cfg"
 	fi
 
 	md5sum_check_cfg_echo=$(md5sum_check "${SCRIPT_DIR}/lib/cfg.sh" "$machine")
@@ -189,7 +192,7 @@ check_new_clean() {
 	# only perform md5sum check in this script for retro* machines
 	[[ "$machine" = "retro"* ]] && md5sum_check_retroarch_cfg_echo=$(md5sum_check "${SCRIPT_DIR}/etc/retroarch/retroarch-${machine}.cfg")
 
-	md5sum_check_retroarch_core_opts_echo=$(md5sum_check "$core_opts_cfg_source" "$machine")
+	md5sum_check_retroarch_core_opts_echo=$(md5sum_check "$CORE_OPTS_CFG_SOURCE" "$machine")
 	md5sum_check_config_echo=$(md5sum_check "${SCRIPT_DIR}/etc/retroarch/config" "$machine")
 
 	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_core_opts_echo" = "0" ]] \
@@ -198,67 +201,72 @@ check_new_clean() {
 		exit 0
 	fi
 
-	# set machine_cfg_dirs
+	# set MACHINE_CFG_DIRs
 	if [[ "$machine" = "retropad" ]]; then
-		machine_cfg_dir="${cfg_dir}/mirror/${machine}/home/ark/.config/retroarch/config"
+		MACHINE_CFG_DIR="${cfg_dir}/mirror/${machine}/home/ark/.config/retroarch/config"
 	elif [[ "$machine" = "retro"* ]]; then
-		machine_cfg_dir="${cfg_dir}/mirror/${machine}/opt/retropie/configs/all/retroarch/config"
+		MACHINE_CFG_DIR="${cfg_dir}/mirror/${machine}/opt/retropie/configs/all/retroarch/config"
 	elif [[ "$machine" = "a500" ]]; then
-		machine_cfg_dir="${cfg_dir}/mirror/${machine}/Pandory/.user/.config/retroarch/config"
+		MACHINE_CFG_DIR="${cfg_dir}/mirror/${machine}/Pandory/.user/.config/retroarch/config"
 	elif [[ "$machine" = "psclassic" ]]; then
-		machine_cfg_dir="${cfg_dir}/mirror/${machine}/retroarch/config"
+		MACHINE_CFG_DIR="${cfg_dir}/mirror/${machine}/retroarch/config"
 	elif [[ "$machine" = "segamini" ]]; then
-		machine_cfg_dir="${cfg_dir}/mirror/${machine}/hakchi/libretro/config"
+		MACHINE_CFG_DIR="${cfg_dir}/mirror/${machine}/hakchi/libretro/config"
 	fi
 
-	# set retroarch_dirs
+	# set RETROARCH_DIRs
 	if [[ "$machine" = "retropad" ]]; then
-		retroarch_dir="~\/\.config\/retroarch"
+		RETROARCH_DIR="~\/\.config\/retroarch"
 	elif [[ "$machine" = "retro"* ]]; then
-		retroarch_dir="\/opt\/retropie\/configs\/all\/retroarch"
+		RETROARCH_DIR="\/opt\/retropie\/configs\/all\/retroarch"
 	elif [[ "$machine" = "a500" ]]; then
-		retroarch_dir="~\/\.config\/retroarch"
+		RETROARCH_DIR="~\/\.config\/retroarch"
 	elif [[ "$machine" = "psclassic" ]]; then
-		retroarch_dir=":"
+		RETROARCH_DIR=":"
 	elif [[ "$machine" = "segamini" ]]; then
-		retroarch_dir="~"
+		RETROARCH_DIR="~"
 	fi
 
 	echo "${SCRIPT_NAME}: ${machine} - cleaning machine cfgs"
-	rm -rf "${machine_cfg_dir:?}/"*
+	rm -rf "${MACHINE_CFG_DIR:?}/"*
+}
+
+check_retrotg16_systems() {
+	local machine="$1"
+	local system="$2"
+
+	[[ "$machine" = "retrotg16" ]] && [[ "$system" != "nes" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && [[ "$system" != "snes" ]] && echo "0" || echo "1"
 }
 
 core_options_gen() {
-	local core_opts_cfg_source="$1"
-	local corename="$2"
+	local corename="$1"
 	local corename_orig
-	local machine="$3"
-	local machine_cfg_dir="$4"
+	local machine="$2"
 	local opt_file
-	local system="$5"
-	local system_no_under="$6"
+	local system="$3"
+	local system_no_under="$4"
 
 	echo "${SCRIPT_NAME}: ${machine} - core options generate - ${corename}"
 
 	if [[ "$machine" = "retro"* ]]; then
-		opt_file="${machine_cfg_dir}/${corename}/${system_no_under}.opt"
+		opt_file="${MACHINE_CFG_DIR}/${corename}/${system_no_under}.opt"
 	else
-		opt_file="${machine_cfg_dir}/${corename}/${corename}.opt"
+		opt_file="${MACHINE_CFG_DIR}/${corename}/${corename}.opt"
 	fi
 
 	corename_orig="${SYSTEM_RETRO_CORENAMES[$system]}"
 
 	if printf '%s\0' "${!CORENAME_CORE_OPTIONS[@]}" | grep -Fxqz "$corename_orig"; then
-		grep "${CORENAME_CORE_OPTIONS[$corename_orig]}" "$core_opts_cfg_source" > "$opt_file"
+		grep "${CORENAME_CORE_OPTIONS[$corename_orig]}" "$CORE_OPTS_CFG_SOURCE" > "$opt_file"
 	else
 		# Create an empty core options file. This is to prevent the global core options from being erroneously populated.
 		true > "$opt_file"
 	fi
 
 	if [[ "$machine" = "retrotg16" ]] && [[ "$system" = "pcengine" ]]; then
-		cp "$opt_file" "${machine_cfg_dir}/${corename}/supergrafx.opt"
-		cp "$opt_file" "${machine_cfg_dir}/${corename}/tg-cd.opt"
-		cp "$opt_file" "${machine_cfg_dir}/${corename}/tg16.opt"
+		cp "$opt_file" "${MACHINE_CFG_DIR}/${corename}/supergrafx.opt"
+		cp "$opt_file" "${MACHINE_CFG_DIR}/${corename}/tg-cd.opt"
+		cp "$opt_file" "${MACHINE_CFG_DIR}/${corename}/tg16.opt"
 	fi
 }
 
@@ -298,38 +306,33 @@ machine_remaps_dir_get() {
 
 retroarch_dir_replace() {
 	local machine="$1"
-	local machine_cfg_dir="$2"
-	local retroarch_dir="$3"
 
 	echo "${SCRIPT_NAME}: ${machine} - retroarch dir replace"
-	sed -i "s/\$RETROARCH_DIR/${retroarch_dir}/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/\$RETROARCH_DIR/${RETROARCH_DIR}/g" "${MACHINE_CFG_DIR}"/*/*.cfg
 }
 
 turbo_button_replace() {
 	local machine="$1"
-	local machine_cfg_dir="$2"
 
 	echo "${SCRIPT_NAME}: ${machine} - turbo button replace - a"
-	sed -i "s/_turbo_btn = \"a\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};a]}\"/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/_turbo_btn = \"a\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};a]}\"/g" "${MACHINE_CFG_DIR}"/*/*.cfg
 	echo "${SCRIPT_NAME}: ${machine} - turbo button replace - b"
-	sed -i "s/_turbo_btn = \"b\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};b]}\"/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/_turbo_btn = \"b\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};b]}\"/g" "${MACHINE_CFG_DIR}"/*/*.cfg
 	echo "${SCRIPT_NAME}: ${machine} - turbo button replace - x"
-	sed -i "s/_turbo_btn = \"x\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};x]}\"/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/_turbo_btn = \"x\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};x]}\"/g" "${MACHINE_CFG_DIR}"/*/*.cfg
 	echo "${SCRIPT_NAME}: ${machine} - turbo button replace - y"
-	sed -i "s/_turbo_btn = \"y\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};y]}\"/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/_turbo_btn = \"y\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};y]}\"/g" "${MACHINE_CFG_DIR}"/*/*.cfg
 	echo "${SCRIPT_NAME}: ${machine} - turbo button replace - m"
-	sed -i "s/_turbo_btn = \"m\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};m]}\"/g" "${machine_cfg_dir}"/*/*.cfg
+	sed -i "s/_turbo_btn = \"m\"/_turbo_btn = \"${INPUT_TURBO_BTN_VALUES[${machine};m]}\"/g" "${MACHINE_CFG_DIR}"/*/*.cfg
 }
 
 # main function
 main() {
 	local cfg_dir="$1"
-	local core_opts_cfg_source
+	local check_retrotg16_systems_echo
 	local corename
 	local machine="$2"
-	local machine_cfg_dir
 	local md5sum_check_echo
-	local retroarch_dir
 	local system
 	local system_no_under
 
@@ -337,20 +340,21 @@ main() {
 	[[ "$cfg_dir" = "" ]] && echo "Missing cfg_dir" && exit 1
 	[[ "$machine" = "" ]] && echo "Missing machine" && exit 1
 
-	check_new_clean "$cfg_dir" "$core_opts_cfg_source" "$machine" "$machine_cfg_dir" "$retroarch_dir"
-	all_cfg_cp "$machine" "$machine_cfg_dir" "$system"
-	[[ "$machine" != "retrotg16" ]] && turbo_button_replace "$machine" "$machine_cfg_dir"
-	[[ "$machine" != "retrotg16" ]] && retroarch_dir_replace "$machine" "$machine_cfg_dir" "$retroarch_dir"
+	check_new_clean "$cfg_dir" "$machine"
+	all_cfg_cp "$machine" "$system"
+	[[ "$machine" != "retrotg16" ]] && turbo_button_replace "$machine"
+	[[ "$machine" != "retrotg16" ]] && retroarch_dir_replace "$machine"
 
 	for system in "${!SYSTEM_RETRO_CORENAMES[@]}"; do
-		[[ "$machine" = "retrotg16" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && continue
+		check_retrotg16_systems_echo=$(check_retrotg16_systems "$machine" "$system")
+		[[ "$check_retrotg16_systems_echo" = "0" ]] && continue
 
 		corename=$(machine_cfg_dir_get "${SYSTEM_RETRO_CORENAMES[$system]}" "$machine")
 		system_no_under="${system%_*}"
 
-		mkdir -p "${machine_cfg_dir}/${corename}"
-		[[ "$machine" = "retro"* ]] && cp "${SCRIPT_DIR}/etc/retroarch/retroarch-${machine}.cfg" "${machine_cfg_dir}/${corename}/${corename}.cfg"
-		core_options_gen "$core_opts_cfg_source" "$corename" "$machine" "$machine_cfg_dir" "$system" "$system_no_under"
+		mkdir -p "${MACHINE_CFG_DIR}/${corename}"
+		[[ "$machine" = "retro"* ]] && cp "${SCRIPT_DIR}/etc/retroarch/retroarch-${machine}.cfg" "${MACHINE_CFG_DIR}/${corename}/${corename}.cfg"
+		core_options_gen "$corename" "$machine" "$system" "$system_no_under"
 	done
 
 	# create new md5sum
