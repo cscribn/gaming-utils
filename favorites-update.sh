@@ -32,8 +32,8 @@ fi
 # functions
 check_new() {
 	local md5sum_check_favorites_echo
-	md5sum_check_favorites_echo=$(md5sum_check "${favorites_file}" "")
 	local md5sum_check_gamelist_echo
+	md5sum_check_favorites_echo=$(md5sum_check "${favorites_file}" "")
 	md5sum_check_gamelist_echo=$(md5sum_check "${gamelist_file}" "")
 
 	if [[ "$md5sum_check_favorites_echo" = "0" ]] && [[ "$md5sum_check_gamelist_echo" = "0" ]]; then
@@ -63,26 +63,29 @@ clear_existing_favorites() {
 }
 
 set_favorites() {
+	local fav_amped
+	local fav_amped_ra
+	local fav_amped_ra_png
+	local fav_amped_ra_sedkey
+	local fav_amped_ra_sedrep
+	local fav_sedkey
+	local fav_sedrep
+	local favorites
+
 	echo_color "${script_name}: ${system} setting favorites" "green"
 
-	local favorites
 	readarray -t favorites < "$favorites_file"
 
 	cd "$thumbnails_dir/${system_db}/Named_Boxarts" > /dev/null || exit 1
 
 	local fav
 	for fav in "${favorites[@]}"; do
-		local fav_amped="${fav//amp;/}"
-		local fav_sedkey
+		fav_amped="${fav//amp;/}"
 		fav_sedkey=$(sed_escape_keyword "$fav")
-		local fav_sedrep
 		fav_sedrep=$(sed_escape_replace "$fav")
-		local fav_amped_ra
 		fav_amped_ra=$(ra_escape "$fav_amped")
-		local fav_amped_ra_png="$fav_amped_ra".png
-		local fav_amped_ra_sedkey
+		fav_amped_ra_png="$fav_amped_ra".png
 		fav_amped_ra_sedkey=$(sed_escape_keyword "$fav_amped_ra")
-		local fav_amped_ra_sedrep
 		fav_amped_ra_sedrep=$(sed_escape_replace "$fav_amped_ra")
 
 		if [ -f "$fav_amped_ra_png" ]; then
@@ -100,6 +103,8 @@ set_favorites() {
 
 # main function
 main() {
+	local md5sum_check_echo
+
 	# check_inputs
 	system="$1"
 	[[ "$system" = "" ]] && echo "Missing system" && exit 1
@@ -120,8 +125,6 @@ main() {
 		echo "${script_name}: ${system} no gamelist so no favorites"
 		exit 0
 	fi
-
-	local md5sum_check_echo
 
 	if [ ! -f "$favorites_file" ]; then
 		echo "${script_name}: ${system} no favorites"
