@@ -11,16 +11,8 @@ readonly SCRIPT_NAME
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 readonly SCRIPT_DIR
 
-declare -A special_paths
-declare -A special_cores
-declare core_name
-declare core_path
-declare gamelist
-declare playlist
-declare playlists_dir
-declare rom_path
-declare rom_orig
-declare system_db
+declare -A SPECIAL_CORES
+declare -A SPECIAL_PATHS
 
 # include
 source "${SCRIPT_DIR}/lib/utils.sh"
@@ -33,7 +25,23 @@ if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
 fi
 
 # functions
+special_get() {
+	local item_value_array
+	local system_db="$1"
+
+	local item_key
+	for item_key in "${!SPECIAL_ITEMS[@]}"; do
+		IFS=';' read -ra item_value_array <<< "${SPECIAL_ITEMS[$item_key]}"
+		if [[ "${item_value_array[0]}" = "$system_db" ]]; then
+			SPECIAL_PATHS["$item_key"]="${item_value_array[1]}"
+			SPECIAL_CORES["$item_key"]="${item_value_array[2]}"
+		fi
+	done
+}
+
 intro_gen() {
+	local playlist="$1"
+
 	{
 		echo "{"
 		echo "  \"version\": \"1.0\","
@@ -41,32 +49,23 @@ intro_gen() {
 	} > "$playlist"
 }
 
-special_get() {
-	local item_value_array
-
-	local item_key
-	for item_key in "${!SPECIAL_ITEMS[@]}"; do
-		IFS=';' read -ra item_value_array <<< "${SPECIAL_ITEMS[$item_key]}"
-		if [[ "${item_value_array[0]}" = "$system_db" ]]; then
-			special_paths["$item_key"]="${item_value_array[1]}"
-			special_cores["$item_key"]="${item_value_array[2]}"
-		fi
-	done
-}
-
 path_gen() {
 	local line="$1"
 	local json_rom
 	local json_rom_no_ext
 	local path_map
+	local playlist="$2"
 	local rom
+	local rom_orig
+	local rom_path="$3"
+	local system_db="$4"
 
 	# Strip off beginning ./
 	mapfile -t path_map < <(echo "$line" | grep -Pio 'path>\.\/\K[^<]*')
 	rom_orig="${path_map[0]}"
 
-	if [[ -n "${special_paths[$rom_orig]}" ]]; then
-		rom="${special_paths[$rom_orig]}"
+	if [[ -n "${SPECIAL_PATHS[$rom_orig]}" ]]; then
+		rom="${SPECIAL_PATHS[$rom_orig]}"
 	else
 		rom="$rom_orig"
 	fi
@@ -98,6 +97,7 @@ label_gen() {
 	local json_name
 	local name_map
 	local name
+	local playlist="$2"
 
 	mapfile -t name_map < <(echo "$line" | grep -Pio 'name>\K[^<]*')
 	name="${name_map[0]}"
@@ -110,11 +110,16 @@ label_gen() {
 }
 
 body_gen() {
+	local core_name="$1"
 	local core_name_new
 	local core_name_new_trimmed
+	local core_path="$2"
+	local playlist="$3"
+	local rom_orig="$4"
+	local system_db="$5"
 
-	if [[ -n "${special_cores[$rom_orig]}" ]]; then
-		core_name_new="${special_cores[$rom_orig]}"
+	if [[ -n "${SPECIAL_CORES[$rom_orig]}" ]]; then
+		core_name_new="${SPECIAL_CORES[$rom_orig]}"
 	else
 		core_name_new="$core_name"
 	fi
@@ -131,6 +136,8 @@ body_gen() {
 }
 
 outro_gen() {
+	local playlist="$1"
+
 	{
 		echo ""
 		echo "  ]"
@@ -140,33 +147,30 @@ outro_gen() {
 
 # main function
 main() {
+	local core_name="$6"
+	local core_path="$5"
 	local first_time
+	local gamelist="$1"
+	local playlist
+	local playlists_dir="$3"
+	local rom_path="$4"
+	local rom_orig
+	local system_db="$2"
 
 	# check_inputs
-	gamelist="$1"
 	[[ "$gamelist" = "" ]] && echo "Missing gamelist" && exit 1
 	[[ ! -f "$gamelist" ]] && echo "${SCRIPT_NAME}: ${system_db} skipping - gamelist missing" && exit 0
-
-	system_db="$2"
 	[[ "$system_db" = "" ]] && echo "Missing system_db" && exit 1
-
-	playlists_dir="$3"
 	[[ "$playlists_dir" = "" ]] && echo "Missing playlists_dir" && exit 1
-
-	rom_path="$4"
 	[[ "$rom_path" = "" ]] && echo "Missing rom_path" && exit 1
-
-	core_path="$5"
 	[[ "$core_path" = "" ]] && echo "Missing core_path" && exit 1
-
-	core_name="$6"
 	[[ "$core_name" = "" ]] && echo "Missing core_name" && exit 1
 
 	mkdir -p "$playlists_dir"
 	playlist="${playlists_dir}/${system_db}.lpl"
 	echo "${SCRIPT_NAME}: ${system_db} playlist - started"
-	special_get
-	intro_gen
+	special_get "$system_db"
+	intro_gen "$playlist"
 
 	first_time="true"
 
@@ -180,14 +184,14 @@ main() {
 			fi
 
 			first_time="false"
-			path_gen "$line"
+			rom_orig=$(path_gen "$line" "$playlist" "$rom_path" "$system_db")
 		elif [[ "$line" == *"<name"* ]]; then
-			label_gen "$line"
-			body_gen
+			label_gen "$line" "$playlist"
+			body_gen "$core_name" "$core_path" "$playlist" "$rom_orig" "$system_db"
 		fi
 	done
 
-	outro_gen
+	outro_gen "$playlist"
 	echo "${SCRIPT_NAME}: ${system_db} playlist - finished"
 }
 
