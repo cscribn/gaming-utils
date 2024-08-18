@@ -6,14 +6,13 @@ set -o pipefail
 [[ "${TRACE-0}" = "1" ]] && set -o xtrace
 
 # global variables
-declare script_name
-script_name="$(basename "${0}")"
-declare script_dir
-script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_NAME="$(basename "${0}")"
+readonly SCRIPT_NAME
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+readonly SCRIPT_DIR
 
 declare -A special_paths
 declare -A special_cores
-
 declare core_name
 declare core_path
 declare gamelist
@@ -24,12 +23,12 @@ declare rom_orig
 declare system_db
 
 # include
-source "${script_dir}/lib/utils.sh"
-source "${script_dir}/lib/special.sh" > /dev/null 2>&1
+source "${SCRIPT_DIR}/lib/utils.sh"
+source "${SCRIPT_DIR}/lib/special.sh" > /dev/null 2>&1
 
 # usage
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
-	echo "Usage: ./${script_name} gamelist system_db playlists_dir rom_path core_path core_name"
+	echo "Usage: ./${SCRIPT_NAME} gamelist system_db playlists_dir rom_path core_path core_name"
 	exit
 fi
 
@@ -57,11 +56,14 @@ special_get() {
 
 path_gen() {
 	local line="$1"
-	# Strip off beginning ./
+	local json_rom
+	local json_rom_no_ext
 	local path_map
+	local rom
+
+	# Strip off beginning ./
 	mapfile -t path_map < <(echo "$line" | grep -Pio 'path>\.\/\K[^<]*')
 	rom_orig="${path_map[0]}"
-	local rom
 
 	if [[ -n "${special_paths[$rom_orig]}" ]]; then
 		rom="${special_paths[$rom_orig]}"
@@ -69,8 +71,8 @@ path_gen() {
 		rom="$rom_orig"
 	fi
 
-	local json_rom=${rom//&amp;/\&}
-	local json_rom_no_ext=${rom%.*}
+	json_rom=${rom//&amp;/\&}
+	json_rom_no_ext=${rom%.*}
 
 	echo "    {" >> "$playlist"
 
@@ -93,11 +95,14 @@ path_gen() {
 
 label_gen() {
 	local line="$1"
+	local json_name
 	local name_map
+	local name
+
 	mapfile -t name_map < <(echo "$line" | grep -Pio 'name>\K[^<]*')
-	local name="${name_map[0]}"
+	name="${name_map[0]}"
 	name=$(sed "s/^${FAV_SYMBOL_ES}/${FAV_SYMBOL_RA}/" <<< $name)
-	local json_name=${name//&amp;/\&}
+	json_name=${name//&amp;/\&}
 
 	{
 		echo "      \"label\": \"${json_name}\","
@@ -135,10 +140,12 @@ outro_gen() {
 
 # main function
 main() {
+	local first_time
+
 	# check_inputs
 	gamelist="$1"
 	[[ "$gamelist" = "" ]] && echo "Missing gamelist" && exit 1
-	[[ ! -f "$gamelist" ]] && echo "${script_name}: ${system_db} skipping - gamelist missing" && exit 0
+	[[ ! -f "$gamelist" ]] && echo "${SCRIPT_NAME}: ${system_db} skipping - gamelist missing" && exit 0
 
 	system_db="$2"
 	[[ "$system_db" = "" ]] && echo "Missing system_db" && exit 1
@@ -157,11 +164,12 @@ main() {
 
 	mkdir -p "$playlists_dir"
 	playlist="${playlists_dir}/${system_db}.lpl"
-	echo "${script_name}: ${system_db} playlist - started"
+	echo "${SCRIPT_NAME}: ${system_db} playlist - started"
 	special_get
 	intro_gen
 
-	local first_time="true"
+	first_time="true"
+
 	local line
 	grep -e \<path\> -e \<name\> "$gamelist" | while read -r line ; do
 		if [[ "$line" == *"<path"* ]]; then
@@ -180,7 +188,7 @@ main() {
 	done
 
 	outro_gen
-	echo "${script_name}: ${system_db} playlist - finished"
+	echo "${SCRIPT_NAME}: ${system_db} playlist - finished"
 }
 
 main "${@}"
