@@ -52,8 +52,8 @@ main() {
 	local target_file="$2"
 
 	# check inputs
-	[[ "$target_file" = "" ]] && echo "Missing target_file" && exit 1
 	[[ "$replacements_file" = "" ]] && echo "Missing replacements_file" && exit 1
+	[[ "$target_file" = "" ]] && echo "Missing target_file" && exit 1
 
 	add_replace "$replacements_file" "$target_file"
 }
