@@ -197,8 +197,7 @@ check_new_clean() {
 
 	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_core_opts_echo" = "0" ]] \
 		&& [[ "$md5sum_check_config_echo" = "0" ]]; then
-		echo "${SCRIPT_NAME}: ${machine} nothing new"
-		exit 0
+		exit_zero "${SCRIPT_NAME}: ${machine} nothing new"
 	fi
 
 	# set MACHINE_CFG_DIRs
@@ -268,6 +267,11 @@ core_options_gen() {
 		cp "$opt_file" "${MACHINE_CFG_DIR}/${corename}/tg-cd.opt"
 		cp "$opt_file" "${MACHINE_CFG_DIR}/${corename}/tg16.opt"
 	fi
+}
+
+exit_zero() {
+	echo "$1"
+	exit 0
 }
 
 machine_cfg_dir_get() {

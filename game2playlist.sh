@@ -25,6 +25,11 @@ if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
 fi
 
 # functions
+exit_zero() {
+	echo "$1"
+	exit 0
+}
+
 special_get() {
 	local item_value_array
 	local system_db="$1"
@@ -159,7 +164,7 @@ main() {
 
 	# check_inputs
 	[[ "$gamelist" = "" ]] && echo "Missing gamelist" && exit 1
-	[[ ! -f "$gamelist" ]] && echo "${SCRIPT_NAME}: ${system_db} skipping - gamelist missing" && exit 0
+	[[ ! -f "$gamelist" ]] && exit_zero "${SCRIPT_NAME}: ${system_db} skipping - gamelist missing"
 	[[ "$system_db" = "" ]] && echo "Missing system_db" && exit 1
 	[[ "$playlists_dir" = "" ]] && echo "Missing playlists_dir" && exit 1
 	[[ "$rom_path" = "" ]] && echo "Missing rom_path" && exit 1

@@ -32,8 +32,7 @@ check_new() {
 	md5sum_check_gamelist_echo=$(md5sum_check "${gamelist_file}" "")
 
 	if [[ "$md5sum_check_favorites_echo" = "0" ]] && [[ "$md5sum_check_gamelist_echo" = "0" ]]; then
-		echo "${SCRIPT_NAME}: ${system} no favorite/gamelist changes"
-		exit 0
+		exit_zero "${SCRIPT_NAME}: ${system} no favorite/gamelist changes"
 	fi
 }
 
@@ -60,6 +59,11 @@ clear_existing_favorites() {
 	shopt -u nullglob
 
 	cd - > /dev/null || exit 1
+}
+
+exit_zero() {
+	echo "$1"
+	exit 0
 }
 
 set_favorites() {
@@ -133,14 +137,12 @@ main() {
 	gamelist_file="${gamelists_dir}/${system}/gamelist.xml"
 
 	if [ ! -f "$gamelist_file" ]; then
-		echo "${SCRIPT_NAME}: ${system} no gamelist so no favorites"
-		exit 0
+		exit_zero "${SCRIPT_NAME}: ${system} no gamelist so no favorites"
 	fi
 
 	if [ ! -f "$favorites_file" ]; then
-		echo "${SCRIPT_NAME}: ${system} no favorites"
 		md5sum_check_echo=$(md5sum_check "${gamelist_file}" "")
-		exit 0
+		exit_zero "${SCRIPT_NAME}: ${system} no favorites"
 	fi
 
 	system_db="${SYSTEM_DBS[$system]}"
