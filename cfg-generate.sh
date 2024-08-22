@@ -137,16 +137,15 @@ fi
 
 # functions
 all_cfg_cp() {
-	local check_retrotg16_systems_echo
-	local machine="$1"
-	local system="$2"
+	local etc_retroarch_config_dir="$1"
+	local machine="$2"
+	local system="$3"
 	local new_c
 	local new_r
 
 	local c
-	for c in "${SCRIPT_DIR}/etc/retroarch/config/"*/; do
-		check_retrotg16_systems_echo=$(check_retrotg16_systems "$machine" "$system")
-		[[ "$check_retrotg16_systems_echo" = "0" ]] && continue
+	for c in "${etc_retroarch_config_dir}/"*/; do
+		[[ ! -d "$c" ]] && continue
 
 		c=$(basename "$c")
 		[[ "$c" = "remaps" ]] && continue
@@ -155,26 +154,26 @@ all_cfg_cp() {
 
 		echo "${SCRIPT_NAME}: ${machine} - copying cfgs - ${new_c}"
 		mkdir -p "${MACHINE_CFG_DIR}/${new_c}"
-		cp "${SCRIPT_DIR}/etc/retroarch/config/${c}/"* "${MACHINE_CFG_DIR}/${new_c}"
+		cp "${etc_retroarch_config_dir}/${c}/"* "${MACHINE_CFG_DIR}/${new_c}"
 	done
 
 	local r
-	for r in "${SCRIPT_DIR}/etc/retroarch/config/remaps/"*/; do
-		check_retrotg16_systems_echo=$(check_retrotg16_systems "$machine" "$system")
-		[[ "$check_retrotg16_systems_echo" = "0" ]] && continue
+	for r in "${etc_retroarch_config_dir}/remaps/"*/; do
+		[[ ! -d "$r" ]] && continue
 
 		r=$(basename "$r")
 		new_r=$(machine_remaps_dir_get "$r" "$machine")
 
 		echo "${SCRIPT_NAME}: ${machine} - copying remaps - ${new_r}"
 		mkdir -p "${MACHINE_CFG_DIR}/remaps/${new_r}"
-		cp "${SCRIPT_DIR}/etc/retroarch/config/remaps/${r}/"* "${MACHINE_CFG_DIR}/remaps/${new_r}"
+		cp "${etc_retroarch_config_dir}/remaps/${r}/"* "${MACHINE_CFG_DIR}/remaps/${new_r}"
 	done
 }
 
 check_new_clean() {
 	local cfg_dir="$1"
-	local machine="$2"
+	local etc_retroarch_config_dir="$2"
+	local machine="$3"
 	local md5sum_check_cfg_echo
 	local md5sum_check_config_echo
 	local md5sum_check_retroarch_cfg_echo
@@ -193,7 +192,7 @@ check_new_clean() {
 	[[ "$machine" = "retro"* ]] && md5sum_check_retroarch_cfg_echo=$(md5sum_check "${SCRIPT_DIR}/etc/retroarch/retroarch-${machine}.cfg")
 
 	md5sum_check_retroarch_core_opts_echo=$(md5sum_check "$CORE_OPTS_CFG_SOURCE" "$machine")
-	md5sum_check_config_echo=$(md5sum_check "${SCRIPT_DIR}/etc/retroarch/config" "$machine")
+	md5sum_check_config_echo=$(md5sum_check "$etc_retroarch_config_dir" "$machine")
 
 	if [[ "$md5sum_check_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_cfg_echo" = "0" ]] && [[ "$md5sum_check_retroarch_core_opts_echo" = "0" ]] \
 		&& [[ "$md5sum_check_config_echo" = "0" ]]; then
@@ -335,6 +334,7 @@ main() {
 	local cfg_dir="$1"
 	local check_retrotg16_systems_echo
 	local corename
+	local etc_retroarch_config_dir
 	local machine="$2"
 	local md5sum_check_echo
 	local system
@@ -344,10 +344,19 @@ main() {
 	[[ "$cfg_dir" = "" ]] && echo "Missing cfg_dir" && exit 1
 	[[ "$machine" = "" ]] && echo "Missing machine" && exit 1
 
-	check_new_clean "$cfg_dir" "$machine"
-	all_cfg_cp "$machine" "$system"
-	[[ "$machine" != "retrotg16" ]] && turbo_button_replace "$machine"
-	[[ "$machine" != "retrotg16" ]] && retroarch_dir_replace "$machine"
+	if [[ -d "${SCRIPT_DIR}/etc/retroarch/${machine}" ]]; then
+		etc_retroarch_config_dir="${SCRIPT_DIR}/etc/retroarch/${machine}/config"
+	else
+		etc_retroarch_config_dir="${SCRIPT_DIR}/etc/retroarch/config"
+	fi
+
+	check_new_clean "$cfg_dir" "$etc_retroarch_config_dir" "$machine"
+	all_cfg_cp "$etc_retroarch_config_dir" "$machine" "$system"
+
+	if [[ "$machine" != "retrotg16" ]]; then
+		turbo_button_replace "$machine"
+		retroarch_dir_replace "$machine"
+	fi
 
 	for system in "${!SYSTEM_RETRO_CORENAMES[@]}"; do
 		check_retrotg16_systems_echo=$(check_retrotg16_systems "$machine" "$system")
