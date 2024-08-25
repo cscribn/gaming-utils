@@ -13,6 +13,7 @@ readonly -A SYSTEM_DATS=(
 readonly -A SYSTEM_DBS=(
 	["3do"]="Panasonic - 3DO"
 	["amiga"]="Commodore - Amiga"
+	["amstradcpc"]="Amstrad - CPC"
 	["arcade-pre90s"]="Arcade - 80s and Before"
 	["arcade-pst90s"]="Arcade - 90s and After"
 	["atari2600"]="Atari - 2600"

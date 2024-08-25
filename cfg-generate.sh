@@ -71,6 +71,7 @@ readonly -A RETROPAD_CFG_DIRS=(
 readonly -A SYSTEM_RETRO_CORENAMES=(
 	["3do"]="Opera"
 	["amiga"]="PUAE 2021"
+	["amstradcpc"]="cap32"
 	["arcade-pre90s"]="FinalBurn Neo"
 	["arcade-pre90s_2"]="MAME 2003-Plus"
 	["arcade-pre90s_3"]="MAME 2010"
