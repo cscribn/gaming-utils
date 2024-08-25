@@ -95,6 +95,8 @@ path_gen() {
 			echo "      \"subsystem_name\": \"ColecoVision\","
 		} >> "$playlist"
 	fi
+
+	echo "$rom_orig"
 }
 
 label_gen() {
