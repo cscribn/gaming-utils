@@ -234,7 +234,7 @@ check_retrotg16_systems() {
 	local machine="$1"
 	local system="$2"
 
-	[[ "$machine" = "retrotg16" ]] && [[ "$system" != "nes" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && [[ "$system" != "snes" ]] && echo "0" || echo "1"
+	[[ "$machine" = "retrotg16" ]] && [[ "$system" != "mastersystem" ]] && [[ "$system" != "nes" ]] && [[ "$system" != "pcengine" ]] && [[ "$system" != "pce-cd" ]] && echo "0" || echo "1"
 }
 
 core_options_gen() {
