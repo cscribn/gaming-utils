@@ -202,7 +202,7 @@ check_new_clean() {
 
 	# set MACHINE_CFG_DIRs
 	if [[ "$machine" = "retropad" ]]; then
-		MACHINE_CFG_DIR="${cfg_dir}/mirror/${machine}/home/ark/.config/retroarch/config"
+		MACHINE_CFG_DIR="${cfg_dir}/mirror/${machine}/userdata/system/.config/retroarch/config"
 	elif [[ "$machine" = "retro"* ]]; then
 		MACHINE_CFG_DIR="${cfg_dir}/mirror/${machine}/opt/retropie/configs/all/retroarch/config"
 	elif [[ "$machine" = "a500" ]]; then
@@ -215,7 +215,7 @@ check_new_clean() {
 
 	# set RETROARCH_DIRs
 	if [[ "$machine" = "retropad" ]]; then
-		RETROARCH_DIR="~\/\.config\/retroarch"
+		RETROARCH_DIR="\/userdata\/system\/\.config\/retroarch"
 	elif [[ "$machine" = "retro"* ]]; then
 		RETROARCH_DIR="\/opt\/retropie\/configs\/all\/retroarch"
 	elif [[ "$machine" = "a500" ]]; then
