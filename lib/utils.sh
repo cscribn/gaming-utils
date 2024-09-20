@@ -1,6 +1,11 @@
 #!/bin/bash
 
 # global variables
+readonly ENABLE_A500=true
+readonly ENABLE_PSCLASSIC=true
+readonly ENABLE_RETROTG16=true
+readonly ENABLE_RETROVIEG=true
+readonly ENABLE_SEGAMINI=true
 readonly FAV_SYMBOL_ES=" ☆"
 readonly FAV_SYMBOL_RA="!!!"
 readonly -A SYSTEM_DATS=(
