@@ -10,6 +10,7 @@ SCRIPT_NAME="$(basename "${0}")"
 readonly SCRIPT_NAME
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 readonly SCRIPT_DIR
+FAV_NOT_FOUND=0
 
 # include
 source "${SCRIPT_DIR}/lib/utils.sh"
@@ -72,7 +73,6 @@ set_favorites() {
 	local fav_amped_ra_png
 	local fav_amped_ra_sedkey
 	local fav_amped_ra_sedrep
-	local fav_not_found
 	local fav_sedkey
 	local fav_sedrep
 	local favorites
@@ -88,7 +88,7 @@ set_favorites() {
 
 	cd "$thumbnails_dir/${system_db}/Named_Boxarts" > /dev/null || exit 1
 
-	fav_not_found=0
+	FAV_NOT_FOUND=0
 
 	local fav
 	for fav in "${favorites[@]}"; do
@@ -106,13 +106,11 @@ set_favorites() {
 			sed -i "s/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${fav_amped_ra_sedkey}\.png/\/opt\/retropie\/configs\/all\/retroarch\/thumbnails\/${system_db}\/Named_Boxarts\/${FAV_SYMBOL_RA}${fav_amped_ra_sedrep}.png/" "$gamelist_file"
 		else
 			echo_color "${SCRIPT_NAME}: ${fav_amped_ra_png} not found" "red"
-			fav_not_found=1
+			FAV_NOT_FOUND=1
 		fi
 	done
 
 	cd - > /dev/null || exit 1
-
-	echo "$fav_not_found"
 }
 
 # main function
@@ -150,9 +148,9 @@ main() {
 	check_new "$favorites_file" "$gamelist_file" "$system"
 	clear_existing_favorites "$gamelist_file" "$system" "$system_db" "$thumbnails_dir"
 
-	set_favorites_echo=$(set_favorites "$favorites_file" "$gamelist_file" "$system" "$system_db" "$thumbnails_dir")
+	set_favorites "$favorites_file" "$gamelist_file" "$system" "$system_db" "$thumbnails_dir"
 
-	[[ "$set_favorites_echo" = "1" ]] && rm -f "${gamelist_file}.md5" && exit 1
+	[[ "$FAV_NOT_FOUND" = 1 ]] && rm -f "${gamelist_file}.md5" && exit 1
 
 	md5sum_check_echo=$(md5sum_check "${favorites_file}" "")
 	md5sum_check_echo=$(md5sum_check "${gamelist_file}" "")
