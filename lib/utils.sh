@@ -57,7 +57,6 @@ readonly -A SYSTEM_DBS=(
 	["sg-1000"]="Sega - SG-1000"
 	["snes"]="Nintendo - Super Nintendo Entertainment System"
 	["vic20"]="Commodore - VIC-20"
-	["videopac"]="Magnavox - Odyssey2"
 	["wonderswan"]="Bandai - WonderSwan"
 	["wonderswancolor"]="Bandai - WonderSwan Color"
 	["x68000"]="Sharp - X68000"

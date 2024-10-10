@@ -118,7 +118,6 @@ readonly -A SYSTEM_RETRO_CORENAMES=(
 	["snes"]="Snes9x 2010"
 	["vecx"]="VecX"
 	["vic20"]="VICE xvic"
-	["videopac"]="O2EM"
 	["wonderswan"]="Beetle WonderSwan"
 	["wonderswancolor"]="Beetle WonderSwan"
 	["x68000"]="PX68K"
