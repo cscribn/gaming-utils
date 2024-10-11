@@ -58,7 +58,6 @@ readonly -A SYSTEM_DBS=(
 	["snes"]="Nintendo - Super Nintendo Entertainment System"
 	["vic20"]="Commodore - VIC-20"
 	["wonderswan"]="Bandai - WonderSwan"
-	["wonderswancolor"]="Bandai - WonderSwan Color"
 	["x68000"]="Sharp - X68000"
 	["zxspectrum"]="Sinclair - ZX Spectrum"
 )

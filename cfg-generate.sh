@@ -119,7 +119,6 @@ readonly -A SYSTEM_RETRO_CORENAMES=(
 	["vecx"]="VecX"
 	["vic20"]="VICE xvic"
 	["wonderswan"]="Beetle WonderSwan"
-	["wonderswancolor"]="Beetle WonderSwan"
 	["x68000"]="PX68K"
 	["zxspectrum"]="fuse"
 )
