@@ -49,7 +49,6 @@ readonly -A SYSTEM_DBS=(
 	["psp"]="Sony - PlayStation Portable"
 	["psx"]="Sony - PlayStation"
 	["psxclassic"]="Sony - PlayStation Classic"
-	["quake"]="Microsoft - DOS - Quake"
 	["saturn"]="Sega - Saturn"
 	["sega32x"]="Sega - 32X"
 	["segacd"]="Sega - Mega-CD - Sega CD"

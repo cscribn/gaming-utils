@@ -111,7 +111,6 @@ readonly -A SYSTEM_RETRO_CORENAMES=(
 	["psx"]="PCSX-ReARMed"
 	["psx_2"]="DuckStation"
 	["psxclassic"]="PCSX-ReARMed"
-	["quake"]="TyrQuake"
 	["sega32x"]="PicoDrive"
 	["segacd"]="Genesis Plus GX"
 	["sg-1000"]="Genesis Plus GX"
