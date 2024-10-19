@@ -42,6 +42,7 @@ readonly -A SYSTEM_DBS=(
 	["neogeo"]="SNK - Neo Geo"
 	["nes"]="Nintendo - Nintendo Entertainment System"
 	["ngpc"]="SNK - Neo Geo Pocket Color"
+	["openbor"]="OpenBOR Team - OpenBOR"
 	["pc"]="Microsoft - DOS"
 	["pc98"]="NEC - PC-98"
 	["pce-cd"]="NEC - PC Engine CD - TurboGrafx-CD"
