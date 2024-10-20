@@ -132,7 +132,12 @@ main() {
 	[[ "$thumbnails_dir" = "" ]] && echo "Missing thumbnails_dir" && exit 1
 
 	favorites_file="${favorites_dir}/favorites-${system}.txt"
-	gamelist_file="${gamelists_dir}/${system}/gamelist.xml"
+
+	if [[ "$system" == "doom" ]]; then
+		gamelist_file="${gamelists_dir}/ports/${system}/gamelist.xml"
+	else
+		gamelist_file="${gamelists_dir}/${system}/gamelist.xml"
+	fi
 
 	if [ ! -f "$gamelist_file" ]; then
 		exit_zero "${SCRIPT_NAME}: ${system} no gamelist so no favorites"
