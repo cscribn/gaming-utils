@@ -133,7 +133,7 @@ main() {
 
 	favorites_file="${favorites_dir}/favorites-${system}.txt"
 
-	if [[ "$system" == "doom" ]]; then
+	if [[ "$system" == "doom" ]] || [[ "$system" == "openbor" ]]; then
 		gamelist_file="${gamelists_dir}/ports/${system}/gamelist.xml"
 	else
 		gamelist_file="${gamelists_dir}/${system}/gamelist.xml"
