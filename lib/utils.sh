@@ -29,7 +29,6 @@ readonly -A SYSTEM_DBS=(
 	["coleco"]="Coleco - ColecoVision"
 	["doom"]="Microsoft - DOS - DOOM"
 	["dreamcast"]="Sega - Dreamcast"
-	["fds"]="Nintendo - Family Computer Disk System"
 	["gamegear"]="Sega - Game Gear"
 	["gb"]="Nintendo - Game Boy"
 	["gba"]="Nintendo - Game Boy Advance"

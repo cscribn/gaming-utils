@@ -86,7 +86,6 @@ readonly -A SYSTEM_RETRO_CORENAMES=(
 	["coleco"]="FinalBurn Neo"
 	["dreamcast"]="Flycast"
 	["doom"]="PrBoom"
-	["fds"]="Nestopia"
 	["gamegear"]="Genesis Plus GX"
 	["gb"]="Gambatte"
 	["gba"]="mGBA"
